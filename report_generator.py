@@ -75,8 +75,8 @@ class ReportGenerator:
             html_parts.append('<div class="section"><div class="section-title">🔍 关键词分析</div><table><thead><tr>')
             html_parts.append('<th>关键词</th><th>搜索量</th><th>竞争度</th><th>建议出价</th></tr></thead><tbody>')
             for kw in keywords[:10]:
-                html_parts.append(f'<tr><td>{kw.get(keyword, -)}</td><td>{kw.get(volume, -)}</td>')
-                html_parts.append(f'<td>{kw.get(competition, -)}</td><td>{kw.get(bid, -)}</td></tr>')
+                html_parts.append(f'<tr><td>{kw.get("keyword", "-")}</td><td>{kw.get("volume", "-")}</td>')
+                html_parts.append(f'<td>{kw.get("competition", "-")}</td><td>{kw.get("bid", "-")}</td></tr>')
             html_parts.append('</tbody></table></div>')
         
         if suggestions:
