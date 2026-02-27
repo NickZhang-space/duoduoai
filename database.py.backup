@@ -92,21 +92,7 @@ class AnalysisHistory(Base):
     result_data = Column(Text, nullable=True)  # JSON格式的结果数据
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
 
-class Shop(Base):
-    """店铺信息表"""
-    __tablename__ = "shops"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, nullable=False, index=True)
-    shop_name = Column(String, nullable=False)
-    category = Column(String, nullable=True)
-    monthly_revenue = Column(String, nullable=True)
-    monthly_ad_spend = Column(String, nullable=True)
-    main_products = Column(Text, nullable=True)
-    notes = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
+class Shop(Base):    """店铺信息表"""    __tablename__ = "shops"        id = Column(Integer, primary_key=True, index=True)    user_id = Column(Integer, nullable=False, index=True)    shop_name = Column(String, nullable=False)  # 店铺名称    category = Column(String, nullable=True)  # 主营品类    monthly_revenue = Column(String, nullable=True)  # 月营收区间    monthly_ad_spend = Column(String, nullable=True)  # 月推广费区间    main_products = Column(Text, nullable=True)  # 主营商品（JSON数组）    notes = Column(Text, nullable=True)  # 备注    created_at = Column(DateTime, default=datetime.utcnow)    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 class Admin(Base):
     """管理员表"""
     __tablename__ = "admins"

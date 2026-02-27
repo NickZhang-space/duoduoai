@@ -35,6 +35,7 @@ from advanced_ad_optimizer import AdvancedAdOptimizer
 from pricing_calculator import PricingCalculator
 from advanced_tools import CompetitorAnalyzer, DataExporter, BatchAnalyzer
 from database import (
+    Shop,
     get_db, User, Order, UsageLog, AnalysisHistory,
     verify_password, get_password_hash, create_access_token, decode_access_token,
     PLANS, get_plan_info, check_usage_limit, increment_usage
@@ -308,6 +309,11 @@ async def select_products(
         if not check_rate_limit(current_user.id):
             raise HTTPException(status_code=429, detail="请求太频繁，请稍后再试")
         
+        # 获取店铺信息用于个性化分析
+        shop = db.query(Shop).filter(Shop.user_id == current_user.id).first()
+        shop_context = ""
+        if shop:
+            shop_context = f"店铺信息：{shop.shop_name}，主营品类：{shop.category or "未设置"}，月营收：{shop.monthly_revenue or "未设置"}，月推广费：{shop.monthly_ad_spend or "未设置"}。"
         result = product_selector.select(
             platform=request.platform,
             category=request.category,
@@ -361,6 +367,11 @@ async def analyze_ads(
         if not check_rate_limit(current_user.id):
             raise HTTPException(status_code=429, detail="请求太频繁，请稍后再试")
         
+        # 获取店铺信息用于个性化分析
+        shop = db.query(Shop).filter(Shop.user_id == current_user.id).first()
+        shop_context = ""
+        if shop:
+            shop_context = f"店铺信息：{shop.shop_name}，主营品类：{shop.category or "未设置"}，月营收：{shop.monthly_revenue or "未设置"}，月推广费：{shop.monthly_ad_spend or "未设置"}。"
         result = await ad_optimizer.analyze(
             platform=request.platform,
             data=request.data,
@@ -1001,6 +1012,131 @@ async def get_report_html(
     except Exception as e:
         logger.error(f"获取报告失败: {str(e)}")
         raise HTTPException(status_code=500, detail="获取报告失败")
+
+# ==================== 店铺信息管理 API ====================
+
+class ShopRequest(BaseModel):
+    shop_name: str
+    category: Optional[str] = None
+    monthly_revenue: Optional[str] = None
+    monthly_ad_spend: Optional[str] = None
+    main_products: Optional[str] = None
+    notes: Optional[str] = None
+
+@app.post("/api/shop")
+async def create_or_update_shop(
+    request: ShopRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    try:
+        # 查找用户是否已有店铺
+        shop = db.query(Shop).filter(Shop.user_id == current_user.id).first()
+        
+        if shop:
+            # 更新现有店铺
+            shop.shop_name = request.shop_name
+            shop.category = request.category
+            shop.monthly_revenue = request.monthly_revenue
+            shop.monthly_ad_spend = request.monthly_ad_spend
+            shop.main_products = request.main_products
+            shop.notes = request.notes
+            shop.updated_at = datetime.utcnow()
+        else:
+            # 创建新店铺
+            shop = Shop(
+                user_id=current_user.id,
+                shop_name=request.shop_name,
+                category=request.category,
+                monthly_revenue=request.monthly_revenue,
+                monthly_ad_spend=request.monthly_ad_spend,
+                main_products=request.main_products,
+                notes=request.notes
+            )
+            db.add(shop)
+        
+        db.commit()
+        db.refresh(shop)
+        
+        return {
+            "success": True,
+            "message": "店铺信息保存成功",
+            "shop": {
+                "id": shop.id,
+                "shop_name": shop.shop_name,
+                "category": shop.category,
+                "monthly_revenue": shop.monthly_revenue,
+                "monthly_ad_spend": shop.monthly_ad_spend,
+                "main_products": shop.main_products,
+                "notes": shop.notes,
+                "created_at": shop.created_at.isoformat(),
+                "updated_at": shop.updated_at.isoformat()
+            }
+        }
+    except Exception as e:
+        logger.error(f"保存店铺信息失败: {str(e)}")
+        raise HTTPException(status_code=500, detail="保存失败")
+
+@app.get("/api/shop")
+async def get_shop(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    try:
+        shop = db.query(Shop).filter(Shop.user_id == current_user.id).first()
+        
+        if not shop:
+            return {
+                "success": True,
+                "shop": None
+            }
+        
+        return {
+            "success": True,
+            "shop": {
+                "id": shop.id,
+                "shop_name": shop.shop_name,
+                "category": shop.category,
+                "monthly_revenue": shop.monthly_revenue,
+                "monthly_ad_spend": shop.monthly_ad_spend,
+                "main_products": shop.main_products,
+                "notes": shop.notes,
+                "created_at": shop.created_at.isoformat(),
+                "updated_at": shop.updated_at.isoformat()
+            }
+        }
+    except Exception as e:
+        logger.error(f"获取店铺信息失败: {str(e)}")
+        raise HTTPException(status_code=500, detail="获取失败")
+
+@app.delete("/api/shop/{shop_id}")
+async def delete_shop(
+    shop_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    try:
+        shop = db.query(Shop).filter(
+            Shop.id == shop_id,
+            Shop.user_id == current_user.id
+        ).first()
+        
+        if not shop:
+            raise HTTPException(status_code=404, detail="店铺不存在")
+        
+        db.delete(shop)
+        db.commit()
+        
+        return {
+            "success": True,
+            "message": "店铺删除成功"
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"删除店铺失败: {str(e)}")
+        raise HTTPException(status_code=500, detail="删除失败")
+
 
 async def root():
     return FileResponse("static/index.html")
