@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 import jwt
 from passlib.context import CryptContext
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Boolean, Float
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Boolean, Float, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -80,6 +80,32 @@ class UsageLog(Base):
     action = Column(String, nullable=False)  # select_product, analyze_ads
     details = Column(String, nullable=True)  # JSON格式的详细信息
     created_at = Column(DateTime, default=datetime.utcnow)
+
+class AnalysisHistory(Base):
+    """分析历史记录表"""
+    __tablename__ = "analysis_history"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False, index=True)
+    analysis_type = Column(String, nullable=False)  # product, ad
+    input_data = Column(Text, nullable=True)  # JSON格式的输入数据
+    result_data = Column(Text, nullable=True)  # JSON格式的结果数据
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+class Shop(Base):
+    """店铺信息表"""
+    __tablename__ = "shops"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False, index=True)
+    shop_name = Column(String, nullable=False)
+    category = Column(String, nullable=True)
+    monthly_revenue = Column(String, nullable=True)
+    monthly_ad_spend = Column(String, nullable=True)
+    main_products = Column(Text, nullable=True)
+    notes = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 class Admin(Base):
     """管理员表"""

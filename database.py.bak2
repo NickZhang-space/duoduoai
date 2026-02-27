@@ -117,37 +117,6 @@ class Admin(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-
-class Competitor(Base):
-    """竞品表"""
-    __tablename__ = "competitors"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, nullable=False, index=True)
-    name = Column(String, nullable=False)
-    product_url = Column(String, nullable=True)
-    category = Column(String, nullable=True)
-    price = Column(Float, nullable=True)
-    monthly_sales = Column(Integer, nullable=True)
-    ad_spend = Column(Float, nullable=True)
-    notes = Column(Text, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
-class CompetitorSnapshot(Base):
-    """竞品数据快照表"""
-    __tablename__ = "competitor_snapshots"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    competitor_id = Column(Integer, nullable=False, index=True)
-    price = Column(Float, nullable=True)
-    monthly_sales = Column(Integer, nullable=True)
-    ad_spend = Column(Float, nullable=True)
-    ranking = Column(Integer, nullable=True)
-    snapshot_date = Column(DateTime, default=datetime.utcnow, index=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-
 # 创建所有表
 Base.metadata.create_all(bind=engine)
 

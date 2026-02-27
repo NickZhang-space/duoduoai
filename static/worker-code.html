@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head><title>Worker Code v3</title>
+<style>
+body { font-family: monospace; background: #1e1e1e; color: #d4d4d4; padding: 20px; }
+textarea { background: #2d2d2d; color: #d4d4d4; padding: 20px; border-radius: 8px; font-size: 14px; line-height: 1.6; width: 100%; height: 500px; border: 1px solid #555; font-family: monospace; }
+button { background: #E84D1A; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 6px; cursor: pointer; margin-bottom: 20px; }
+h2 { color: #E84D1A; }
+.ok { color: #4CAF50; display: none; margin-left: 10px; font-size: 18px; }
+</style>
+</head>
+<body>
+<h2>Cloudflare Worker v3 - 全选复制后粘贴到编辑器</h2>
+<button onclick="copyCode()">点击复制全部代码</button><span class="ok" id="ok">已复制</span>
+<textarea id="code" readonly>export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+    const target = 'http://origin.duoduoyouhua.com:8000' + url.pathname + url.search;
+    const resp = await fetch(target, {
+      method: request.method,
+      headers: {
+        'Host': '47.97.159.167',
+        'Content-Type': request.headers.get('Content-Type') || '',
+        'Authorization': request.headers.get('Authorization') || '',
+        'Accept': request.headers.get('Accept') || '*/*',
+      },
+      body: request.method !== 'GET' && request.method !== 'HEAD' ? request.body : undefined,
+      redirect: 'manual',
+    });
+    const headers = new Headers(resp.headers);
+    const loc = headers.get('Location');
+    if (loc) {
+      headers.set('Location', loc.replace('http://47.97.159.167:8000', url.origin).replace('http://47.97.159.167', url.origin));
+    }
+    return new Response(resp.body, { status: resp.status, headers: headers });
+  },
+};</textarea>
+<script>
+function copyCode() {
+  const t = document.getElementById('code');
+  t.select();
+  navigator.clipboard.writeText(t.value).then(() => {
+    document.getElementById('ok').style.display = 'inline';
+    setTimeout(() => document.getElementById('ok').style.display = 'none', 3000);
+  });
+}
+</script>
+</body>
+</html>
