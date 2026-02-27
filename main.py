@@ -16,6 +16,7 @@ from datetime import datetime, timedelta
 import os
 import json
 
+from report_generator import report_generator
 # 配置日志
 logging.basicConfig(
     level=logging.INFO,
@@ -927,7 +928,80 @@ async def admin_get_stats(
 
 # ==================== 静态文件 & 启动 ====================
 
-@app.get("/")
+
+# ==================== 报告生成 API ====================
+
+@app.post("/api/report/generate")
+async def generate_report(
+    request: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    try:
+        history_id = request.get('history_id')
+        if not history_id:
+            raise HTTPException(status_code=400, detail="缺少 history_id 参数")
+        
+        history = db.query(AnalysisHistory).filter(
+            AnalysisHistory.id == history_id,
+            AnalysisHistory.user_id == current_user.id
+        ).first()
+        
+        if not history:
+            raise HTTPException(status_code=404, detail="记录不存在")
+        
+        history_data = {
+            'id': history.id,
+            'analysis_type': history.analysis_type,
+            'input_data': history.input_data,
+            'result_data': history.result_data,
+            'created_at': history.created_at
+        }
+        
+        report_html = report_generator.generate_html_report(history_data)
+        
+        return {
+            "success": True,
+            "report_html": report_html
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"生成报告失败: {str(e)}")
+        raise HTTPException(status_code=500, detail="生成报告失败")
+
+@app.get("/api/report/{history_id}")
+async def get_report_html(
+    history_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    try:
+        history = db.query(AnalysisHistory).filter(
+            AnalysisHistory.id == history_id,
+            AnalysisHistory.user_id == current_user.id
+        ).first()
+        
+        if not history:
+            raise HTTPException(status_code=404, detail="记录不存在")
+        
+        history_data = {
+            'id': history.id,
+            'analysis_type': history.analysis_type,
+            'input_data': history.input_data,
+            'result_data': history.result_data,
+            'created_at': history.created_at
+        }
+        
+        report_html = report_generator.generate_html_report(history_data)
+        
+        return HTMLResponse(content=report_html)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"获取报告失败: {str(e)}")
+        raise HTTPException(status_code=500, detail="获取报告失败")
+
 async def root():
     return FileResponse("static/index.html")
 
