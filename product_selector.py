@@ -99,7 +99,8 @@ class ProductSelector:
             category=category,
             budget=budget,
             experience=experience,
-            products=filtered_products
+            products=filtered_products,
+            shop_context=shop_context
         )
         
         return {
@@ -285,6 +286,7 @@ class ProductSelector:
 """)
         
         prompt = f"""你是拼多多电商运营专家。现在有个{experience}商家向你咨询{category}类目选品建议。
+{shop_context}
 
 【商家情况】
 - 平台：拼多多
@@ -332,3 +334,13 @@ class ProductSelector:
             {"role": "user", "content": prompt}
         ]
         return self._call_api_with_retry(messages, max_tokens=3000)
+
+    def select(self, platform: str, category: str, budget: int, experience: str, shop_context: str = "") -> Dict:
+        """同步包装器，用于向后兼容"""
+        import asyncio
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            return loop.run_until_complete(self.analyze(budget, category, experience, platform, shop_context))
+        finally:
+            loop.close()

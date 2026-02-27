@@ -313,8 +313,9 @@ async def select_products(
         shop = db.query(Shop).filter(Shop.user_id == current_user.id).first()
         shop_context = ""
         if shop:
-            shop_context = f"店铺信息：{shop.shop_name}，主营品类：{shop.category or "未设置"}，月营收：{shop.monthly_revenue or "未设置"}，月推广费：{shop.monthly_ad_spend or "未设置"}。"
+            shop_context = f"店铺信息：{shop.shop_name}，主营品类：{shop.category or '未设置'}，月营收：{shop.monthly_revenue or '未设置'}，月推广费：{shop.monthly_ad_spend or '未设置'}。"
         result = product_selector.select(
+            shop_context=shop_context,
             platform=request.platform,
             category=request.category,
             budget=request.budget,
@@ -371,7 +372,7 @@ async def analyze_ads(
         shop = db.query(Shop).filter(Shop.user_id == current_user.id).first()
         shop_context = ""
         if shop:
-            shop_context = f"店铺信息：{shop.shop_name}，主营品类：{shop.category or "未设置"}，月营收：{shop.monthly_revenue or "未设置"}，月推广费：{shop.monthly_ad_spend or "未设置"}。"
+            shop_context = f"店铺信息：{shop.shop_name}，主营品类：{shop.category or '未设置'}，月营收：{shop.monthly_revenue or '未设置'}，月推广费：{shop.monthly_ad_spend or '未设置'}。"
         result = await ad_optimizer.analyze(
             platform=request.platform,
             data=request.data,
@@ -1138,6 +1139,7 @@ async def delete_shop(
         raise HTTPException(status_code=500, detail="删除失败")
 
 
+@app.get("/")
 async def root():
     return FileResponse("static/index.html")
 

@@ -41,7 +41,7 @@ class AdOptimizer:
                     return f"API调用失败: {str(e)}"
                 time.sleep(2 ** attempt)
     
-    async def analyze(self, platform: str, data: str, analysis_type: str, category: str = "通用") -> Dict:
+    async def analyze(self, platform: str, data: str, analysis_type: str, category: str = "通用", shop_context: str = "") -> Dict:
         """分析拼多多推广数据"""
         
         # 解析用户上传的数据
@@ -333,7 +333,7 @@ class AdOptimizer:
                                                total_spend: float, total_gmv: float,
                                                avg_roi: float, ctr: float, cvr: float, avg_cpc: float,
                                                benchmark: Dict, best_performers: List[Dict],
-                                               worst_performers: List[Dict], campaign_types: Dict) -> str:
+                                               worst_performers: List[Dict], campaign_types: Dict, shop_context: str = "") -> str:
         """生成拼多多整体优化建议 - 升级版"""
         
         # 计算与行业基准的差距
@@ -343,6 +343,7 @@ class AdOptimizer:
         
         prompt = f"""你是一位资深的拼多多推广优化师，有5年以上的多多推广经验。现在有个{category}类目商家向你咨询推广优化建议。
 
+{shop_context}
 【当前数据】
 - 总花费：{total_spend:.2f}元
 - 总成交金额：{total_gmv:.2f}元
