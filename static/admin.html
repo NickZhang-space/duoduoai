@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - 多多AI优化师</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #f5f7fa;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 0 30px;
+        }
+
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .btn-logout {
+            background: #f5f7fa;
+            color: #666;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #e8ecf1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .orders-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .orders-section h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 1em;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: #667eea;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .order-list {
+            display: none;
+        }
+
+        .order-list.active {
+            display: block;
+        }
+
+        .order-item {
+            border: 2px solid #e8ecf1;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .order-item:hover {
+            border-color: #667eea;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .order-id {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .order-status {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .order-status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .order-status.approved {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .order-status.rejected {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .order-detail {
+            color: #666;
+        }
+
+        .order-detail strong {
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-approve {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-approve:hover {
+            background: #059669;
+        }
+
+        .btn-reject {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-reject:hover {
+            background: #dc2626;
+        }
+
+        .btn-view {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #5568d3;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e8ecf1;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-login:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-page" style="display: none;">
+        <div class="login-form">
+            <h2>🔐 管理员登录</h2>
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label>用户名</label>
+                    <input type="text" id="admin-username" required>
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" id="admin-password" required>
+                </div>
+                <button type="submit" class="btn-login">登录</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="admin-page" style="display: none;">
+        <nav class="navbar">
+            <div class="navbar-content">
+                <div class="logo">🚀 多多AI优化师 - 管理后台</div>
+                <button class="btn-logout" onclick="logout()">退出登录</button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>待审核订单</h3>
+                    <div class="value" id="pending-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>今日订单</h3>
+                    <div class="value" id="today-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>总用户数</h3>
+                    <div class="value" id="user-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>今日收入</h3>
+                    <div class="value" id="today-revenue">¥0</div>
+                </div>
+            </div>
+
+            <div class="orders-section">
+                <h2>订单管理</h2>
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('pending')">待审核</button>
+                    <button class="tab" onclick="switchTab('approved')">已通过</button>
+                    <button class="tab" onclick="switchTab('rejected')">已拒绝</button>
+                    <button class="tab" onclick="switchTab('all')">全部</button>
+                </div>
+
+                <div id="pending-orders" class="order-list active"></div>
+                <div id="approved-orders" class="order-list"></div>
+                <div id="rejected-orders" class="order-list"></div>
+                <div id="all-orders" class="order-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let adminToken = localStorage.getItem('admin_token');
+
+        function checkAuth() {
+            if (adminToken) {
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('admin-page').style.display = 'block';
+                loadData();
+            } else {
+                document.getElementById('login-page').style.display = 'block';
+                document.getElementById('admin-page').style.display = 'none';
+            }
+        }
+
+        document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    adminToken = result.token;
+                    localStorage.setItem('admin_token', adminToken);
+                    checkAuth();
+                } else {
+                    alert('登录失败：' + result.message);
+                }
+            } catch (error) {
+                alert('登录失败：' + error.message);
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('admin_token');
+            adminToken = null;
+            checkAuth();
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.order-list').forEach(l => l.classList.remove('active'));
+            document.getElementById(tab + '-orders').classList.add('active');
+        }
+
+        async function loadData() {
+            try {
+                const response = await fetch('/api/admin/orders', {
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    updateStats(result.stats);
+                    renderOrders(result.orders);
+                }
+            } catch (error) {
+                console.error('加载数据失败:', error);
+            }
+        }
+
+        function updateStats(stats) {
+            document.getElementById('pending-count').textContent = stats.pending || 0;
+            document.getElementById('today-count').textContent = stats.today || 0;
+            document.getElementById('user-count').textContent = stats.users || 0;
+            document.getElementById('today-revenue').textContent = '¥' + (stats.revenue || 0);
+        }
+
+        function renderOrders(orders) {
+            const pending = orders.filter(o => o.status === 'pending');
+            const approved = orders.filter(o => o.status === 'approved');
+            const rejected = orders.filter(o => o.status === 'rejected');
+
+            renderOrderList('pending-orders', pending);
+            renderOrderList('approved-orders', approved);
+            renderOrderList('rejected-orders', rejected);
+            renderOrderList('all-orders', orders);
+        }
+
+        function renderOrderList(containerId, orders) {
+            const container = document.getElementById(containerId);
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>暂无订单</p></div>';
+                return;
+            }
+
+            container.innerHTML = orders.map(order => `
+                <div class="order-item">
+                    <div class="order-header">
+                        <span class="order-id">订单 #${order.id}</span>
+                        <span class="order-status ${order.status}">${getStatusText(order.status)}</span>
+                    </div>
+                    <div class="order-details">
+                        <div class="order-detail">
+                            <strong>用户</strong>
+                            ${order.user_email}
+                        </div>
+                        <div class="order-detail">
+                            <strong>套餐</strong>
+                            ${order.plan_name}
+                        </div>
+                        <div class="order-detail">
+                            <strong>金额</strong>
+                            ¥${order.amount}
+                        </div>
+                        <div class="order-detail">
+                            <strong>支付方式</strong>
+                            ${order.payment_method === 'alipay' ? '支付宝' : '微信'}
+                        </div>
+                        <div class="order-detail">
+                            <strong>交易单号后4位</strong>
+                            ${order.transaction_id}
+                        </div>
+                        <div class="order-detail">
+                            <strong>提交时间</strong>
+                            ${new Date(order.created_at).toLocaleString()}
+                        </div>
+                    </div>
+                    ${order.note ? `<div style="color: #666; margin-bottom: 15px;">备注：${order.note}</div>` : ''}
+                    ${order.status === 'pending' ? `
+                        <div class="order-actions">
+                            <button class="btn btn-approve" onclick="approveOrder(${order.id})">✓ 通过</button>
+                            <button class="btn btn-reject" onclick="rejectOrder(${order.id})">✗ 拒绝</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function getStatusText(status) {
+            const map = {
+                'pending': '待审核',
+                'approved': '已通过',
+                'rejected': '已拒绝'
+            };
+            return map[status] || status;
+        }
+
+        async function approveOrder(orderId) {
+            if (!confirm('确认通过此订单？')) return;
+
+            try {
+                const response = await fetch(`/api/admin/orders/${orderId}/approve`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('订单已通过，套餐已开通');
+                    loadData();
+                } else {
+                    alert('操作失败：' + result.message);
+                }
+            } catch (error) {
+                alert('操作失败：' + error.message);
+            }
+        }
+
+        async function rejectOrder(orderId) {
+            const reason = prompt('请输入拒绝原因：');
+            if (!reason) return;
+
+            try {
+                const response = await fetch(`/api/admin/orders/${orderId}/reject`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${adminToken}`
+                    },
+                    body: JSON.stringify({ reason })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('订单已拒绝');
+                    loadData();
+                } else {
+                    alert('操作失败：' + result.message);
+                }
+            } catch (error) {
+                alert('操作失败：' + error.message);
+            }
+        }
+
+        // 自动刷新
+        setInterval(loadData, 30000);
+
+        // 初始化
+        checkAuth();
+    </script>
+</body>
+</html>

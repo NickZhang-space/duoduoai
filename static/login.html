@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 多多AI优化师</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0A2540; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: #E84D1A; transition: color 0.2s; }
+        a:hover { color: #d4410f; }
+        
+        .container {
+            display: flex; width: 100%; max-width: 1000px;
+            background: #fff; border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden; margin: 20px;
+        }
+        
+        /* 左侧品牌展示 */
+        .brand-side {
+            flex: 1; background: linear-gradient(170deg, #0A2540 0%, #1a1a4e 100%);
+            padding: 60px 50px; color: #fff; display: flex;
+            flex-direction: column; justify-content: center;
+        }
+        .brand-logo {
+            font-size: 32px; font-weight: 800; margin-bottom: 16px;
+        }
+        .brand-logo span { color: #E84D1A; }
+        .brand-slogan {
+            font-size: 20px; color: rgba(255,255,255,0.8);
+            margin-bottom: 48px; line-height: 1.5;
+        }
+        .brand-features {
+            list-style: none;
+        }
+        .brand-features li {
+            padding: 16px 0; font-size: 16px;
+            color: rgba(255,255,255,0.9);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center;
+        }
+        .brand-features li::before {
+            content: '✓'; color: #E84D1A; font-size: 20px;
+            font-weight: 700; margin-right: 12px;
+            width: 24px; height: 24px; display: flex;
+            align-items: center; justify-content: center;
+            background: rgba(232,77,26,0.15); border-radius: 50%;
+        }
+        
+        /* 右侧表单 */
+        .form-side {
+            flex: 1; padding: 60px 50px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .form-header {
+            margin-bottom: 32px;
+        }
+        .form-header h2 {
+            font-size: 28px; font-weight: 700; color: #0A2540;
+            margin-bottom: 8px;
+        }
+        .form-header p {
+            font-size: 15px; color: #425466;
+        }
+        
+        .tabs {
+            display: flex; margin-bottom: 32px;
+            border-bottom: 2px solid #e3e8ee;
+        }
+        .tab {
+            flex: 1; text-align: center; padding: 12px;
+            font-size: 16px; font-weight: 600; color: #425466;
+            cursor: pointer; border-bottom: 3px solid transparent;
+            margin-bottom: -2px; transition: all 0.3s;
+            position: relative;
+        }
+        .tab.active { color: #E84D1A; border-bottom-color: #E84D1A; }
+        .tab:hover:not(.active) { color: #0A2540; }
+        
+        .form-container {
+            position: relative; overflow: hidden;
+        }
+        .form {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0; transform: translateX(20px);
+            position: absolute; width: 100%; top: 0;
+            pointer-events: none;
+        }
+        .form.active {
+            opacity: 1; transform: translateX(0);
+            position: relative; pointer-events: all;
+        }
+        
+        .field { margin-bottom: 20px; }
+        .field label {
+            display: block; font-size: 14px; font-weight: 600;
+            color: #0A2540; margin-bottom: 8px;
+        }
+        .field input {
+            width: 100%; padding: 12px 14px;
+            border: 2px solid #e3e8ee; border-radius: 8px;
+            font-size: 15px; color: #0A2540; outline: none;
+            transition: all 0.2s;
+        }
+        .field input:focus {
+            border-color: #E84D1A;
+            box-shadow: 0 0 0 3px rgba(232,77,26,0.1);
+        }
+        .field input::placeholder { color: #a3acb9; }
+        
+        /* 密码强度 */
+        .password-strength {
+            margin-top: 8px; height: 4px; background: #e3e8ee;
+            border-radius: 2px; overflow: hidden;
+            display: none;
+        }
+        .password-strength.show { display: block; }
+        .password-strength-bar {
+            height: 100%; width: 0; transition: all 0.3s;
+            background: #dc2626;
+        }
+        .password-strength-bar.weak { width: 33%; background: #dc2626; }
+        .password-strength-bar.medium { width: 66%; background: #f59e0b; }
+        .password-strength-bar.strong { width: 100%; background: #16a34a; }
+        .password-hint {
+            font-size: 12px; color: #425466; margin-top: 4px;
+            display: none;
+        }
+        .password-hint.show { display: block; }
+        
+        .remember-row {
+            display: flex; align-items: center; margin-bottom: 20px;
+        }
+        .remember-row input[type="checkbox"] {
+            width: 18px; height: 18px; margin-right: 8px;
+            cursor: pointer; accent-color: #E84D1A;
+        }
+        .remember-row label {
+            font-size: 14px; color: #425466; cursor: pointer;
+            margin: 0;
+        }
+        
+        .btn-submit {
+            width: 100%; padding: 14px; background: #E84D1A;
+            color: #fff; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-submit:hover { background: #d4410f; transform: translateY(-1px); }
+        .btn-submit:disabled { background: #a3acb9; cursor: not-allowed; transform: none; }
+        
+        .msg {
+            padding: 12px 16px; border-radius: 8px; font-size: 14px;
+            margin-bottom: 20px; display: none;
+        }
+        .msg.error {
+            background: #fef2f2; color: #dc2626;
+            border: 1px solid #fecaca; display: block;
+        }
+        .msg.success {
+            background: #f0fdf4; color: #16a34a;
+            border: 1px solid #bbf7d0; display: block;
+        }
+        
+        .back {
+            text-align: center; margin-top: 24px; font-size: 14px;
+            color: #425466;
+        }
+        
+        @media (max-width: 768px) {
+            .container { flex-direction: column; margin: 0; border-radius: 0; }
+            .brand-side { padding: 40px 30px; }
+            .form-side { padding: 40px 30px; }
+            .brand-features { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="brand-side">
+            <div class="brand-logo">多多<span>AI</span>优化师</div>
+            <div class="brand-slogan">
+                你的拼多多 AI 推广优化师<br>
+                10 秒出方案，省下 62% 推广费
+            </div>
+            <ul class="brand-features">
+                <li>每天 3 次免费 AI 分析</li>
+                <li>推广计划深度诊断</li>
+                <li>关键词出价优化建议</li>
+                <li>智能选品推荐</li>
+                <li>7 天无理由退款</li>
+            </ul>
+        </div>
+        
+        <div class="form-side">
+            <div class="form-header">
+                <h2>欢迎回来</h2>
+                <p>开始优化你的推广计划</p>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('login')">登录</div>
+                <div class="tab" onclick="switchTab('register')">注册</div>
+            </div>
+            
+            <div id="msg" class="msg"></div>
+            
+            <div class="form-container">
+                <form id="login-form" class="form active">
+                    <div class="field">
+                        <label>邮箱</label>
+                        <input type="email" name="email" placeholder="请输入注册邮箱" required autocomplete="email">
+                    </div>
+                    <div class="field">
+                        <label>密码</label>
+                        <input type="password" name="password" placeholder="请输入密码" required autocomplete="current-password">
+                    </div>
+                    <div class="remember-row">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">记住我</label>
+                    </div>
+                    <button type="submit" class="btn-submit">登录</button>
+                </form>
+                
+                <form id="register-form" class="form">
+                    <div class="field">
+                        <label>用户名</label>
+                        <input type="text" name="username" placeholder="请输入用户名" required autocomplete="username">
+                    </div>
+                    <div class="field">
+                        <label>邮箱</label>
+                        <input type="email" name="email" placeholder="请输入邮箱" required autocomplete="email">
+                    </div>
+                    <div class="field">
+                        <label>密码</label>
+                        <input type="password" id="register-password" name="password" placeholder="至少8位，包含字母和数字" required autocomplete="new-password">
+                        <div class="password-strength">
+                            <div class="password-strength-bar"></div>
+                        </div>
+                        <div class="password-hint"></div>
+                    </div>
+                    <button type="submit" class="btn-submit">注册</button>
+                </form>
+            </div>
+            
+            <div class="back"><a href="/static/index.html">← 返回首页</a></div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 'login';
+        
+        function switchTab(tab) {
+            if (currentTab === tab) return;
+            currentTab = tab;
+            
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form').forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('login-form').classList.add('active');
+                document.querySelector('.form-header h2').textContent = '欢迎回来';
+                document.querySelector('.form-header p').textContent = '开始优化你的推广计划';
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('register-form').classList.add('active');
+                document.querySelector('.form-header h2').textContent = '创建账号';
+                document.querySelector('.form-header p').textContent = '免费开始使用，无需信用卡';
+            }
+            hideMsg();
+        }
+        
+        function showMsg(text, type) {
+            const m = document.getElementById('msg');
+            m.textContent = text;
+            m.className = 'msg ' + type;
+        }
+        
+        function hideMsg() {
+            document.getElementById('msg').className = 'msg';
+        }
+        
+        // 密码强度检测
+        const registerPassword = document.getElementById('register-password');
+        const strengthBar = document.querySelector('.password-strength-bar');
+        const strengthContainer = document.querySelector('.password-strength');
+        const passwordHint = document.querySelector('.password-hint');
+        
+        registerPassword.addEventListener('input', (e) => {
+            const pwd = e.target.value;
+            
+            if (pwd.length === 0) {
+                strengthContainer.classList.remove('show');
+                passwordHint.classList.remove('show');
+                return;
+            }
+            
+            strengthContainer.classList.add('show');
+            passwordHint.classList.add('show');
+            
+            let strength = 0;
+            if (pwd.length >= 8) strength++;
+            if (/[a-z]/.test(pwd) && /[A-Z]/.test(pwd)) strength++;
+            if (/\d/.test(pwd)) strength++;
+            if (/[^a-zA-Z0-9]/.test(pwd)) strength++;
+            
+            strengthBar.className = 'password-strength-bar';
+            if (strength <= 1) {
+                strengthBar.classList.add('weak');
+                passwordHint.textContent = '密码强度：弱';
+                passwordHint.style.color = '#dc2626';
+            } else if (strength === 2) {
+                strengthBar.classList.add('medium');
+                passwordHint.textContent = '密码强度：中等';
+                passwordHint.style.color = '#f59e0b';
+            } else {
+                strengthBar.classList.add('strong');
+                passwordHint.textContent = '密码强度：强';
+                passwordHint.style.color = '#16a34a';
+            }
+        });
+        
+        // 记住我功能
+        const rememberCheckbox = document.getElementById('remember');
+        const savedEmail = localStorage.getItem('rememberedEmail');
+        if (savedEmail) {
+            document.querySelector('#login-form input[name="email"]').value = savedEmail;
+            rememberCheckbox.checked = true;
+        }
+        
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMsg();
+            const fd = new FormData(e.target);
+            const email = fd.get('email');
+            const password = fd.get('password');
+            
+            // 记住我
+            if (rememberCheckbox.checked) {
+                localStorage.setItem('rememberedEmail', email);
+            } else {
+                localStorage.removeItem('rememberedEmail');
+            }
+            
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({email, password})
+                });
+                const r = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('token', r.token);
+                    showMsg('登录成功，正在跳转...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/static/app.html?v=' + Date.now();
+                    }, 1000);
+                } else {
+                    showMsg(r.detail || '登录失败', 'error');
+                }
+            } catch(e) {
+                showMsg('网络错误，请重试', 'error');
+            }
+        });
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMsg();
+            const fd = new FormData(e.target);
+            const username = fd.get('username');
+            const email = fd.get('email');
+            const password = fd.get('password');
+            
+            // 密码验证
+            if (password.length < 8) {
+                showMsg('密码至少需要 8 位', 'error');
+                return;
+            }
+            if (!/[a-zA-Z]/.test(password) || !/\d/.test(password)) {
+                showMsg('密码需要包含字母和数字', 'error');
+                return;
+            }
+            
+            try {
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({username, email, password})
+                });
+                const r = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('token', r.token);
+                    showMsg('注册成功，正在跳转...', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/static/app.html?v=' + Date.now();
+                    }, 1000);
+                } else {
+                    showMsg(r.detail || '注册失败', 'error');
+                }
+            } catch(e) {
+                showMsg('网络错误，请重试', 'error');
+            }
+        });
+
+        // 如果已登录，直接跳转
+        if (localStorage.getItem('token')) {
+            window.location.href = '/static/app.html?v=' + Date.now();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定价计算器 - 多多AI优化师</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: #e0e0e0;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%);
+            color: white;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #E84D1A;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result h3 {
+            color: #E84D1A;
+            margin-bottom: 20px;
+        }
+
+        .price-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .price-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .price-card.recommended {
+            border-color: #E84D1A;
+            background: #f8f9ff;
+        }
+
+        .price-card h4 {
+            color: #E84D1A;
+            margin-bottom: 10px;
+        }
+
+        .price-card .price {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .price-card .info {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .tips {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .tips h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .tips ul {
+            margin-left: 20px;
+        }
+
+        .tips li {
+            color: #856404;
+            margin-bottom: 5px;
+        }
+
+        .compare-result {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .compare-result .position {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #E84D1A;
+            margin-bottom: 10px;
+        }
+
+        .compare-result .suggestion {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .competitor-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .competitor-input input {
+            flex: 1;
+        }
+
+        .btn-add {
+            padding: 12px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-remove {
+            padding: 12px 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 定价计算器</h1>
+            <a href="/static/app.html" class="btn-back">返回控制台</a>
+        </div>
+
+        <div class="content">
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('calculate')">计算定价</button>
+                <button class="tab" onclick="switchTab('compare')">竞品对比</button>
+            </div>
+
+            <!-- 计算定价 -->
+            <div id="calculate-section" class="section active">
+                <h2>计算建议售价</h2>
+                <p style="color: #666; margin-bottom: 30px;">输入成本和目标利润率，AI帮你计算最优定价</p>
+
+                <form id="calculate-form">
+                    <div class="form-group">
+                        <label>成本价（元）</label>
+                        <input type="number" name="cost" placeholder="例如：20" required min="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label>目标毛利率（%）</label>
+                        <input type="number" name="margin" placeholder="例如：40" required min="0" max="99" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>运费（元，可选）</label>
+                        <input type="number" name="shipping" placeholder="例如：5" min="0" step="0.01" value="0">
+                    </div>
+
+                    <button type="submit" class="btn">计算定价</button>
+                </form>
+
+                <div id="calculate-result" class="result"></div>
+            </div>
+
+            <!-- 竞品对比 -->
+            <div id="compare-section" class="section">
+                <h2>竞品价格对比</h2>
+                <p style="color: #666; margin-bottom: 30px;">对比你的定价与竞品，找到最优价格区间</p>
+
+                <form id="compare-form">
+                    <div class="form-group">
+                        <label>你的定价（元）</label>
+                        <input type="number" name="your_price" placeholder="例如：59.9" required min="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label>竞品价格（元）</label>
+                        <div id="competitor-inputs">
+                            <div class="competitor-input">
+                                <input type="number" class="competitor-price" placeholder="竞品1价格" required min="0" step="0.01">
+                            </div>
+                            <div class="competitor-input">
+                                <input type="number" class="competitor-price" placeholder="竞品2价格" required min="0" step="0.01">
+                            </div>
+                            <div class="competitor-input">
+                                <input type="number" class="competitor-price" placeholder="竞品3价格" required min="0" step="0.01">
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add" onclick="addCompetitorInput()">+ 添加竞品</button>
+                    </div>
+
+                    <button type="submit" class="btn">开始对比</button>
+                </form>
+
+                <div id="compare-result" class="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(tab + '-section').classList.add('active');
+        }
+
+        function addCompetitorInput() {
+            const container = document.getElementById('competitor-inputs');
+            const div = document.createElement('div');
+            div.className = 'competitor-input';
+            div.innerHTML = `
+                <input type="number" class="competitor-price" placeholder="竞品价格" required min="0" step="0.01">
+                <button type="button" class="btn-remove" onclick="this.parentElement.remove()">删除</button>
+            `;
+            container.appendChild(div);
+        }
+
+        // 计算定价表单
+        document.getElementById('calculate-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const data = {
+                cost: parseFloat(formData.get('cost')),
+                target_margin: parseFloat(formData.get('margin')) / 100,
+                shipping: parseFloat(formData.get('shipping')) || 0
+            };
+
+            const resultDiv = document.getElementById('calculate-result');
+            resultDiv.innerHTML = '<p style="text-align: center; color: #E84D1A;">计算中...</p>';
+            resultDiv.classList.add('show');
+
+            try {
+                const response = await fetch('/api/pricing/calculate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    let html = '<h3>💡 建议定价方案</h3>';
+                    html += '<div class="price-cards">';
+
+                    result.suggested_prices.forEach((price, index) => {
+                        const isRecommended = index === 1; // .9结尾的推荐
+                        html += `
+                            <div class="price-card ${isRecommended ? 'recommended' : ''}">
+                                <h4>${price.name}</h4>
+                                <div class="price">${price.display_price}</div>
+                                <div class="info">
+                                    利润：${price.profit}元<br>
+                                    毛利率：${price.margin}
+                                </div>
+                                ${price.reason ? `<p style="font-size: 0.85em; color: #666; margin-top: 10px;">${price.reason}</p>` : ''}
+                            </div>
+                        `;
+                    });
+
+                    html += '</div>';
+
+                    html += '<div class="tips"><h4>💡 定价建议</h4><ul>';
+                    result.tips.forEach(tip => {
+                        html += `<li>${tip}</li>`;
+                    });
+                    html += '</ul></div>';
+
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.innerHTML = `<p style="color: red;">${result.error}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">计算失败：${error.message}</p>`;
+            }
+        });
+
+        // 竞品对比表单
+        document.getElementById('compare-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const yourPrice = parseFloat(formData.get('your_price'));
+            
+            const competitorPrices = [];
+            document.querySelectorAll('.competitor-price').forEach(input => {
+                const value = parseFloat(input.value);
+                if (value > 0) {
+                    competitorPrices.push(value);
+                }
+            });
+
+            if (competitorPrices.length === 0) {
+                alert('请至少输入一个竞品价格');
+                return;
+            }
+
+            const data = {
+                your_price: yourPrice,
+                competitor_prices: competitorPrices
+            };
+
+            const resultDiv = document.getElementById('compare-result');
+            resultDiv.innerHTML = '<p style="text-align: center; color: #E84D1A;">分析中...</p>';
+            resultDiv.classList.add('show');
+
+            try {
+                const response = await fetch('/api/pricing/compare', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    let html = '<h3>📊 竞品价格对比</h3>';
+                    html += '<div class="compare-result">';
+                    html += `<div class="position">你的定价：${result.position}</div>`;
+                    html += `<div class="suggestion">${result.suggestion}</div>`;
+                    html += '<div style="margin-top: 20px;">';
+                    html += `<p><strong>竞品平均价：</strong>${result.competitor_avg}元</p>`;
+                    html += `<p><strong>竞品最低价：</strong>${result.competitor_min}元</p>`;
+                    html += `<p><strong>竞品最高价：</strong>${result.competitor_max}元</p>`;
+                    html += '</div>';
+                    html += '<div style="margin-top: 20px;">';
+                    html += `<p><strong>与平均价差异：</strong>${result.price_difference.vs_avg}</p>`;
+                    html += `<p><strong>与最低价差异：</strong>${result.price_difference.vs_min}</p>`;
+                    html += `<p><strong>与最高价差异：</strong>${result.price_difference.vs_max}</p>`;
+                    html += '</div>';
+                    html += '</div>';
+
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.innerHTML = `<p style="color: red;">${result.error}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">对比失败：${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+openai
+pydantic
+python-dotenv
+sqlalchemy
+passlib[bcrypt]
+pyjwt
+python-multipart
+redis
+alipay-sdk-python
+wechatpy
+plotly
+pandas

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新手教程 - 多多AI优化师</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+        }
+
+        .btn-back {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%);
+            color: white;
+        }
+
+        .tutorials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .tutorial-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tutorial-card:hover {
+            border-color: #E84D1A;
+            transform: translateY(-5px);
+        }
+
+        .tutorial-card .category {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .tutorial-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .tutorial-card .icon {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            color: #E84D1A;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 2em;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .tutorial-content {
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .tutorial-content h3 {
+            color: #E84D1A;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .tutorial-content h4 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .tutorial-content ul, .tutorial-content ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .tutorial-content li {
+            margin-bottom: 8px;
+        }
+
+        .tutorial-content strong {
+            color: #E84D1A;
+        }
+
+        .tutorial-content code {
+            background: #f5f5f5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 新手教程</h1>
+            <a href="/static/app.html" class="btn-back">返回控制台</a>
+        </div>
+
+        <div class="content">
+            <div class="categories">
+                <button class="category-btn active" onclick="filterCategory('all')">全部</button>
+                <button class="category-btn" onclick="filterCategory('开店')">开店</button>
+                <button class="category-btn" onclick="filterCategory('选品')">选品</button>
+                <button class="category-btn" onclick="filterCategory('定价')">定价</button>
+                <button class="category-btn" onclick="filterCategory('投流')">投流</button>
+                <button class="category-btn" onclick="filterCategory('运营')">运营</button>
+                <button class="category-btn" onclick="filterCategory('数据')">数据</button>
+            </div>
+
+            <div class="tutorials-grid" id="tutorials-grid"></div>
+        </div>
+    </div>
+
+    <div class="modal" id="tutorial-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <button class="btn-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="tutorial-content" id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const tutorials = [
+            {
+                id: 1,
+                title: "拼多多开店完整流程",
+                category: "开店",
+                icon: "🏪",
+                content: `
+                    <h3>第一步：准备资料</h3>
+                    <ul>
+                        <li>身份证正反面照片</li>
+                        <li>银行卡（用于收款）</li>
+                        <li>手机号（实名认证）</li>
+                        <li>营业执照（个体户或企业，可选）</li>
+                    </ul>
+
+                    <h3>第二步：注册拼多多店铺</h3>
+                    <ol>
+                        <li>访问：https://fxg.jinritemai.com</li>
+                        <li>选择"个人入驻"或"企业入驻"</li>
+                        <li>填写基本信息</li>
+                        <li>上传资料</li>
+                        <li>等待审核（1-3天）</li>
+                    </ol>
+
+                    <h3>第三步：缴纳保证金</h3>
+                    <ul>
+                        <li>个人店：2000-5000元（根据类目）</li>
+                        <li>企业店：4000-10000元</li>
+                        <li>可退还</li>
+                    </ul>
+
+                    <h3>第四步：上架商品</h3>
+                    <ol>
+                        <li>进入商家后台</li>
+                        <li>点击"商品管理" → "发布商品"</li>
+                        <li>填写商品信息（标题、价格、库存、详情）</li>
+                        <li>上传商品图片（至少3张）</li>
+                        <li>提交审核</li>
+                    </ol>
+
+                    <h3>第五步：开始卖货</h3>
+                    <ul>
+                        <li>自己拍短视频带货</li>
+                        <li>或找达人合作带货</li>
+                        <li>或开直播卖货</li>
+                    </ul>
+
+                    <p><strong>预计时间：</strong> 3-7天完成开店</p>
+                `
+            },
+            {
+                id: 2,
+                title: "拼多多开店完整流程",
+                category: "开店",
+                icon: "🛒",
+                content: `
+                    <h3>第一步：准备资料</h3>
+                    <ul>
+                        <li>身份证</li>
+                        <li>银行卡</li>
+                        <li>手机号</li>
+                        <li>营业执照（企业店必须，个人店可选）</li>
+                    </ul>
+
+                    <h3>第二步：注册店铺</h3>
+                    <ol>
+                        <li>访问：https://mms.pinduoduo.com</li>
+                        <li>选择"个人店"或"企业店"</li>
+                        <li>填写信息</li>
+                        <li>上传资料</li>
+                        <li>等待审核（1-2天）</li>
+                    </ol>
+
+                    <h3>第三步：缴纳保证金</h3>
+                    <ul>
+                        <li>个人店：1000-2000元</li>
+                        <li>企业店：2000-10000元</li>
+                    </ul>
+
+                    <h3>第四步：上架商品</h3>
+                    <ol>
+                        <li>进入商家后台</li>
+                        <li>"商品管理" → "发布商品"</li>
+                        <li>填写商品信息</li>
+                        <li>上传图片</li>
+                        <li>提交审核</li>
+                    </ol>
+
+                    <h3>第五步：推广</h3>
+                    <ul>
+                        <li>参加平台活动（百亿补贴、秒杀等）</li>
+                        <li>开通推广通（广告）</li>
+                        <li>优化商品标题和主图</li>
+                    </ul>
+
+                    <p><strong>预计时间：</strong> 2-5天完成开店</p>
+                `
+            },
+            {
+                id: 3,
+                title: "如何选品（新手必看）",
+                category: "选品",
+                icon: "🎯",
+                content: `
+                    <h3>选品原则</h3>
+                    
+                    <h4>1. 低价高频</h4>
+                    <ul>
+                        <li>客单价：20-100元</li>
+                        <li>复购率高</li>
+                        <li>例如：零食、日用品、美妆工具</li>
+                    </ul>
+
+                    <h4>2. 低竞争</h4>
+                    <ul>
+                        <li>避开红海品类（如服装、鞋子）</li>
+                        <li>选择细分市场</li>
+                        <li>例如：宠物用品、小众家居</li>
+                    </ul>
+
+                    <h4>3. 高利润</h4>
+                    <ul>
+                        <li>毛利率至少30%</li>
+                        <li>最好40%以上</li>
+                        <li>例如：收纳用品、创意小物</li>
+                    </ul>
+
+                    <h4>4. 轻小件</h4>
+                    <ul>
+                        <li>物流成本低</li>
+                        <li>不易损坏</li>
+                        <li>例如：手机配件、文具</li>
+                    </ul>
+
+                    <h3>选品方法</h3>
+
+                    <h4>方法1：看榜单</h4>
+                    <ul>
+                        <li>拼多多：搜索"商品榜"</li>
+                        <li>拼多多：看"热销榜"</li>
+                        <li>找销量高、评价好的商品</li>
+                    </ul>
+
+                    <h4>方法2：看竞品</h4>
+                    <ul>
+                        <li>找3-5个同类店铺</li>
+                        <li>看他们卖什么</li>
+                        <li>分析哪些商品卖得好</li>
+                    </ul>
+
+                    <h4>方法3：用工具</h4>
+                    <ul>
+                        <li>飞瓜数据、蝉妈妈（付费）</li>
+                        <li>或用我们的AI选品助手（便宜）</li>
+                    </ul>
+
+                    <h3>新手推荐品类</h3>
+                    <ol>
+                        <li><strong>美妆工具</strong> - 利润高、走量大</li>
+                        <li><strong>收纳用品</strong> - 刚需、复购率高</li>
+                        <li><strong>手机配件</strong> - 市场大、好卖</li>
+                        <li><strong>零食礼包</strong> - 走量大、但利润低</li>
+                        <li><strong>创意小物</strong> - 差异化强</li>
+                    </ol>
+
+                    <h3>避开品类</h3>
+                    <ul>
+                        <li>服装（退货率高）</li>
+                        <li>生鲜（损耗大）</li>
+                        <li>大件家具（物流贵）</li>
+                    </ul>
+                `
+            },
+            {
+                id: 4,
+                title: "商品定价策略",
+                category: "定价",
+                icon: "💰",
+                content: `
+                    <h3>定价公式</h3>
+                    <p><strong>售价 = 成本 × (1 + 毛利率) + 运费</strong></p>
+
+                    <p>例如：</p>
+                    <ul>
+                        <li>成本：20元</li>
+                        <li>目标毛利率：40%</li>
+                        <li>运费：5元</li>
+                        <li>售价 = 20 × 1.4 + 5 = 33元</li>
+                    </ul>
+
+                    <h3>定价策略</h3>
+
+                    <h4>1. 低价引流</h4>
+                    <ul>
+                        <li>1-2个爆款商品定低价</li>
+                        <li>吸引流量</li>
+                        <li>其他商品正常定价</li>
+                    </ul>
+
+                    <h4>2. 价格锚点</h4>
+                    <ul>
+                        <li>原价99元，现价59元</li>
+                        <li>让用户觉得便宜</li>
+                    </ul>
+
+                    <h4>3. 尾数定价</h4>
+                    <ul>
+                        <li>59.9元 比 60元 更好卖</li>
+                        <li>心理价格</li>
+                    </ul>
+
+                    <h4>4. 套餐定价</h4>
+                    <ul>
+                        <li>单买30元，3件80元</li>
+                        <li>提高客单价</li>
+                    </ul>
+
+                    <h3>竞品定价参考</h3>
+                    <ol>
+                        <li>找3-5个竞品</li>
+                        <li>看他们的价格</li>
+                        <li>你的定价：
+                            <ul>
+                                <li>比最低价高10%</li>
+                                <li>比最高价低10%</li>
+                                <li>在中间位置</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <p><strong>💡 提示：</strong> 使用我们的定价计算器，快速计算最优定价！</p>
+                `
+            },
+            {
+                id: 5,
+                title: "拼多多推广通入门",
+                category: "投流",
+                icon: "📊",
+                content: `
+                    <h3>什么是推广通？</h3>
+                    <p>拼多多的广告系统，花钱买流量。</p>
+
+                    <h3>投流流程</h3>
+
+                    <h4>第一步：开通推广通</h4>
+                    <ol>
+                        <li>进入拼多多店铺后台</li>
+                        <li>找到"巨量推广通"</li>
+                        <li>充值（最低500元）</li>
+                    </ol>
+
+                    <h4>第二步：创建计划</h4>
+                    <ol>
+                        <li>选择"短视频带货"或"直播带货"</li>
+                        <li>选择商品</li>
+                        <li>设置预算（建议100-300元/天）</li>
+                        <li>选择投放时间</li>
+                    </ol>
+
+                    <h4>第三步：选择定向</h4>
+                    <ul>
+                        <li>系统推荐（新手推荐）</li>
+                        <li>或自定义人群（年龄、性别、地域）</li>
+                    </ul>
+
+                    <h4>第四步：设置出价</h4>
+                    <ul>
+                        <li>新手建议：自动出价</li>
+                        <li>或手动出价（0.5-2元/次点击）</li>
+                    </ul>
+
+                    <h4>第五步：提交审核</h4>
+                    <ul>
+                        <li>等待审核（1-2小时）</li>
+                        <li>审核通过后开始投放</li>
+                    </ul>
+
+                    <h3>新手建议</h3>
+                    <ol>
+                        <li><strong>先测试</strong> - 每天100元，测试3-5天</li>
+                        <li><strong>看数据</strong> - ROI>1.5才继续投</li>
+                        <li><strong>优化素材</strong> - 点击率低就换视频</li>
+                        <li><strong>控制预算</strong> - 不要一次投太多</li>
+                    </ol>
+
+                    <h3>关键指标</h3>
+                    <ul>
+                        <li><strong>ROI</strong> - 投产比，越高越好（目标>2）</li>
+                        <li><strong>点击率</strong> - 点击/展现，目标>3%</li>
+                        <li><strong>转化率</strong> - 成交/点击，目标>5%</li>
+                    </ul>
+
+                    <p><strong>💡 提示：</strong> 使用我们的投流优化工具，AI帮你分析数据！</p>
+                `
+            },
+            {
+                id: 6,
+                title: "月销0到1万的完整路径",
+                category: "进阶",
+                icon: "🚀",
+                content: `
+                    <h3>第一周：开店 + 选品</h3>
+                    <p><strong>目标：</strong> 店铺上线，选好3-5个商品</p>
+                    <p><strong>行动：</strong></p>
+                    <ol>
+                        <li>注册店铺</li>
+                        <li>用AI选品工具选3-5个商品</li>
+                        <li>找供应商，小批量进货（每个商品50-100件）</li>
+                        <li>上架商品</li>
+                    </ol>
+
+                    <h3>第二周：测试</h3>
+                    <p><strong>目标：</strong> 找到1个爆款</p>
+                    <p><strong>行动：</strong></p>
+                    <ol>
+                        <li>每个商品投流测试（每天50-100元）</li>
+                        <li>看数据：ROI、转化率</li>
+                        <li>找出ROI最高的商品</li>
+                        <li>其他商品暂停</li>
+                    </ol>
+
+                    <h3>第三周：放大</h3>
+                    <p><strong>目标：</strong> 爆款放大，冲销量</p>
+                    <p><strong>行动：</strong></p>
+                    <ol>
+                        <li>爆款商品加大投流（每天200-500元）</li>
+                        <li>优化详情页、评价</li>
+                        <li>补货（进货500-1000件）</li>
+                    </ol>
+
+                    <h3>第四周：稳定</h3>
+                    <p><strong>目标：</strong> 稳定出单，月销破万</p>
+                    <p><strong>行动：</strong></p>
+                    <ol>
+                        <li>继续投流</li>
+                        <li>优化转化率</li>
+                        <li>增加新品（2-3个）</li>
+                    </ol>
+
+                    <h3>预期收入</h3>
+                    <ul>
+                        <li>第一周：0-500元</li>
+                        <li>第二周：500-2000元</li>
+                        <li>第三周：2000-5000元</li>
+                        <li>第四周：5000-10000元</li>
+                    </ul>
+
+                    <p><strong>关键：</strong> 找到爆款 + 持续投流 + 优化转化率</p>
+
+                    <h3>总结</h3>
+                    <p>新手做电商，记住3点：</p>
+                    <ol>
+                        <li><strong>选对品</strong> - 用AI选品工具</li>
+                        <li><strong>会投流</strong> - 看数据，优化ROI</li>
+                        <li><strong>看数据</strong> - 每天看，持续优化</li>
+                    </ol>
+
+                    <p><strong>坚持1-3个月，月销破万不是梦！</strong></p>
+                `
+            }
+        ];
+
+        let currentCategory = 'all';
+
+        function renderTutorials() {
+            const grid = document.getElementById('tutorials-grid');
+            grid.innerHTML = '';
+
+            const filtered = currentCategory === 'all' 
+                ? tutorials 
+                : tutorials.filter(t => t.category === currentCategory);
+
+            filtered.forEach(tutorial => {
+                const card = document.createElement('div');
+                card.className = 'tutorial-card';
+                card.onclick = () => openTutorial(tutorial);
+                card.innerHTML = `
+                    <div class="icon">${tutorial.icon}</div>
+                    <div class="category">${tutorial.category}</div>
+                    <h3>${tutorial.title}</h3>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(category) {
+            currentCategory = category;
+            
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderTutorials();
+        }
+
+        function openTutorial(tutorial) {
+            document.getElementById('modal-title').textContent = tutorial.title;
+            document.getElementById('modal-content').innerHTML = tutorial.content;
+            document.getElementById('tutorial-modal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('tutorial-modal').classList.remove('show');
+        }
+
+        // 初始化
+        renderTutorials();
+
+        // 点击模态框外部关闭
+        document.getElementById('tutorial-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'tutorial-modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

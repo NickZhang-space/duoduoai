@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拼多多推广数据模板 - 多多AI优化师</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 24px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        
+        .info-box h3 {
+            color: #28a745;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .info-box li {
+            padding: 8px 0;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .info-box li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .template-box {
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .template-content {
+            font-family: "Courier New", monospace;
+            font-size: 14px;
+            color: #333;
+            white-space: pre;
+            overflow-x: auto;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+        
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success {
+            background: #28a745;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+        }
+        
+        .example-section {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        
+        .example-section h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .field-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .field-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+        
+        .field-name {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 拼多多推广数据模板</h1>
+        <p class="subtitle">复制模板，粘贴到推广分析页面即可使用</p>
+        
+        <div class="section">
+            <h2>📋 标准数据格式</h2>
+            <div class="info-box">
+                <h3>支持的字段名（多种写法都可以识别）</h3>
+                <div class="field-list">
+                    <div class="field-item">
+                        <span class="field-name">关键词：</span>关键词/搜索词/词/名称
+                    </div>
+                    <div class="field-item">
+                        <span class="field-name">展现量：</span>展现量/曝光量/展现/曝光
+                    </div>
+                    <div class="field-item">
+                        <span class="field-name">点击量：</span>点击量/点击/点击数
+                    </div>
+                    <div class="field-item">
+                        <span class="field-name">花费：</span>花费/消耗/费用/推广费用
+                    </div>
+                    <div class="field-item">
+                        <span class="field-name">成交金额：</span>成交金额/GMV/交易额
+                    </div>
+                    <div class="field-item">
+                        <span class="field-name">成交笔数：</span>成交笔数/订单数/订单
+                    </div>
+                    <div class="field-item">
+                        <span class="field-name">ROI：</span>ROI/投产比/回报率
+                    </div>
+                    <div class="field-item">
+                        <span class="field-name">点击率：</span>点击率/CTR
+                    </div>
+                    <div class="field-item">
+                        <span class="field-name">转化率：</span>转化率/CVR
+                    </div>
+                    <div class="field-item">
+                        <span class="field-name">推广类型：</span>推广类型/计划类型/类型
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📝 数据模板（点击复制）</h2>
+            <div class="template-box">
+                <div class="template-content" id="template">关键词,展现量,点击量,花费,成交金额,成交笔数,ROI,推广类型
+连衣裙,15000,450,180,720,12,4.0,标准推广
+女装上衣,12000,360,150,450,8,3.0,标准推广
+夏季新款,8000,200,100,250,5,2.5,全站推广
+时尚女装,20000,400,200,300,6,1.5,标准推广
+韩版连衣裙,5000,150,80,320,8,4.0,标准推广</div>
+                <button class="btn" onclick="copyTemplate()">📋 复制模板</button>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>💡 使用说明</h2>
+            <div class="info-box">
+                <h3>如何使用这个模板？</h3>
+                <ul>
+                    <li>从拼多多推广后台导出数据（支持CSV、Excel格式）</li>
+                    <li>复制数据，确保第一行是列名</li>
+                    <li>粘贴到"投流优化"页面的数据输入框</li>
+                    <li>选择分析类型（整体/关键词/素材/人群）</li>
+                    <li>选择品类（服饰/食品/美妆/家居/数码/母婴）</li>
+                    <li>点击"开始分析"即可获得专业优化建议</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 示例数据说明</h2>
+            <div class="example-section">
+                <h3>示例数据解读</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0;">✅ <strong>连衣裙</strong>：ROI 4.0，表现优秀，建议加大投入</li>
+                    <li style="padding: 8px 0;">✅ <strong>韩版连衣裙</strong>：ROI 4.0，长尾词精准转化，建议提高出价</li>
+                    <li style="padding: 8px 0;">⚠️ <strong>时尚女装</strong>：ROI 1.5，大词引流但转化一般，建议优化详情页</li>
+                    <li style="padding: 8px 0;">📊 <strong>推广类型</strong>：标准推广适合精准投放，全站推广适合新品冷启动</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🚀 快速开始</h2>
+            <button class="btn btn-success" onclick="goToAnalysis()">前往投流分析</button>
+            <button class="btn" onclick="copyTemplate()">复制示例数据</button>
+        </div>
+    </div>
+    
+    <div class="toast" id="toast">✓ 已复制到剪贴板</div>
+    
+    <script>
+        function copyTemplate() {
+            const template = document.getElementById('template').textContent;
+            navigator.clipboard.writeText(template).then(() => {
+                showToast();
+            }).catch(err => {
+                alert('复制失败，请手动复制');
+            });
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+        
+        function goToAnalysis() {
+            window.location.href = '/app.html';
+        }
+    </script>
+</body>
+</html>
