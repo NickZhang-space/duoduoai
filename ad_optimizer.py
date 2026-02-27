@@ -213,7 +213,7 @@ class AdOptimizer:
             benchmark=benchmark,
             best_performers=best_performers,
             worst_performers=worst_performers,
-            campaign_types=campaign_types
+            campaign_types=campaign_types,
             shop_context=shop_context
         )
         
