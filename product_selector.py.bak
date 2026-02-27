@@ -60,14 +60,14 @@ class ProductSelector:
             ],
         }
     
-    def _call_api_with_retry(self, messages, max_retries=3, max_tokens=3000):
+    def _call_api_with_retry(self, messages, max_retries=3):
         for attempt in range(max_retries):
             try:
                 response = self.client.chat.completions.create(
                     model="deepseek-chat",
                     messages=messages,
                     temperature=0.7,
-                    max_tokens=max_tokens
+                    max_tokens=2000
                 )
                 return response.choices[0].message.content
             except Exception as e:
@@ -113,60 +113,32 @@ class ProductSelector:
         }
     
     def _calculate_score(self, product: Dict, experience: str) -> int:
-        """计算商品评分（0-100）- 多维度评分"""
+        """计算商品评分（0-100）"""
+        score = 60
         
-        # 基础分
-        score = 50
-        
-        # 1. 利润空间评分（0-25分）
-        profit_num = int(product["profit_margin"].split("-")[0].replace("%", ""))
-        if profit_num >= 50:
-            profit_score = 25
-        elif profit_num >= 40:
-            profit_score = 20
-        elif profit_num >= 30:
-            profit_score = 15
-        elif profit_num >= 20:
-            profit_score = 10
-        else:
-            profit_score = 5
-        score += profit_score
-        
-        # 2. 竞争程度评分（0-25分）
+        # 竞争度评分
         if product["competition"] == "低":
-            competition_score = 25
+            score += 15
         elif product["competition"] == "中":
-            competition_score = 15
-        else:
-            competition_score = 5
-        score += competition_score
+            score += 10
         
-        # 3. 上手难度评分（0-20分）
-        if product["difficulty"] == "低":
-            difficulty_score = 20
-        elif product["difficulty"] == "中":
-            difficulty_score = 12
-        else:
-            difficulty_score = 5
-        score += difficulty_score
+        # 利润率评分
+        profit_num = int(product["profit_margin"].split("-")[0].replace("%", ""))
+        if profit_num > 40:
+            score += 15
+        elif profit_num > 30:
+            score += 10
+        elif profit_num > 20:
+            score += 5
         
-        # 4. 市场趋势评分（0-10分）
-        if "走量" in product["reason"] or "刚需" in product["reason"]:
-            trend_score = 10
-        elif "复购" in product["reason"]:
-            trend_score = 8
-        else:
-            trend_score = 5
-        score += trend_score
-        
-        # 新手额外加权
+        # 难度评分（新手更看重）
         if experience == "新手":
             if product["difficulty"] == "低":
-                score += 5
-            if product["competition"] == "低":
+                score += 10
+            elif product["difficulty"] == "中":
                 score += 5
         
-        return min(score, 100)
+        return min(score, 95)
     
     def _generate_tags(self, product: Dict) -> List[str]:
         """生成商品标签"""
@@ -254,81 +226,27 @@ class ProductSelector:
     
     async def _generate_pdd_analysis(self, platform: str, category: str, budget: int, 
                                     experience: str, products: List[Dict]) -> str:
-        """生成拼多多选品分析 - 升级版"""
-        
-        # 准备商品详情
-        products_details = []
-        for i, p in enumerate(products[:5], 1):
-            # 计算利润
-            price_range = p["price_range"].replace("元", "")
-            if "-" in price_range:
-                avg_price = (float(price_range.split("-")[0]) + float(price_range.split("-")[1])) / 2
-            else:
-                avg_price = float(price_range)
-            
-            profit_margin = int(p["profit_margin"].split("-")[0].replace("%", ""))
-            estimated_profit = avg_price * profit_margin / 100
-            cost_price = avg_price - estimated_profit
-            
-            # 获取月销量范围
-            sales_range = p["monthly_sales"]
-            
-            products_details.append(f"""
-{i}. {p['name']}
-   - 售价：{p['price_range']}（建议定价：{avg_price:.1f}元）
-   - 进货成本：约{cost_price:.1f}元
-   - 利润空间：{p['profit_margin']}（扣除平台费后净利约{estimated_profit:.1f}元/件）
-   - 月销量：{sales_range}件
-   - 竞争程度：{p['competition']}
-   - 上手难度：{p['difficulty']}
-   - 综合评分：{p['score']}/100
-""")
+        """生成拼多多选品分析"""
         
         prompt = f"""你是拼多多电商运营专家。现在有个{experience}商家向你咨询{category}类目选品建议。
 
-【商家情况】
+商家情况：
 - 平台：拼多多
 - 品类：{category}
 - 启动预算：{budget}元
 - 经验：{experience}
 
-【推荐商品详情】
-{''.join(products_details)}
+请给出实用的建议：
 
-请按以下格式输出分析建议：
+1. 选品策略（2-3句话）
+2. 具体执行建议（3-4条）
+3. 避坑提示（2-3条）
 
-## 每个商品的详细分析
-（针对每个推荐商品，给出：）
-1. [商品名称]
-   - 利润计算：进货价X元，售价Y元，扣除平台费（约5%）后净利Z元
-   - 竞争分析：该品类前10名价格区间X-Y元，月销量Z-W件
-   - 风险提示：[季节性/退货率/物流要求等]
-   - 启动建议：首批进货量X件（预算Y元），测款预算Z元，推广策略[具体策略]
-   - 综合评分：[利润空间X分/竞争程度Y分/上手难度Z分/市场趋势W分]
-
-## 选品策略总结
-（2-3句话，总结选品思路）
-
-## 具体执行建议
-1. [具体操作步骤]
-2. [具体操作步骤]
-3. [具体操作步骤]
-
-## 避坑提示
-1. [风险点和应对方法]
-2. [风险点和应对方法]
-
-要求：
-- 每个商品给出具体利润计算（包含平台费用）
-- 给出竞争分析数据（价格区间、销量区间）
-- 给出风险提示和启动建议
-- 给出0-100的综合评分，分维度打分
-- 用大白话，像老师傅教徒弟
-- 控制在800字以内
+要求：用大白话，像老师傅教徒弟，给出具体数字，控制在300字以内
 """
         
         messages = [
-            {"role": "system", "content": "你是拼多多电商运营专家，精通拼多多选品和运营策略，特别了解拼多多低价特性和用户特点。你的建议总是包含具体数字、利润计算、竞争分析和风险提示。"},
+            {"role": "system", "content": "你是拼多多电商运营专家，精通拼多多选品和运营策略，特别了解拼多多低价特性和用户特点。"},
             {"role": "user", "content": prompt}
         ]
-        return self._call_api_with_retry(messages, max_tokens=3000)
+        return self._call_api_with_retry(messages)

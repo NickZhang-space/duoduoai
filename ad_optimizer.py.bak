@@ -25,7 +25,7 @@ class AdOptimizer:
             "母婴": {"roi": (3.0, 5.0), "ctr": (3, 5), "cvr": (4, 7)},
         }
     
-    def _call_api_with_retry(self, messages, max_retries=3, max_tokens=3000):
+    def _call_api_with_retry(self, messages, max_retries=3):
         """带重试的API调用"""
         for attempt in range(max_retries):
             try:
@@ -33,7 +33,7 @@ class AdOptimizer:
                     model="deepseek-chat",
                     messages=messages,
                     temperature=0.7,
-                    max_tokens=max_tokens
+                    max_tokens=2000
                 )
                 return response.choices[0].message.content
             except Exception as e:
@@ -334,16 +334,11 @@ class AdOptimizer:
                                                avg_roi: float, ctr: float, cvr: float, avg_cpc: float,
                                                benchmark: Dict, best_performers: List[Dict],
                                                worst_performers: List[Dict], campaign_types: Dict) -> str:
-        """生成拼多多整体优化建议 - 升级版"""
-        
-        # 计算与行业基准的差距
-        roi_gap = ((avg_roi - benchmark['roi'][0]) / benchmark['roi'][0] * 100) if benchmark['roi'][0] > 0 else 0
-        ctr_gap = ((ctr - benchmark['ctr'][0]) / benchmark['ctr'][0] * 100) if benchmark['ctr'][0] > 0 else 0
-        cvr_gap = ((cvr - benchmark['cvr'][0]) / benchmark['cvr'][0] * 0) if benchmark['cvr'][0] > 0 else 0
+        """生成拼多多整体优化建议"""
         
         prompt = f"""你是一位资深的拼多多推广优化师，有5年以上的多多推广经验。现在有个{category}类目商家向你咨询推广优化建议。
 
-【当前数据】
+当前数据：
 - 总花费：{total_spend:.2f}元
 - 总成交金额：{total_gmv:.2f}元
 - 平均ROI：{avg_roi:.2f}
@@ -351,159 +346,81 @@ class AdOptimizer:
 - 转化率：{cvr:.2f}%
 - 平均点击花费：{avg_cpc:.2f}元
 
-【{category}行业基准对比】
-- ROI基准：{benchmark['roi'][0]}-{benchmark['roi'][1]}，你的ROI {avg_roi:.2f}，{'高于' if roi_gap > 0 else '低于'}基准 {abs(roi_gap):.1f}%
-- CTR基准：{benchmark['ctr'][0]}-{benchmark['ctr'][1]}%，你的CTR {ctr:.2f}%，{'高于' if ctr_gap > 0 else '低于'}基准 {abs(ctr_gap):.1f}%
-- CVR基准：{benchmark['cvr'][0]}-{benchmark['cvr'][1]}%，你的CVR {cvr:.2f}%，{'高于' if cvr_gap > 0 else '低于'}基准 {abs(cvr_gap):.1f}%
+{category}行业基准：
+- ROI基准：{benchmark['roi'][0]}-{benchmark['roi'][1]}
+- CTR基准：{benchmark['ctr'][0]}-{benchmark['ctr'][1]}%
+- CVR基准：{benchmark['cvr'][0]}-{benchmark['cvr'][1]}%
 
-【表现最好的关键词】
-{chr(10).join([f"- {p.get('关键词', '未知')}：ROI {p.get('ROI', 0):.2f}，花费 {p.get('花费', 0):.2f}元" for p in best_performers[:3]])}
+请以资深拼多多推广优化师的身份，给出实用的优化建议：
 
-【表现最差的关键词】
-{chr(10).join([f"- {p.get('关键词', '未知')}：ROI {p.get('ROI', 0):.2f}，花费 {p.get('花费', 0):.2f}元" for p in worst_performers[:3]])}
+1. 账户健康度诊断（2-3句话）
+2. 立即执行的优化动作（3-5条，每条要具体可执行）
+3. 预期效果（1-2句话）
 
-请按以下格式输出优化建议，每条建议必须包含具体数字：
-
-## 诊断结论
-（2-3句话，指出核心问题和机会点）
-
-## 立即执行（优先级从高到低）
-1. [具体操作]：预计节省/增加X元/天
-2. [具体操作]：预计节省/增加X元/天
-3. [具体操作]：预计节省/增加X元/天
-
-## 一周内优化
-1. [具体操作]
-2. [具体操作]
-
-## 预期效果
-（1-2句话，给出优化后的预期ROI、花费等数据）
-
-要求：
-- 每条建议必须给出具体数字（如"CPC从2.3降到1.8"、"ROI低于1.5的词暂停"）
-- 给出优先级排序和预期效果
-- 用商家听得懂的大白话
-- 总字数控制在500字以内
+要求：用商家听得懂的大白话，给出具体的数字和操作步骤，总字数控制在300字以内
 """
         
         messages = [
-            {"role": "system", "content": "你是一位资深的拼多多推广优化师，有5年以上的多多推广经验。你精通全站推广、标准推广、活动推广的区别和最佳实践。你的建议总是具体、实用、可执行，用大白话讲解，并且每条建议都包含具体数字。"},
+            {"role": "system", "content": "你是一位资深的拼多多推广优化师，有5年以上的多多推广经验。你精通全站推广、标准推广、活动推广的区别和最佳实践。你的建议总是具体、实用、可执行，用大白话讲解。"},
             {"role": "user", "content": prompt}
         ]
-        return self._call_api_with_retry(messages, max_tokens=3000)
+        return self._call_api_with_retry(messages)
     
     async def _generate_pdd_keyword_suggestions(self, platform: str, category: str,
                                                high_roi: List[Dict], medium_roi: List[Dict], 
                                                low_roi: List[Dict]) -> str:
-        """生成拼多多关键词优化建议 - 升级版"""
-        
-        # 准备详细的关键词数据
-        high_roi_details = "\n".join([
-            f"- {kw.get('关键词', '未知')}：ROI {kw.get('ROI', 0):.2f}，CPC {kw.get('平均点击花费', 0):.2f}元，花费 {kw.get('花费', 0):.2f}元"
-            for kw in high_roi[:5]
-        ])
-        
-        low_roi_details = "\n".join([
-            f"- {kw.get('关键词', '未知')}：ROI {kw.get('ROI', 0):.2f}，CPC {kw.get('平均点击花费', 0):.2f}元，花费 {kw.get('花费', 0):.2f}元"
-            for kw in low_roi[:5]
-        ])
+        """生成拼多多关键词优化建议"""
         
         prompt = f"""你是一个拼多多关键词优化专家。请分析{category}类目的关键词数据，给出优化建议：
 
-【高ROI关键词（ROI>=2.5）】：{len(high_roi)}个
-{high_roi_details}
+高ROI关键词（ROI>=2.5）：{len(high_roi)}个
+中等ROI关键词（1.5<=ROI<2.5）：{len(medium_roi)}个
+低ROI关键词（ROI<1.5）：{len(low_roi)}个
 
-【中等ROI关键词（1.5<=ROI<2.5）】：{len(medium_roi)}个
+请给出：
+1. 高ROI关键词策略（2-3句话）
+2. 低ROI关键词处理（2-3条）
+3. 关键词分层策略（1-2句话）
 
-【低ROI关键词（ROI<1.5）】：{len(low_roi)}个
-{low_roi_details}
-
-请按以下格式输出：
-
-## 逐个关键词操作建议
-（针对上述高ROI和低ROI关键词，逐个给出操作建议）
-- [关键词名称]：[加投/减投/暂停/观察]，出价从X元调整到Y元，预计ROI变化：从A到B
-
-## 关键词分组策略
-（如：高转化词单独建计划、长尾词低价跑量等）
-
-## 预估调整后ROI变化
-（给出整体ROI的预期变化）
-
-要求：
-- 每个关键词给出具体出价调整数字
-- 给出关键词分组策略
-- 预估调整后的ROI变化
-- 用大白话，控制在400字以内
+要求：具体可执行，给出数字，用大白话，控制在250字以内
 """
         
         messages = [
-            {"role": "system", "content": "你是一个拼多多关键词优化专家，精通关键词出价策略和人群溢价优化。你的建议总是包含具体数字和可执行的操作步骤。"},
+            {"role": "system", "content": "你是一个拼多多关键词优化专家，精通关键词出价策略和人群溢价优化。"},
             {"role": "user", "content": prompt}
         ]
-        return self._call_api_with_retry(messages, max_tokens=3000)
+        return self._call_api_with_retry(messages)
     
     async def _generate_creative_suggestions(self, platform: str, category: str,
                                             high_ctr: List[Dict], high_cvr: List[Dict]) -> str:
-        """生成素材优化建议 - 升级版"""
+        """生成素材优化建议"""
         
-        high_ctr_details = "\n".join([
-            f"- {c.get('关键词', '未知')}：CTR {c.get('点击率', 0):.2f}%，CVR {c.get('转化率', 0):.2f}%"
-            for c in high_ctr[:3]
-        ])
-        
-        high_cvr_details = "\n".join([
-            f"- {c.get('关键词', '未知')}：CVR {c.get('转化率', 0):.2f}%，CTR {c.get('点击率', 0):.2f}%"
-            for c in high_cvr[:3]
-        ])
-        
-        prompt = f"""你是一个拼多多素材优化专家。请分析{category}类目的素材数据：
+        prompt = f"""你是一个拼多多素材优化专家。请分析{category}类目的素材数据，给出：
+1. 高点击率素材的特点（2句话）
+2. 高转化率素材的特点（2句话）
+3. 素材优化建议（3条）
 
-【高点击率素材】
-{high_ctr_details}
-
-【高转化率素材】
-{high_cvr_details}
-
-请给出：
-1. 高点击率素材的特点分析（2-3句话，分析为什么点击率高）
-2. 高转化率素材的特点分析（2-3句话，分析为什么转化率高）
-3. 素材优化建议（3-4条具体建议，包含数字目标）
-
-要求：用大白话，给出具体优化方向和数字目标，控制在300字以内
+控制在150字以内，用大白话。
 """
         
         messages = [
-            {"role": "system", "content": f"你是一个拼多多素材优化专家，精通拼多多主图、详情页优化。"},
+            {"role": "system", "content": f"你是一个拼多多素材优化专家。"},
             {"role": "user", "content": prompt}
         ]
-        return self._call_api_with_retry(messages, max_tokens=3000)
+        return self._call_api_with_retry(messages)
     
     async def _generate_audience_suggestions(self, platform: str, category: str, data: List[Dict]) -> str:
-        """生成人群优化建议 - 升级版"""
+        """生成人群优化建议"""
         
-        high_roi_audience = [d for d in data if d.get("ROI", 0) >= 2.5]
-        
-        audience_details = "\n".join([
-            f"- {a.get('关键词', '未知')}：ROI {a.get('ROI', 0):.2f}，花费 {a.get('花费', 0):.2f}元"
-            for a in high_roi_audience[:5]
-        ])
-        
-        prompt = f"""你是一个拼多多人群定向专家。请分析{category}类目的人群数据：
+        prompt = f"""你是一个拼多多人群定向专家。请分析{category}类目的人群数据，给出：
+1. 高ROI人群的特征（2句话）
+2. 人群定向优化建议（3条）
 
-【高ROI人群】（{len(high_roi_audience)}个）
-{audience_details}
-
-请给出：
-1. 高ROI人群的特征分析（2-3句话）
-2. 人群定向优化建议（3-4条，包含具体溢价比例建议）
-3. 预期效果（给出优化后的ROI预期）
-
-要求：用大白话，给出具体溢价比例，控制在250字以内
+控制在120字以内，用大白话。
 """
         
         messages = [
-            {"role": "system", "content": f"你是一个拼多多人群定向专家，精通人群溢价和定向策略。"},
+            {"role": "system", "content": f"你是一个拼多多人群定向专家。"},
             {"role": "user", "content": prompt}
         ]
-        return self._call_api_with_retry(messages, max_tokens=3000)
+        return self._call_api_with_retry(messages)
