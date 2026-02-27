@@ -377,6 +377,7 @@ async def analyze_ads(
             platform=request.platform,
             data=request.data,
             analysis_type=request.analysis_type,
+            shop_context=shop_context
             category=request.category
         )
         

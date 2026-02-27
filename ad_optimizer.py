@@ -214,6 +214,7 @@ class AdOptimizer:
             best_performers=best_performers,
             worst_performers=worst_performers,
             campaign_types=campaign_types
+            shop_context=shop_context
         )
         
         # 返回结构化数据

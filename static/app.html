@@ -978,6 +978,7 @@
             <button class="tab" onclick="switchTab('pricing')">定价计算</button>
             <button class="tab" onclick="switchTab('history')">历史记录</button>
             <button class="tab" onclick="switchTab('tutorials')">新手教程</button>
+            <button class="tab" onclick="switchTab('shop')">我的店铺</button>
             <button class="tab" onclick="switchTab('plans')">套餐升级</button>
         </div>
 
@@ -1203,6 +1204,61 @@
             </div>
 
             <!-- 套餐升级 -->
+            <!-- 我的店铺 -->
+            <div id="shop-section" class="section">
+                <h2 style="margin-bottom: 15px; color: #333;">🏪 我的店铺</h2>
+                <div style="background: #FFF8F5; border: 1px solid #FFD4C2; border-radius: 12px; padding: 20px 25px; margin-bottom: 25px;">
+                    <h3 style="color: #E84D1A; font-size: 1em; margin-bottom: 8px;">💡 完善店铺信息，AI 分析更精准</h3>
+                    <div style="color: #888; font-size: 0.85em;">填写后，AI 会根据你的店铺规模和品类给出更有针对性的建议</div>
+                </div>
+                <form id="shop-form">
+                    <div class="form-group">
+                        <label>店铺名称</label>
+                        <input type="text" name="shop_name" id="shop_name" placeholder="输入你的拼多多店铺名称" required>
+                    </div>
+                    <div class="form-group">
+                        <label>主营品类</label>
+                        <select name="category" id="shop_category">
+                            <option value="">请选择</option>
+                            <option value="美妆">美妆个护</option>
+                            <option value="服饰">服饰鞋包</option>
+                            <option value="食品">食品零食</option>
+                            <option value="家居">家居日用</option>
+                            <option value="数码">数码配件</option>
+                            <option value="母婴">母婴用品</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>月营收区间</label>
+                        <select name="monthly_revenue" id="shop_revenue">
+                            <option value="">请选择</option>
+                            <option value="1万以下">1万以下</option>
+                            <option value="1-5万">1-5万</option>
+                            <option value="5-10万">5-10万</option>
+                            <option value="10-50万">10-50万</option>
+                            <option value="50万以上">50万以上</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>月推广费区间</label>
+                        <select name="monthly_ad_spend" id="shop_ad_spend">
+                            <option value="">请选择</option>
+                            <option value="1000以下">1000以下</option>
+                            <option value="1000-5000">1000-5000</option>
+                            <option value="5000-1万">5000-1万</option>
+                            <option value="1-5万">1-5万</option>
+                            <option value="5万以上">5万以上</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>备注</label>
+                        <textarea name="notes" id="shop_notes" placeholder="其他需要说明的信息，比如主营商品、经营时间等" style="min-height: 80px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">💾 保存店铺信息</button>
+                </form>
+                <div id="shop-result" class="result-box"></div>
+            </div>
+
             <div id="plans-section" class="section">
                 <h2 style="margin-bottom: 25px; color: #333;">💎 套餐升级</h2>
                 <div class="plans-grid" id="plans-grid">
@@ -2048,6 +2104,67 @@
 
         // 页面加载时获取用户信息
         loadUserInfo();
+
+        // 店铺信息
+        async function loadShopInfo() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/shop', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success && result.shop) {
+                        document.getElementById('shop_name').value = result.shop.shop_name || '';
+                        document.getElementById('shop_category').value = result.shop.category || '';
+                        document.getElementById('shop_revenue').value = result.shop.monthly_revenue || '';
+                        document.getElementById('shop_ad_spend').value = result.shop.monthly_ad_spend || '';
+                        document.getElementById('shop_notes').value = result.shop.notes || '';
+                    }
+                }
+            } catch (e) { console.log('加载店铺信息失败'); }
+        }
+
+        document.getElementById('shop-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> 保存中...';
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/shop', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        shop_name: document.getElementById('shop_name').value,
+                        category: document.getElementById('shop_category').value,
+                        monthly_revenue: document.getElementById('shop_revenue').value,
+                        monthly_ad_spend: document.getElementById('shop_ad_spend').value,
+                        notes: document.getElementById('shop_notes').value
+                    })
+                });
+                const result = await response.json();
+                const resultBox = document.getElementById('shop-result');
+                if (result.success) {
+                    resultBox.innerHTML = '<h3 style="color: #E84D1A;">✅ 保存成功</h3><p>店铺信息已更新，后续分析将自动关联你的店铺数据。</p>';
+                } else {
+                    resultBox.innerHTML = '<h3 style="color: red;">❌ 保存失败</h3><p>' + (result.message || '请稍后重试') + '</p>';
+                }
+                resultBox.classList.add('show');
+            } catch (error) {
+                alert('保存失败：' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        });
+
+        // 页面加载时也加载店铺信息
+        loadShopInfo();
 
 // 生成报告函数
 async function generateReport(historyId) {
