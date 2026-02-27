@@ -20,45 +20,6 @@
             min-height: 100vh;
         }
 
-        /* 提醒条 */
-        .alert-banner {
-            background: linear-gradient(135deg, #FF9800 0%, #FF6B35 100%);
-            color: white;
-            padding: 12px 30px;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
-        }
-
-        .alert-banner.show {
-            display: flex;
-        }
-
-        .alert-content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.9em;
-        }
-
-        .alert-close {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2em;
-            line-height: 1;
-            transition: all 0.3s;
-        }
-
-        .alert-close:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
         /* 顶部导航 */
         .navbar {
             background: white;
@@ -128,7 +89,7 @@
         /* 统计卡片 */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -170,10 +131,24 @@
             margin-bottom: 10px;
         }
 
-        .stat-subtitle {
+        .stat-progress {
+            height: 6px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .stat-progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .stat-label {
             font-size: 0.85em;
             color: #999;
-            margin-top: 5px;
         }
 
         /* 标签页 */
@@ -234,227 +209,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 数据概览页面 */
-        .dashboard-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .dashboard-card {
-            background: linear-gradient(135deg, #fff 0%, #f8f9fc 100%);
-            border: 2px solid #e8ecf1;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .dashboard-card:hover {
-            border-color: #E84D1A;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .dashboard-label {
-            color: #999;
-            font-size: 0.85em;
-            margin-bottom: 10px;
-        }
-
-        .dashboard-value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #E84D1A;
-            margin-bottom: 5px;
-        }
-
-        .dashboard-subtitle {
-            font-size: 0.85em;
-            color: #666;
-        }
-
-        /* 趋势图容器 */
-        .trend-chart-container {
-            background: white;
-            border: 2px solid #e8ecf1;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .trend-chart-title {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .trend-chart-wrapper {
-            position: relative;
-            height: 300px;
-        }
-
-        /* 最近分析卡片 */
-        .recent-analyses {
-            margin-top: 30px;
-        }
-
-        .recent-title {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .recent-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
-        }
-
-        .recent-card {
-            background: white;
-            border: 2px solid #e8ecf1;
-            border-radius: 12px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .recent-card:hover {
-            border-color: #E84D1A;
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .recent-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .recent-type {
-            font-size: 1.5em;
-        }
-
-        .recent-time {
-            color: #999;
-            font-size: 0.85em;
-        }
-
-        .recent-summary {
-            color: #666;
-            font-size: 0.9em;
-            line-height: 1.6;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* 空状态 */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
-
-        .empty-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .empty-actions {
-            margin-top: 25px;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #E84D1A;
-            border: 2px solid #E84D1A;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: 0.95em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary:hover {
-            background: #E84D1A;
-            color: white;
-        }
-
-        /* 历史记录筛选 */
-        .history-filters {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            padding: 8px 16px;
-            background: white;
-            color: #666;
-            border: 2px solid #e8ecf1;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .filter-btn:hover {
-            border-color: #E84D1A;
-            color: #E84D1A;
-        }
-
-        .filter-btn.active {
-            background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%);
-            color: white;
-            border-color: #E84D1A;
-        }
-
-        /* 历史记录详情 */
-        .history-detail {
-            background: #f8f9fc;
-            border: 2px solid #e8ecf1;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 15px;
-            display: none;
-        }
-
-        .history-detail.show {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                max-height: 0;
-            }
-            to {
-                opacity: 1;
-                max-height: 1000px;
-            }
-        }
-
-        .history-detail-content {
-            color: #666;
-            line-height: 1.8;
-            font-size: 0.9em;
-        }
         /* 表单样式 */
         .form-group {
             margin-bottom: 25px;
@@ -564,6 +318,17 @@
         .result-box.show {
             display: block;
             animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* 关键指标卡片 */
@@ -763,12 +528,12 @@
         }
 
         .history-type {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95em;
+            background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
             font-weight: 600;
-            color: #333;
         }
 
         .history-date {
@@ -780,6 +545,18 @@
             color: #666;
             font-size: 0.9em;
             line-height: 1.6;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
         }
 
         /* 套餐卡片 */
@@ -936,27 +713,10 @@
             .chart-wrapper {
                 height: 250px;
             }
-
-            .dashboard-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .recent-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- 提醒条 -->
-    <div class="alert-banner" id="alert-banner">
-        <div class="alert-content">
-            <span>⚠️</span>
-            <span id="alert-text">您已经超过3天没有使用分析功能了，快来试试吧！</span>
-        </div>
-        <button class="alert-close" onclick="closeAlert()">×</button>
-    </div>
-
     <!-- 顶部导航 -->
     <nav class="navbar">
         <div class="navbar-content">
@@ -970,10 +730,45 @@
 
     <!-- 主容器 -->
     <div class="container">
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">选品分析</span>
+                    <span class="stat-icon">🎯</span>
+                </div>
+                <div class="stat-value" id="product-used">0 / 0</div>
+                <div class="stat-progress">
+                    <div class="stat-progress-bar" id="product-progress" style="width: 0%"></div>
+                </div>
+                <div class="stat-label">本月已使用</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">投流分析</span>
+                    <span class="stat-icon">📊</span>
+                </div>
+                <div class="stat-value" id="ad-used">0 / 0</div>
+                <div class="stat-progress">
+                    <div class="stat-progress-bar" id="ad-progress" style="width: 0%"></div>
+                </div>
+                <div class="stat-label">本月已使用</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">当前套餐</span>
+                    <span class="stat-icon">💎</span>
+                </div>
+                <div class="stat-value" id="plan-name" style="font-size: 1.5em;">加载中...</div>
+                <div class="stat-label" id="plan-expire">-</div>
+            </div>
+        </div>
+
         <!-- 标签页 -->
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('dashboard')">📊 数据概览</button>
-            <button class="tab" onclick="switchTab('product')">智能选品</button>
+            <button class="tab active" onclick="switchTab('product')">智能选品</button>
             <button class="tab" onclick="switchTab('ad')">投流优化</button>
             <button class="tab" onclick="switchTab('pricing')">定价计算</button>
             <button class="tab" onclick="switchTab('history')">历史记录</button>
@@ -983,63 +778,8 @@
 
         <!-- 内容区域 -->
         <div class="content">
-            <!-- 数据概览 -->
-            <div id="dashboard-section" class="section active">
-                <h2 style="margin-bottom: 25px; color: #333;">📊 数据概览</h2>
-                
-                <!-- 统计卡片 -->
-                <div class="dashboard-stats">
-                    <div class="dashboard-card">
-                        <div class="dashboard-label">总分析次数</div>
-                        <div class="dashboard-value" id="dash-total-count">0</div>
-                        <div class="dashboard-subtitle">累计使用</div>
-                    </div>
-                    <div class="dashboard-card">
-                        <div class="dashboard-label">本周分析次数</div>
-                        <div class="dashboard-value" id="dash-week-count">0</div>
-                        <div class="dashboard-subtitle">最近7天</div>
-                    </div>
-                    <div class="dashboard-card">
-                        <div class="dashboard-label">连续使用天数</div>
-                        <div class="dashboard-value" id="dash-streak-days">0</div>
-                        <div class="dashboard-subtitle">保持活跃</div>
-                    </div>
-                    <div class="dashboard-card">
-                        <div class="dashboard-label">上次分析时间</div>
-                        <div class="dashboard-value" id="dash-last-time" style="font-size: 1.5em;">-</div>
-                        <div class="dashboard-subtitle">最近活动</div>
-                    </div>
-                </div>
-
-                <!-- 趋势图 -->
-                <div class="trend-chart-container">
-                    <div class="trend-chart-title">📈 分析趋势（过去30天）</div>
-                    <div class="trend-chart-wrapper">
-                        <canvas id="trend-chart"></canvas>
-                    </div>
-                </div>
-
-                <!-- 最近分析 -->
-                <div class="recent-analyses">
-                    <div class="recent-title">🕒 最近分析</div>
-                    <div class="recent-grid" id="recent-grid">
-                        <!-- 动态加载 -->
-                    </div>
-                </div>
-
-                <!-- 空状态 -->
-                <div class="empty-state" id="dashboard-empty" style="display: none;">
-                    <div class="empty-icon">📊</div>
-                    <div style="font-size: 1.2em; margin-bottom: 10px;">还没有分析记录</div>
-                    <div style="color: #999;">开始你的第一次分析吧！</div>
-                    <div class="empty-actions">
-                        <button class="btn-secondary" onclick="switchTab('product')">🎯 开始选品</button>
-                        <button class="btn-secondary" onclick="switchTab('ad')">📊 投流分析</button>
-                    </div>
-                </div>
-            </div>
             <!-- 智能选品 -->
-            <div id="product-section" class="section">
+            <div id="product-section" class="section active">
                 <h2 style="margin-bottom: 15px; color: #333;">🎯 智能选品助手</h2>
                 <p style="color: #666; margin-bottom: 25px; line-height: 1.8;">不知道卖什么？告诉 AI 你的预算和经验，帮你从拼多多热销数据里<strong>筛出高潜力品类</strong>，少走弯路。</p>
 
@@ -1180,14 +920,6 @@
             <!-- 历史记录 -->
             <div id="history-section" class="section">
                 <h2 style="margin-bottom: 25px; color: #333;">📜 历史分析记录</h2>
-                
-                <!-- 筛选按钮 -->
-                <div class="history-filters">
-                    <button class="filter-btn active" onclick="filterHistory('all')">全部</button>
-                    <button class="filter-btn" onclick="filterHistory('product')">🎯 选品</button>
-                    <button class="filter-btn" onclick="filterHistory('ad')">📊 投流</button>
-                </div>
-
                 <div id="history-list" class="history-list">
                     <div class="empty-state">
                         <div class="empty-icon">📋</div>
@@ -1217,9 +949,6 @@
         let currentStats = null;
         let adChartInstance = null;
         let roiChartInstance = null;
-        let trendChartInstance = null;
-        let currentHistoryFilter = 'all';
-        let allHistoryRecords = [];
 
         // 切换标签页
         function switchTab(tab) {
@@ -1233,11 +962,6 @@
             if (tab === 'history') {
                 loadHistory();
             }
-
-            // 如果切换到数据概览，加载数据
-            if (tab === 'dashboard') {
-                loadDashboard();
-            }
         }
 
         // 退出登录
@@ -1246,181 +970,6 @@
             window.location.href = '/static/login.html';
         }
 
-        // 关闭提醒条
-        function closeAlert() {
-            document.getElementById('alert-banner').classList.remove('show');
-            localStorage.setItem('alert-dismissed', Date.now());
-        }
-
-        // 检查是否显示提醒条
-        function checkAlert(lastAnalysisTime) {
-            if (!lastAnalysisTime) return;
-
-            const lastTime = new Date(lastAnalysisTime);
-            const now = new Date();
-            const daysDiff = (now - lastTime) / (1000 * 60 * 60 * 24);
-
-            // 如果超过3天且用户没有关闭过提醒（或关闭后已过1天）
-            const dismissed = localStorage.getItem('alert-dismissed');
-            const shouldShow = daysDiff > 3 && (!dismissed || (Date.now() - dismissed > 86400000));
-
-            if (shouldShow) {
-                document.getElementById('alert-banner').classList.add('show');
-            }
-        }
-
-        // 格式化相对时间
-        function formatRelativeTime(dateString) {
-            if (!dateString) return '-';
-            
-            const date = new Date(dateString);
-            const now = new Date();
-            const diff = now - date;
-            
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(diff / 3600000);
-            const days = Math.floor(diff / 86400000);
-            
-            if (minutes < 1) return '刚刚';
-            if (minutes < 60) return `${minutes}分钟前`;
-            if (hours < 24) return `${hours}小时前`;
-            if (days < 30) return `${days}天前`;
-            return date.toLocaleDateString();
-        }
-
-        // 加载数据概览
-        async function loadDashboard() {
-            const token = localStorage.getItem('token');
-            
-            try {
-                // 加载统计数据
-                const statsResponse = await fetch('/api/dashboard-stats', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (statsResponse.ok) {
-                    const statsResult = await statsResponse.json();
-                    if (statsResult.success) {
-                        document.getElementById('dash-total-count').textContent = statsResult.total_count || 0;
-                        document.getElementById('dash-week-count').textContent = statsResult.week_count || 0;
-                        document.getElementById('dash-streak-days').textContent = statsResult.streak_days || 0;
-                        document.getElementById('dash-last-time').textContent = formatRelativeTime(statsResult.last_analysis_time);
-                        
-                        // 检查是否显示提醒条
-                        checkAlert(statsResult.last_analysis_time);
-                        
-                        // 如果有数据，隐藏空状态
-                        if (statsResult.total_count > 0) {
-                            document.getElementById('dashboard-empty').style.display = 'none';
-                        } else {
-                            document.getElementById('dashboard-empty').style.display = 'block';
-                        }
-                    }
-                }
-
-                // 加载趋势数据
-                const trendsResponse = await fetch('/api/analysis-trends', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (trendsResponse.ok) {
-                    const trendsResult = await trendsResponse.json();
-                    if (trendsResult.success) {
-                        renderTrendChart(trendsResult);
-                    }
-                }
-
-                // 加载最近分析
-                const historyResponse = await fetch('/api/analysis-history?limit=5', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (historyResponse.ok) {
-                    const historyResult = await historyResponse.json();
-                    if (historyResult.success && historyResult.records) {
-                        renderRecentAnalyses(historyResult.records);
-                    }
-                }
-            } catch (error) {
-                console.error('加载数据概览失败:', error);
-            }
-        }
-
-        // 渲染趋势图
-        function renderTrendChart(data) {
-            const ctx = document.getElementById('trend-chart');
-            if (!ctx) return;
-            
-            if (trendChartInstance) {
-                trendChartInstance.destroy();
-            }
-            
-            trendChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: data.dates || [],
-                    datasets: [
-                        {
-                            label: '选品分析',
-                            data: data.product_counts || [],
-                            borderColor: '#E84D1A',
-                            backgroundColor: 'rgba(232, 77, 26, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: '投流分析',
-                            data: data.ad_counts || [],
-                            borderColor: '#FF6B35',
-                            backgroundColor: 'rgba(255, 107, 53, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                padding: 15,
-                                font: { size: 12 }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // 渲染最近分析
-        function renderRecentAnalyses(records) {
-            const grid = document.getElementById('recent-grid');
-            
-            if (!records || records.length === 0) {
-                grid.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><div>暂无分析记录</div></div>';
-                return;
-            }
-            
-            grid.innerHTML = records.map(record => `
-                <div class="recent-card" onclick="viewHistoryDetail('${record.id}')">
-                    <div class="recent-header">
-                        <span class="recent-type">${record.type === 'product' ? '🎯' : '📊'}</span>
-                        <span class="recent-time">${formatRelativeTime(record.created_at)}</span>
-                    </div>
-                    <div class="recent-summary">${record.summary || '点击查看详情'}</div>
-                </div>
-            `).join('');
-        }
         // 获取用户信息
         async function loadUserInfo() {
             const token = localStorage.getItem('token');
@@ -1444,13 +993,45 @@
 
                 // 更新UI
                 document.getElementById('user-plan').textContent = currentUser.plan_name;
+                document.getElementById('plan-name').textContent = currentUser.plan_name;
+                
+                if (currentUser.plan_expire) {
+                    const expireDate = new Date(currentUser.plan_expire);
+                    document.getElementById('plan-expire').textContent = `到期时间：${expireDate.toLocaleDateString()}`;
+                } else {
+                    document.getElementById('plan-expire').textContent = '永久有效';
+                }
 
+                // 更新统计
+                updateStats();
                 loadPlans();
-                loadDashboard();
             } catch (error) {
                 console.error('加载用户信息失败:', error);
                 alert('加载失败，请重新登录');
                 logout();
+            }
+        }
+
+        // 更新统计数据
+        function updateStats() {
+            const productLimit = currentStats.product_limit === -1 ? '∞' : currentStats.product_limit;
+            const adLimit = currentStats.ad_limit === -1 ? '∞' : currentStats.ad_limit;
+
+            document.getElementById('product-used').textContent = `${currentStats.product_used} / ${productLimit}`;
+            document.getElementById('ad-used').textContent = `${currentStats.ad_used} / ${adLimit}`;
+
+            if (currentStats.product_limit > 0) {
+                const productPercent = (currentStats.product_used / currentStats.product_limit) * 100;
+                document.getElementById('product-progress').style.width = Math.min(productPercent, 100) + '%';
+            } else {
+                document.getElementById('product-progress').style.width = '0%';
+            }
+
+            if (currentStats.ad_limit > 0) {
+                const adPercent = (currentStats.ad_used / currentStats.ad_limit) * 100;
+                document.getElementById('ad-progress').style.width = Math.min(adPercent, 100) + '%';
+            } else {
+                document.getElementById('ad-progress').style.width = '0%';
             }
         }
 
@@ -1618,6 +1199,7 @@
 
         // 计算商品评分
         function calculateProductScore(product) {
+            // 简单的评分算法
             let score = 60;
             
             if (product.competition === '低') score += 15;
@@ -1678,10 +1260,12 @@
         function displayAdResults(result) {
             const resultBox = document.getElementById('ad-result');
             
+            // 解析数据生成图表数据
             const chartData = parseAdData(result);
             
             let html = '';
             
+            // 关键指标卡片
             if (chartData.metrics) {
                 html += '<div class="metrics-grid">';
                 html += `
@@ -1705,6 +1289,7 @@
                 html += '</div>';
             }
             
+            // 花费分布饼图
             if (chartData.costData && chartData.costData.length > 0) {
                 html += `
                     <div class="chart-container">
@@ -1716,6 +1301,7 @@
                 `;
             }
             
+            // ROI 对比柱状图
             if (chartData.roiData && chartData.roiData.length > 0) {
                 html += `
                     <div class="chart-container">
@@ -1727,6 +1313,7 @@
                 `;
             }
             
+            // AI 建议
             html += `
                 <div class="ai-suggestion">
                     <div class="ai-suggestion-title">
@@ -1740,6 +1327,7 @@
             resultBox.innerHTML = html;
             resultBox.classList.add('show');
             
+            // 渲染图表
             setTimeout(() => {
                 if (chartData.costData && chartData.costData.length > 0) {
                     renderCostChart(chartData.costData);
@@ -1763,8 +1351,10 @@
                 roiData: []
             };
             
+            // 尝试从分析结果中提取数据
             const analysisText = result.analysis || '';
             
+            // 提取总花费
             const costMatch = analysisText.match(/总花费[：:]\s*[¥￥]?(\d+\.?\d*)/);
             if (costMatch) {
                 data.metrics.totalCost = parseFloat(costMatch[1]).toFixed(2);
@@ -1772,6 +1362,7 @@
                 data.metrics.totalCost = (Math.random() * 1000 + 500).toFixed(2);
             }
             
+            // 提取ROI
             const roiMatch = analysisText.match(/ROI[：:]\s*(\d+\.?\d*)%?/);
             if (roiMatch) {
                 data.metrics.avgROI = parseFloat(roiMatch[1]).toFixed(1);
@@ -1779,6 +1370,7 @@
                 data.metrics.avgROI = (Math.random() * 200 + 100).toFixed(1);
             }
             
+            // 提取点击率
             const ctrMatch = analysisText.match(/点击率[：:]\s*(\d+\.?\d*)%?/);
             if (ctrMatch) {
                 data.metrics.ctr = parseFloat(ctrMatch[1]).toFixed(2);
@@ -1786,6 +1378,7 @@
                 data.metrics.ctr = (Math.random() * 5 + 2).toFixed(2);
             }
             
+            // 提取转化率
             const cvrMatch = analysisText.match(/转化率[：:]\s*(\d+\.?\d*)%?/);
             if (cvrMatch) {
                 data.metrics.cvr = parseFloat(cvrMatch[1]).toFixed(2);
@@ -1793,6 +1386,7 @@
                 data.metrics.cvr = (Math.random() * 3 + 1).toFixed(2);
             }
             
+            // 生成示例图表数据（实际应该从后端返回）
             const keywords = ['连衣裙女夏', '碎花裙子', '夏季新款', '雪纺裙', '长裙女'];
             keywords.forEach(keyword => {
                 const cost = Math.random() * 300 + 50;
@@ -1821,7 +1415,13 @@
                 adChartInstance.destroy();
             }
             
-            const colors = ['#E84D1A', '#FF6B35', '#FF8C5A', '#FFAD7F', '#FFCEA4'];
+            const colors = [
+                '#E84D1A',
+                '#FF6B35',
+                '#FF8C5A',
+                '#FFAD7F',
+                '#FFCEA4'
+            ];
             
             adChartInstance = new Chart(ctx, {
                 type: 'pie',
@@ -1842,7 +1442,9 @@
                             position: 'bottom',
                             labels: {
                                 padding: 15,
-                                font: { size: 12 }
+                                font: {
+                                    size: 12
+                                }
                             }
                         },
                         tooltip: {
@@ -1883,7 +1485,9 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false },
+                        legend: {
+                            display: false
+                        },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -1906,93 +1510,6 @@
             });
         }
 
-        // 筛选历史记录
-        function filterHistory(type) {
-            currentHistoryFilter = type;
-            
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            renderHistoryList();
-        }
-
-        // 渲染历史记录列表
-        function renderHistoryList() {
-            const historyList = document.getElementById('history-list');
-            
-            let filteredRecords = allHistoryRecords;
-            if (currentHistoryFilter !== 'all') {
-                filteredRecords = allHistoryRecords.filter(r => r.type === currentHistoryFilter);
-            }
-            
-            if (filteredRecords.length === 0) {
-                historyList.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">📋</div>
-                        <div>暂无${currentHistoryFilter === 'all' ? '' : (currentHistoryFilter === 'product' ? '选品' : '投流')}记录</div>
-                    </div>
-                `;
-                return;
-            }
-            
-            historyList.innerHTML = filteredRecords.map(item => `
-                <div class="history-item" onclick="toggleHistoryDetail('${item.id}')">
-                    <div class="history-header">
-                        <span class="history-type">
-                            ${item.type === 'product' ? '🎯 选品分析' : '📊 投流分析'}
-                        </span>
-                        <span class="history-date">${formatRelativeTime(item.created_at)}</span>
-                    </div>
-                    <div class="history-summary">${item.summary || '点击查看详情'}</div>
-                    <div class="history-detail" id="detail-${item.id}">
-                        <div class="history-detail-content">加载中...</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // 切换历史记录详情
-        async function toggleHistoryDetail(id) {
-            const detailDiv = document.getElementById('detail-' + id);
-            
-            if (detailDiv.classList.contains('show')) {
-                detailDiv.classList.remove('show');
-                return;
-            }
-            
-            // 关闭其他详情
-            document.querySelectorAll('.history-detail').forEach(d => d.classList.remove('show'));
-            
-            // 加载详情
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch(`/api/analysis-history/${id}`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.success && result.history) {
-                        const history = result.history;
-                        let content = '';
-                        
-                        if (history.result_data) {
-                            content = `<pre style="white-space: pre-wrap; word-wrap: break-word;">${JSON.stringify(history.result_data, null, 2)}</pre>`;
-                        } else {
-                            content = '暂无详细数据';
-                        }
-                        
-                        detailDiv.querySelector('.history-detail-content').innerHTML = content;
-                    }
-                }
-            } catch (error) {
-                console.error('加载详情失败:', error);
-                detailDiv.querySelector('.history-detail-content').textContent = '加载失败';
-            }
-            
-            detailDiv.classList.add('show');
-        }
-
         // 加载历史记录
         async function loadHistory() {
             const token = localStorage.getItem('token');
@@ -2006,9 +1523,16 @@
                 if (response.ok) {
                     const result = await response.json();
                     
-                    if (result.success && result.records && result.records.length > 0) {
-                        allHistoryRecords = result.records;
-                        renderHistoryList();
+                    if (result.success && result.history && result.history.length > 0) {
+                        historyList.innerHTML = result.history.map(item => `
+                            <div class="history-item" onclick="viewHistoryDetail('${item.id}')">
+                                <div class="history-header">
+                                    <span class="history-type">${item.type === 'product' ? '智能选品' : '投流优化'}</span>
+                                    <span class="history-date">${new Date(item.created_at).toLocaleString()}</span>
+                                </div>
+                                <div class="history-summary">${item.summary || '点击查看详情'}</div>
+                            </div>
+                        `).join('');
                     } else {
                         historyList.innerHTML = `
                             <div class="empty-state">
@@ -2018,10 +1542,12 @@
                         `;
                     }
                 } else {
+                    // API 不存在，显示占位
                     historyList.innerHTML = `
                         <div class="empty-state">
                             <div class="empty-icon">📋</div>
                             <div>暂无历史记录</div>
+                            <div style="color: #ccc; font-size: 0.85em; margin-top: 10px;">历史记录功能即将上线</div>
                         </div>
                     `;
                 }
@@ -2036,9 +1562,9 @@
             }
         }
 
-        // 查看历史详情（兼容旧代码）
+        // 查看历史详情
         function viewHistoryDetail(id) {
-            toggleHistoryDetail(id);
+            alert('查看历史记录详情功能开发中...');
         }
 
         // 页面加载时获取用户信息
