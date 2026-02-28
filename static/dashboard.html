@@ -264,7 +264,7 @@
         async function loadDashboard() {
             try {
                 // 加载用户画像
-                const profileRes = await fetch(`/intelligence/user-profile/${currentUser.id}`);
+                const profileRes = await fetch(`/api/intelligence/user-profile/${currentUser.id}`);
                 const profileData = await profileRes.json();
 
                 if (profileData.success) {
@@ -272,7 +272,7 @@
                 }
 
                 // 加载热力图
-                const heatmapRes = await fetch(`/intelligence/behavior-heatmap/${currentUser.id}`);
+                const heatmapRes = await fetch(`/api/intelligence/behavior-heatmap/${currentUser.id}`);
                 const heatmapData = await heatmapRes.json();
 
                 if (heatmapData.success) {
