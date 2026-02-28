@@ -2,14 +2,13 @@
 代理池管理模块（MVP 阶段简化版）
 """
 import requests
-from typing import Optional
-from .config import USE_PROXY, PROXY_API_URL
+from typing import Optional, Dict
 
 
 class ProxyPool:
     def __init__(self):
-        self.use_proxy = USE_PROXY
-        self.proxy_api_url = PROXY_API_URL
+        self.use_proxy = False  # MVP 阶段不使用代理
+        self.proxy_api_url = None
     
     def get_proxy(self) -> Optional[Dict]:
         """
@@ -18,18 +17,6 @@ class ProxyPool:
         """
         if not self.use_proxy:
             return None
-        
-        # 预留：从芝麻代理 API 获取
-        # try:
-        #     response = requests.get(self.proxy_api_url, timeout=5)
-        #     if response.status_code == 200:
-        #         proxy_data = response.json()
-        #         return {
-        #             'http': f"http://{proxy_data['ip']}:{proxy_data['port']}",
-        #             'https': f"http://{proxy_data['ip']}:{proxy_data['port']}"
-        #         }
-        # except Exception as e:
-        #     print(f"获取代理失败: {e}")
         
         return None
     

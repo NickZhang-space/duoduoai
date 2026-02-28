@@ -10,13 +10,13 @@ def main():
     args = parser.parse_args()
     
     if args.task == 'trends':
-        print('类目趋势爬虫（待实现）')
-        # from .pdd_search import crawl_category_trends
-        # crawl_category_trends()
+        print('启动类目趋势爬虫...')
+        from .pdd_search import crawl_category_trends
+        crawl_category_trends()
     elif args.task == 'competitors':
-        print('竞品监控爬虫（待实现）')
-        # from .pdd_product import crawl_competitors
-        # crawl_competitors()
+        print('启动竞品监控爬虫...')
+        from .pdd_product import crawl_competitors
+        crawl_competitors()
 
 if __name__ == '__main__':
     main()
