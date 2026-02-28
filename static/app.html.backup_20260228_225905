@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>控制台 - 多多AI优化师</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js">
         // ==================== AI推荐功能 ====================
@@ -338,7 +338,6 @@
                 'predictions': 'smart-predictions-tab',
                 'qa': 'smart-qa-tab',
                 'risks': 'smart-risks-tab',
-                'market-insights': 'smart-market-insights-tab',
                 'daily-report': 'smart-daily-report-tab'
             
             const targetTab = document.getElementById(tabMap[tabName]);
@@ -435,7 +434,7 @@
         }
 
         .navbar-content {
-            max-max-width: 1400px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -485,7 +484,7 @@
 
         /* 主容器 */
         .container {
-            max-max-width: 1400px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 30px;
         }
@@ -1428,115 +1427,6 @@
             }
         }
 
-
-        /* 手机端适配 */
-        @media (max-width: 768px) {
-            /* 标签栏横向滚动 */
-            .tab-buttons, .tabs { 
-                overflow-x: auto; 
-                white-space: nowrap; 
-                -webkit-overflow-scrolling: touch;
-                padding: 8px;
-            }
-            .tab-buttons button, .tab {
-                font-size: 13px;
-                padding: 8px 12px;
-                min-width: auto;
-            }
-            
-            /* 内容区域全宽 */
-            .container, .content, main {
-                padding: 8px !important;
-                margin: 0 !important;
-            }
-            
-            /* 卡片单列 */
-            .card, .smart-card, .shop-card, .stat-card {
-                width: 100% !important;
-                margin: 8px 0 !important;
-            }
-            
-            /* 统计卡片网格 */
-            .stats-grid {
-                grid-template-columns: 1fr !important;
-                gap: 10px;
-            }
-            
-            /* 表格横向滚动 */
-            table { 
-                display: block; 
-                overflow-x: auto; 
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* 表单全宽 */
-            input, select, textarea, button {
-                width: 100% !important;
-                box-sizing: border-box;
-            }
-            
-            /* AI问答聊天框适配 */
-            .chat-container { 
-                height: 300px !important; 
-            }
-            
-            /* 图表容器适配 */
-            canvas { 
-                max-width: 100% !important; 
-                height: auto !important; 
-            }
-            
-            /* 隐藏不必要的侧边栏 */
-            .sidebar { 
-                display: none; 
-            }
-            
-            /* 导航栏适配 */
-            nav, .navbar, header, .navbar-content {
-                flex-wrap: wrap;
-                padding: 8px !important;
-            }
-            
-            /* 字体适配 */
-            h1 { font-size: 20px !important; }
-            h2 { font-size: 18px !important; }
-            h3 { font-size: 16px !important; }
-            
-            /* Logo适配 */
-            .logo {
-                font-size: 1.1em;
-            }
-            
-            /* 用户菜单适配 */
-            .user-menu {
-                gap: 10px;
-            }
-            
-            .user-badge {
-                padding: 6px 12px;
-                font-size: 0.75em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .tab-buttons button, .tab {
-                font-size: 12px;
-                padding: 6px 10px;
-            }
-            body { 
-                font-size: 14px; 
-            }
-            
-            .stat-value {
-                font-size: 1.8em;
-            }
-            
-            .navbar-content {
-                height: auto;
-                padding: 10px 0;
-            }
-        }
-
     </style>
     <script src="/static/js/notifications.js"></script>
     <script src="/static/js/report.js"></script>
@@ -1588,9 +1478,6 @@
             </button>
             <button class="tab" onclick="switchTab('notification-settings')">🔔 通知设置</button>
             <button class="tab" onclick="switchTab('plans')">套餐升级</button>
-            <button class="tab" onclick="switchTab('automation')" style="background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%); color: white; font-weight: bold;">
-                ⚡ 自动化
-            </button>
         </div>
 
         <!-- 内容区域 -->
@@ -1818,75 +1705,56 @@
             <!-- 我的店铺 -->
             <div id="shop-section" class="section">
                 <h2 style="margin-bottom: 15px; color: #333;">🏪 我的店铺</h2>
-                <p style="color: #666; margin-bottom: 25px; line-height: 1.8;">管理你的店铺信息，后续分析会自动关联店铺数据。</p>
-
-                <!-- 店铺数据概览 -->
-                <div class="dashboard-stats" style="margin-bottom: 30px;">
-                    <div class="dashboard-card">
-                        <div class="dashboard-label">总店铺数</div>
-                        <div class="dashboard-value" id="shop-total-count">0</div>
-                        <div class="dashboard-subtitle">已添加</div>
-                    </div>
-                    <div class="dashboard-card">
-                        <div class="dashboard-label">总月销售额</div>
-                        <div class="dashboard-value" id="shop-total-sales">¥0</div>
-                        <div class="dashboard-subtitle">预估收入</div>
-                    </div>
-                    <div class="dashboard-card">
-                        <div class="dashboard-label">主营类目</div>
-                        <div class="dashboard-value" id="shop-main-category" style="font-size: 1.5em;">-</div>
-                        <div class="dashboard-subtitle">最多店铺</div>
-                    </div>
+                <div style="background: #FFF8F5; border: 1px solid #FFD4C2; border-radius: 12px; padding: 20px 25px; margin-bottom: 25px;">
+                    <h3 style="color: #E84D1A; font-size: 1em; margin-bottom: 8px;">💡 完善店铺信息，AI 分析更精准</h3>
+                    <div style="color: #888; font-size: 0.85em;">填写后，AI 会根据你的店铺规模和品类给出更有针对性的建议</div>
                 </div>
-
-                <!-- 添加店铺表单 -->
-                <div style="background: white; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                    <h3 style="color: #E84D1A; margin-bottom: 20px;">➕ 添加新店铺</h3>
-                    <form id="shop-form">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                            <div class="form-group">
-                                <label>店铺名称 *</label>
-                                <input type="text" name="shop_name" required placeholder="例如：小明的数码店">
-                            </div>
-                            <div class="form-group">
-                                <label>平台</label>
-                                <select name="platform">
-                                    <option value="拼多多">拼多多</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>主营类目</label>
-                                <input type="text" name="category" placeholder="例如：数码配件">
-                            </div>
-                            <div class="form-group">
-                                <label>月销售额（元）</label>
-                                <input type="number" name="monthly_sales" placeholder="例如：50000">
-                            </div>
-                            <div class="form-group">
-                                <label>商品数量</label>
-                                <input type="number" name="product_count" placeholder="例如：50">
-                            </div>
-                            <div class="form-group">
-                                <label>备注</label>
-                                <input type="text" name="notes" placeholder="其他信息">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn-primary" style="margin-top: 15px;">💾 保存店铺</button>
-                    </form>
-                </div>
-
-                <!-- 店铺列表 -->
-                <div>
-                    <h3 style="color: #333; margin-bottom: 20px;">📋 我的店铺列表</h3>
-                    <div id="shop-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
-                        <!-- 动态加载店铺卡片 -->
+                <form id="shop-form">
+                    <div class="form-group">
+                        <label>店铺名称</label>
+                        <input type="text" name="shop_name" id="shop_name" placeholder="输入你的拼多多店铺名称" required>
                     </div>
-                    <div id="shop-empty" style="display: none; text-align: center; padding: 60px 20px; color: #999;">
-                        <div style="font-size: 3em; margin-bottom: 15px;">🏪</div>
-                        <div style="font-size: 1.2em; margin-bottom: 10px;">还没有添加店铺</div>
-                        <div>快来添加你的第一个店铺吧！</div>
+                    <div class="form-group">
+                        <label>主营品类</label>
+                        <select name="category" id="shop_category">
+                            <option value="">请选择</option>
+                            <option value="美妆">美妆个护</option>
+                            <option value="服饰">服饰鞋包</option>
+                            <option value="食品">食品零食</option>
+                            <option value="家居">家居日用</option>
+                            <option value="数码">数码配件</option>
+                            <option value="母婴">母婴用品</option>
+                        </select>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label>月营收区间</label>
+                        <select name="monthly_revenue" id="shop_revenue">
+                            <option value="">请选择</option>
+                            <option value="1万以下">1万以下</option>
+                            <option value="1-5万">1-5万</option>
+                            <option value="5-10万">5-10万</option>
+                            <option value="10-50万">10-50万</option>
+                            <option value="50万以上">50万以上</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>月推广费区间</label>
+                        <select name="monthly_ad_spend" id="shop_ad_spend">
+                            <option value="">请选择</option>
+                            <option value="1000以下">1000以下</option>
+                            <option value="1000-5000">1000-5000</option>
+                            <option value="5000-1万">5000-1万</option>
+                            <option value="1-5万">1-5万</option>
+                            <option value="5万以上">5万以上</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>备注</label>
+                        <textarea name="notes" id="shop_notes" placeholder="其他需要说明的信息，比如主营商品、经营时间等" style="min-height: 80px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">💾 保存店铺信息</button>
+                </form>
+                <div id="shop-result" class="result-box"></div>
             </div>
 
             <div id="plans-section" class="section">
@@ -1923,9 +1791,6 @@
                         ⚠️ 风险预警
                     </button>
                 </div>
-                    <button onclick="switchSmartTab(market-insights)" class="smart-tab-btn" data-tab="market-insights" style="flex: 1; min-width: 200px; padding: 15px 25px; border: 2px solid #E84D1A; background: white; color: #E84D1A; border-radius: 12px; font-size: 1.1em; cursor: pointer; transition: all 0.3s; font-weight: bold;">
-                        📊 市场洞察
-                    </button>
 
                 <!-- 子标签内容区域 -->
                 <div class="smart-tabs-container">
@@ -2016,91 +1881,6 @@
                         <div id="high-risk-list"><div style="text-align: center; padding: 20px; color: #999;">暂无高风险项</div>
                 </div><!-- .smart-tabs-container -->
 
-            <!-- 市场洞察标签页 -->
-            <div id="smart-market-insights-tab" class="smart-tab-content">
-                <h2 style="margin-bottom: 15px; color: #333;">📊 市场洞察</h2>
-                <p style="color: #666; margin-bottom: 25px;">AI 驱动的市场数据分析与竞品监控</p>
-                
-                <!-- 类目选择 -->
-                <div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 25px;">
-                    <label style="font-weight: bold; margin-right: 15px;">选择类目：</label>
-                    <select id="market-category-select" onchange="loadMarketData()" style="padding: 10px 20px; border: 2px solid #E84D1A; border-radius: 8px; font-size: 1em; cursor: pointer;">
-                        <option value="数码配件">数码配件</option>
-                        <option value="服装">服装</option>
-                        <option value="食品">食品</option>
-                        <option value="家居">家居</option>
-                        <option value="美妆">美妆</option>
-                    </select>
-                    <button onclick="loadMarketData()" style="margin-left: 15px; padding: 10px 20px; background: #E84D1A; color: white; border: none; border-radius: 8px; cursor: pointer;">🔄 刷新数据</button>
-                </div>
-
-                <!-- 市场洞察报告 -->
-                <div style="background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 25px;">
-                    <h3 style="color: #E84D1A; margin-bottom: 20px;">📋 市场洞察报告</h3>
-                    <div id="market-insights-summary" style="padding: 20px; background: #f8f9fa; border-radius: 8px; margin-bottom: 20px;">
-                        <div style="text-align: center; color: #999;">加载中...</div>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                        <!-- 市场规模 -->
-                        <div style="padding: 20px; background: #E8F5E9; border-radius: 8px;">
-                            <h4 style="color: #2E7D32; margin-bottom: 15px;">📊 市场规模</h4>
-                            <div id="market-size-data">加载中...</div>
-                        </div>
-                        
-                        <!-- 竞争格局 -->
-                        <div style="padding: 20px; background: #FFF3E0; border-radius: 8px;">
-                            <h4 style="color: #E65100; margin-bottom: 15px;">⚔️ 竞争格局</h4>
-                            <div id="competition-data">加载中...</div>
-                        </div>
-                        
-                        <!-- 机会点 -->
-                        <div style="padding: 20px; background: #E3F2FD; border-radius: 8px;">
-                            <h4 style="color: #1565C0; margin-bottom: 15px;">💡 机会点</h4>
-                            <div id="opportunities-data">加载中...</div>
-                        </div>
-                        
-                        <!-- 风险点 -->
-                        <div style="padding: 20px; background: #FFEBEE; border-radius: 8px;">
-                            <h4 style="color: #C62828; margin-bottom: 15px;">⚠️ 风险点</h4>
-                            <div id="risks-data">加载中...</div>
-                        </div>
-                    </div>
-                    
-                    <!-- AI建议 -->
-                    <div style="margin-top: 20px; padding: 20px; background: #F3E5F5; border-radius: 8px;">
-                        <h4 style="color: #6A1B9A; margin-bottom: 15px;">🎯 AI建议</h4>
-                        <div id="recommendations-data">加载中...</div>
-                    </div>
-                </div>
-
-                <!-- 类目趋势图表 -->
-                <div style="background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 25px;">
-                    <h3 style="color: #E84D1A; margin-bottom: 20px;">📈 类目趋势（近30天）</h3>
-                    <canvas id="category-trend-chart" style="max-height: 400px;"></canvas>
-                </div>
-
-                <!-- 竞品价格对比 -->
-                <div style="background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 25px;">
-                    <h3 style="color: #E84D1A; margin-bottom: 20px;">💰 竞品价格对比</h3>
-                    <div style="margin-bottom: 15px;">
-                        <input type="text" id="competitor-product-input" placeholder="输入商品名称，如：手机壳" style="padding: 10px; border: 2px solid #ddd; border-radius: 8px; width: 300px; margin-right: 10px;">
-                        <button onclick="loadCompetitorPrices()" style="padding: 10px 20px; background: #E84D1A; color: white; border: none; border-radius: 8px; cursor: pointer;">🔍 查询</button>
-                    </div>
-                    <div id="competitor-prices-table">
-                        <div style="text-align: center; padding: 40px; color: #999;">请输入商品名称查询竞品价格</div>
-                    </div>
-                </div>
-
-                <!-- 热门关键词 -->
-                <div style="background: white; border-radius: 12px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                    <h3 style="color: #E84D1A; margin-bottom: 20px;">🔑 热门关键词</h3>
-                    <div id="hot-keywords-list">
-                        <div style="text-align: center; padding: 40px; color: #999;">加载中...</div>
-                    </div>
-                </div>
-            </div>
-
             <!-- 每日报告标签页 -->
             <div id="smart-daily-report-tab" class="smart-tab-content">
                 <h2 style="margin-bottom: 15px; color: #333;">📊 每日智能报告</h2>
@@ -2148,12 +1928,7 @@
                     <div id="report-history">
                         <div style="text-align: center; padding: 20px; color: #999;">加载中...</div>
                     </div>
-                
-            <!-- 自动化引擎 -->
-            <div id="automation-section" class="section">
-                <iframe src="/static/automation.html" style="width: 100%; height: calc(100vh - 200px); border: none; border-radius: 12px;"></iframe>
-            </div>
-</div>
+                </div>
             </div>
 
 <script>
@@ -3423,7 +3198,12 @@ async function regenerateReport() {
         loadShopInfo();
 
         // 店铺信息
-        );
+        async function loadShopInfo() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/shop', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
                 if (response.ok) {
                     const result = await response.json();
                     if (result.success && result.shop) {
@@ -3520,7 +3300,7 @@ async function generateReport(historyId) {
         alert('生成报告失败，请稍后重试');
     }
 }
-// 店铺信息表单提交        document.getElementById("shop-form").addEventListener("submit", async (e) => {            e.preventDefault();            const token = localStorage.getItem("token");            const formData = new FormData(e.target);            const data = Object.fromEntries(formData);                        try {                const response = await fetch("/api/shop", {                    method: "POST",                    headers: {                        "Content-Type": "application/json",                        "Authorization": `Bearer ${token}`                    },                    body: JSON.stringify(data)                });                                const result = await response.json();                                if (result.success) {                    document.getElementById("shop-result").innerHTML = `                        <div style="background: #E8F5E9; border: 1px solid #4CAF50; border-radius: 8px; padding: 15px; color: #2E7D32;">                            ✅ ${result.message}                        </div>                    `;                    setTimeout(() => {                        document.getElementById("shop-result").innerHTML = "";                    }, 3000);                } else {                    document.getElementById("shop-result").innerHTML = `                        <div style="background: #FFEBEE; border: 1px solid #F44336; border-radius: 8px; padding: 15px; color: #C62828;">                            ❌ 保存失败，请重试                        </div>                    `;                }            } catch (error) {                console.error("保存店铺信息失败:", error);                document.getElementById("shop-result").innerHTML = `                    <div style="background: #FFEBEE; border: 1px solid #F44336; border-radius: 8px; padding: 15px; color: #C62828;">                        ❌ 保存失败，请重试                    </div>                `;            }        });        // 加载店铺信息                        });                                const result = await response.json();                                if (result.success && result.shop) {                    const shop = result.shop;                    document.getElementById("shop_name").value = shop.shop_name || "";                    document.getElementById("shop_category").value = shop.category || "";                    document.getElementById("shop_revenue").value = shop.monthly_revenue || "";                    document.getElementById("shop_ad_spend").value = shop.monthly_ad_spend || "";                    document.getElementById("shop_notes").value = shop.notes || "";                }            } catch (error) {                console.error("加载店铺信息失败:", error);            }        }
+// 店铺信息表单提交        document.getElementById("shop-form").addEventListener("submit", async (e) => {            e.preventDefault();            const token = localStorage.getItem("token");            const formData = new FormData(e.target);            const data = Object.fromEntries(formData);                        try {                const response = await fetch("/api/shop", {                    method: "POST",                    headers: {                        "Content-Type": "application/json",                        "Authorization": `Bearer ${token}`                    },                    body: JSON.stringify(data)                });                                const result = await response.json();                                if (result.success) {                    document.getElementById("shop-result").innerHTML = `                        <div style="background: #E8F5E9; border: 1px solid #4CAF50; border-radius: 8px; padding: 15px; color: #2E7D32;">                            ✅ ${result.message}                        </div>                    `;                    setTimeout(() => {                        document.getElementById("shop-result").innerHTML = "";                    }, 3000);                } else {                    document.getElementById("shop-result").innerHTML = `                        <div style="background: #FFEBEE; border: 1px solid #F44336; border-radius: 8px; padding: 15px; color: #C62828;">                            ❌ 保存失败，请重试                        </div>                    `;                }            } catch (error) {                console.error("保存店铺信息失败:", error);                document.getElementById("shop-result").innerHTML = `                    <div style="background: #FFEBEE; border: 1px solid #F44336; border-radius: 8px; padding: 15px; color: #C62828;">                        ❌ 保存失败，请重试                    </div>                `;            }        });        // 加载店铺信息        async function loadShopInfo() {            const token = localStorage.getItem("token");                        try {                const response = await fetch("/api/shop", {                    headers: { "Authorization": `Bearer ${token}` }                });                                const result = await response.json();                                if (result.success && result.shop) {                    const shop = result.shop;                    document.getElementById("shop_name").value = shop.shop_name || "";                    document.getElementById("shop_category").value = shop.category || "";                    document.getElementById("shop_revenue").value = shop.monthly_revenue || "";                    document.getElementById("shop_ad_spend").value = shop.monthly_ad_spend || "";                    document.getElementById("shop_notes").value = shop.notes || "";                }            } catch (error) {                console.error("加载店铺信息失败:", error);            }        }
     
         // ==================== 竞品跟踪功能 ====================
         
@@ -4490,467 +4270,6 @@ document.addEventListener("click", function(event) {
         }
     }
 });
-
-        // ==================== 店铺管理功能 ====================
-        
-        // 加载店铺信息
-        async function loadShopInfo() {
-            const token = localStorage.getItem('token');
-            if (!token) return;
-            
-            try {
-                const response = await fetch('/api/shop', {
-                    headers: { 'Authorization': 'Bearer ' + token }
-                });
-                
-                const result = await response.json();
-                
-                if (result.success && result.shop) {
-                    displayShopData(result.shop);
-                } else {
-                    showEmptyShop();
-                }
-            } catch (error) {
-                console.error('加载店铺信息失败:', error);
-                showEmptyShop();
-            }
-        }
-        
-        // 显示店铺数据
-        function displayShopData(shop) {
-            document.getElementById('shop-total-count').textContent = '1';
-            document.getElementById('shop-total-sales').textContent = shop.monthly_revenue ? '¥' + shop.monthly_revenue : '¥0';
-            document.getElementById('shop-main-category').textContent = shop.category || '-';
-            
-            const shopList = document.getElementById('shop-list');
-            const notesHtml = shop.notes ? '<div style="margin-top: 15px; padding: 10px; background: #f5f5f5; border-radius: 6px; color: #666; font-size: 0.9em;">📝 ' + shop.notes + '</div>' : '';
-            
-            shopList.innerHTML = '<div style="background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 4px solid #E84D1A;">' +
-                '<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">' +
-                '<div><h3 style="color: #E84D1A; margin-bottom: 5px;">' + shop.shop_name + '</h3>' +
-                '<div style="color: #999; font-size: 0.9em;">平台：拼多多</div></div>' +
-                '<div style="display: flex; gap: 10px;">' +
-                '<button onclick="editShop(' + shop.id + ')" style="padding: 5px 12px; background: #E84D1A; color: white; border: none; border-radius: 6px; cursor: pointer;">✏️ 编辑</button>' +
-                '<button onclick="deleteShop(' + shop.id + ')" style="padding: 5px 12px; background: #FF4D4F; color: white; border: none; border-radius: 6px; cursor: pointer;">🗑️ 删除</button>' +
-                '</div></div>' +
-                '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-top: 15px; border-top: 1px solid #f0f0f0;">' +
-                '<div><div style="color: #999; font-size: 0.85em;">主营类目</div><div style="color: #333; font-weight: bold;">' + (shop.category || '-') + '</div></div>' +
-                '<div><div style="color: #999; font-size: 0.85em;">月销售额</div><div style="color: #52C41A; font-weight: bold;">¥' + (shop.monthly_revenue || '0') + '</div></div>' +
-                '<div><div style="color: #999; font-size: 0.85em;">商品数量</div><div style="color: #333; font-weight: bold;">' + (shop.product_count || '-') + '</div></div>' +
-                '<div><div style="color: #999; font-size: 0.85em;">更新时间</div><div style="color: #999; font-size: 0.85em;">' + new Date(shop.updated_at).toLocaleDateString() + '</div></div>' +
-                '</div>' + notesHtml + '</div>';
-            
-            document.getElementById('shop-empty').style.display = 'none';
-        }
-        
-        function showEmptyShop() {
-            document.getElementById('shop-total-count').textContent = '0';
-            document.getElementById('shop-total-sales').textContent = '¥0';
-            document.getElementById('shop-main-category').textContent = '-';
-            document.getElementById('shop-list').innerHTML = '';
-            document.getElementById('shop-empty').style.display = 'block';
-        }
-        
-        let editingShopId = null;
-        
-        function editShop(shopId) {
-            editingShopId = shopId;
-            const token = localStorage.getItem('token');
-            
-            fetch('/api/shop', {
-                headers: { 'Authorization': 'Bearer ' + token }
-            })
-            .then(res => res.json())
-            .then(result => {
-                if (result.success && result.shop) {
-                    const shop = result.shop;
-                    const form = document.getElementById('shop-form');
-                    form.shop_name.value = shop.shop_name || '';
-                    form.category.value = shop.category || '';
-                    form.monthly_sales.value = shop.monthly_revenue || '';
-                    form.product_count.value = shop.product_count || '';
-                    form.notes.value = shop.notes || '';
-                    
-                    form.querySelector('button[type="submit"]').textContent = '💾 更新店铺';
-                    form.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        }
-        
-        function deleteShop(shopId) {
-            if (!confirm('确定要删除这个店铺吗？')) return;
-            
-            const token = localStorage.getItem('token');
-            
-            fetch('/api/shop/' + shopId, {
-                method: 'DELETE',
-                headers: { 'Authorization': 'Bearer ' + token }
-            })
-            .then(res => res.json())
-            .then(result => {
-                if (result.success) {
-                    alert('✅ 删除成功');
-                    loadShopInfo();
-                } else {
-                    alert('❌ 删除失败');
-                }
-            })
-            .catch(error => {
-                console.error('删除失败:', error);
-                alert('❌ 删除失败');
-            });
-        }
-        
-        document.getElementById('shop-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const token = localStorage.getItem('token');
-            const formData = new FormData(e.target);
-            const data = {
-                shop_name: formData.get('shop_name'),
-                category: formData.get('category'),
-                monthly_revenue: formData.get('monthly_sales'),
-                product_count: formData.get('product_count') ? parseInt(formData.get('product_count')) : null,
-                notes: formData.get('notes')
-            };
-            
-            try {
-                let url = '/api/shop';
-                let method = 'POST';
-                
-                if (editingShopId) {
-                    url = '/api/shop/' + editingShopId;
-                    method = 'PUT';
-                }
-                
-                const response = await fetch(url, {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    body: JSON.stringify(data)
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    alert('✅ ' + result.message);
-                    e.target.reset();
-                    editingShopId = null;
-                    e.target.querySelector('button[type="submit"]').textContent = '💾 保存店铺';
-                    loadShopInfo();
-                } else {
-                    alert('❌ 保存失败，请重试');
-                }
-            } catch (error) {
-                console.error('保存店铺信息失败:', error);
-                alert('❌ 保存失败，请重试');
-            }
-        });
-
-
-// ==================== 市场洞察功能 ====================
-let categoryTrendChart = null;
-
-async function loadMarketData() {
-    const category = document.getElementById('market-category-select').value;
-    
-    // 加载市场洞察报告
-    await loadMarketInsights(category);
-    
-    // 加载类目趋势
-    await loadCategoryTrends(category);
-    
-    // 加载热门关键词
-    await loadHotKeywords(category);
-}
-
-async function loadMarketInsights(category) {
-    try {
-        const response = await fetch(`/api/market/insights?category=${encodeURIComponent(category)}`);
-        const result = await response.json();
-        
-        if (result.success && result.data) {
-            const data = result.data;
-            
-            // 显示摘要
-            document.getElementById('market-insights-summary').innerHTML = `
-                <div style="font-size: 1.1em; line-height: 1.8; color: #333;">
-                    <strong>${data.summary}</strong>
-                </div>
-                <div style="margin-top: 10px; color: #666; font-size: 0.9em;">
-                    生成时间：${data.generated_at}
-                </div>
-            `;
-            
-            // 市场规模
-            const marketSize = data.market_size;
-            document.getElementById('market-size-data').innerHTML = `
-                <div style="margin-bottom: 10px;"><strong>规模等级：</strong>${marketSize.size_level}</div>
-                <div style="margin-bottom: 10px;"><strong>日均销量：</strong>${marketSize.daily_avg.toLocaleString()}</div>
-                <div style="margin-bottom: 10px;"><strong>月度估算：</strong>${marketSize.monthly_estimate.toLocaleString()}</div>
-                <div style="margin-bottom: 10px;"><strong>趋势：</strong><span style="color: ${marketSize.trend === '上升' ? '#52C41A' : '#FF4D4F'};">${marketSize.trend}</span></div>
-            `;
-            
-            // 竞争格局
-            const competition = data.competition;
-            document.getElementById('competition-data').innerHTML = `
-                <div style="margin-bottom: 10px;"><strong>竞争等级：</strong>${competition.level}</div>
-                <div style="margin-bottom: 10px;"><strong>平均CPC：</strong>¥${competition.avg_cpc}</div>
-                <div style="margin-bottom: 10px;"><strong>高竞争词：</strong>${competition.high_competition_keywords}个</div>
-                <div style="margin-bottom: 10px;"><strong>低竞争词：</strong>${competition.low_competition_keywords}个</div>
-            `;
-            
-            // 机会点
-            let opportunitiesHtml = '';
-            if (data.opportunities.length > 0) {
-                data.opportunities.forEach(opp => {
-                    const priorityColor = opp.priority === '高' ? '#FF4D4F' : '#FFA940';
-                    opportunitiesHtml += `
-                        <div style="margin-bottom: 15px; padding: 10px; background: white; border-radius: 6px;">
-                            <div style="font-weight: bold; margin-bottom: 5px;">
-                                <span style="color: ${priorityColor};">[${opp.priority}]</span> ${opp.type}
-                            </div>
-                            <div style="color: #666; font-size: 0.9em; margin-bottom: 5px;">${opp.description}</div>
-                            <div style="color: #1890FF; font-size: 0.9em;">💡 ${opp.action}</div>
-                        </div>
-                    `;
-                });
-            } else {
-                opportunitiesHtml = '<div style="color: #999;">暂无明显机会点</div>';
-            }
-            document.getElementById('opportunities-data').innerHTML = opportunitiesHtml;
-            
-            // 风险点
-            let risksHtml = '';
-            if (data.risks.length > 0) {
-                data.risks.forEach(risk => {
-                    const levelColor = risk.level === '高' ? '#FF4D4F' : '#FFA940';
-                    risksHtml += `
-                        <div style="margin-bottom: 15px; padding: 10px; background: white; border-radius: 6px;">
-                            <div style="font-weight: bold; margin-bottom: 5px;">
-                                <span style="color: ${levelColor};">[${risk.level}]</span> ${risk.type}
-                            </div>
-                            <div style="color: #666; font-size: 0.9em; margin-bottom: 5px;">${risk.description}</div>
-                            <div style="color: #52C41A; font-size: 0.9em;">✅ ${risk.mitigation}</div>
-                        </div>
-                    `;
-                });
-            } else {
-                risksHtml = '<div style="color: #999;">暂无明显风险</div>';
-            }
-            document.getElementById('risks-data').innerHTML = risksHtml;
-            
-            // AI建议
-            let recommendationsHtml = '<ul style="margin: 0; padding-left: 20px;">';
-            data.recommendations.forEach(rec => {
-                recommendationsHtml += `<li style="margin-bottom: 10px; line-height: 1.6;">${rec}</li>`;
-            });
-            recommendationsHtml += '</ul>';
-            document.getElementById('recommendations-data').innerHTML = recommendationsHtml;
-            
-        } else {
-            console.error('加载市场洞察失败:', result.error);
-        }
-    } catch (error) {
-        console.error('加载市场洞察失败:', error);
-    }
-}
-
-async function loadCategoryTrends(category) {
-    try {
-        const response = await fetch(`/api/market/category-trends?category=${encodeURIComponent(category)}`);
-        const result = await response.json();
-        
-        if (result.success && result.data) {
-            const data = result.data;
-            const dailyData = data.daily_data;
-            
-            const ctx = document.getElementById('category-trend-chart');
-            if (!ctx) return;
-            
-            // 销毁旧图表
-            if (categoryTrendChart) {
-                categoryTrendChart.destroy();
-            }
-            
-            // 创建新图表
-            categoryTrendChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dailyData.map(d => d.date.substring(5)),
-                    datasets: [{
-                        label: '日销量',
-                        data: dailyData.map(d => d.sales),
-                        borderColor: '#E84D1A',
-                        backgroundColor: 'rgba(232, 77, 26, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toLocaleString();
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-    } catch (error) {
-        console.error('加载类目趋势失败:', error);
-    }
-}
-
-async function loadCompetitorPrices() {
-    const productInput = document.getElementById('competitor-product-input');
-    const product = productInput.value.trim();
-    
-    if (!product) {
-        alert('请输入商品名称');
-        return;
-    }
-    
-    try {
-        const response = await fetch(`/api/market/competitor-prices?product=${encodeURIComponent(product)}`);
-        const result = await response.json();
-        
-        if (result.success && result.data) {
-            const data = result.data;
-            
-            let tableHtml = `
-                <div style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                        <div>
-                            <div style="color: #666; font-size: 0.9em;">平均价格</div>
-                            <div style="font-size: 1.5em; font-weight: bold; color: #E84D1A;">¥${data.avg_price}</div>
-                        </div>
-                        <div>
-                            <div style="color: #666; font-size: 0.9em;">建议定价</div>
-                            <div style="font-size: 1.5em; font-weight: bold; color: #52C41A;">¥${data.price_suggestion}</div>
-                        </div>
-                        <div>
-                            <div style="color: #666; font-size: 0.9em;">竞品数量</div>
-                            <div style="font-size: 1.5em; font-weight: bold; color: #1890FF;">${data.competitors.length}</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <table style="width: 100%; border-collapse: collapse;">
-                    <thead>
-                        <tr style="background: #f8f9fa;">
-                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">店铺</th>
-                            <th style="padding: 12px; text-align: right; border-bottom: 2px solid #ddd;">价格</th>
-                            <th style="padding: 12px; text-align: right; border-bottom: 2px solid #ddd;">月销量</th>
-                            <th style="padding: 12px; text-align: center; border-bottom: 2px solid #ddd;">评分</th>
-                            <th style="padding: 12px; text-align: center; border-bottom: 2px solid #ddd;">优惠券</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-            
-            data.competitors.forEach((comp, index) => {
-                const bgColor = index % 2 === 0 ? 'white' : '#f8f9fa';
-                tableHtml += `
-                    <tr style="background: ${bgColor};">
-                        <td style="padding: 12px; border-bottom: 1px solid #eee;">${comp.shop_name}</td>
-                        <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee; font-weight: bold; color: #E84D1A;">¥${comp.price}</td>
-                        <td style="padding: 12px; text-align: right; border-bottom: 1px solid #eee;">${comp.monthly_sales.toLocaleString()}</td>
-                        <td style="padding: 12px; text-align: center; border-bottom: 1px solid #eee;">⭐${comp.rating}</td>
-                        <td style="padding: 12px; text-align: center; border-bottom: 1px solid #eee;">${comp.has_coupon ? '✅' : '❌'}</td>
-                    </tr>
-                `;
-            });
-            
-            tableHtml += '</tbody></table>';
-            
-            document.getElementById('competitor-prices-table').innerHTML = tableHtml;
-        } else {
-            document.getElementById('competitor-prices-table').innerHTML = `
-                <div style="text-align: center; padding: 40px; color: #FF4D4F;">
-                    查询失败：${result.error || '未知错误'}
-                </div>
-            `;
-        }
-    } catch (error) {
-        console.error('加载竞品价格失败:', error);
-        document.getElementById('competitor-prices-table').innerHTML = `
-            <div style="text-align: center; padding: 40px; color: #FF4D4F;">
-                查询失败：${error.message}
-            </div>
-        `;
-    }
-}
-
-async function loadHotKeywords(category) {
-    try {
-        const response = await fetch(`/api/market/hot-keywords?category=${encodeURIComponent(category)}`);
-        const result = await response.json();
-        
-        if (result.success && result.data) {
-            const keywords = result.data;
-            
-            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">';
-            
-            keywords.forEach((kw, index) => {
-                const trendIcon = kw.trend === '上升' ? '📈' : kw.trend === '下降' ? '📉' : '➡️';
-                const trendColor = kw.trend === '上升' ? '#52C41A' : kw.trend === '下降' ? '#FF4D4F' : '#999';
-                const compColor = kw.competition === '高' ? '#FF4D4F' : kw.competition === '中' ? '#FFA940' : '#52C41A';
-                
-                html += `
-                    <div style="padding: 15px; background: white; border: 2px solid #f0f0f0; border-radius: 8px; transition: all 0.3s;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <div style="font-weight: bold; font-size: 1.1em; color: #333;">${index + 1}. ${kw.keyword}</div>
-                            <div style="color: ${trendColor};">${trendIcon}</div>
-                        </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.9em;">
-                            <div>
-                                <div style="color: #999;">搜索量</div>
-                                <div style="font-weight: bold; color: #1890FF;">${kw.search_volume.toLocaleString()}</div>
-                            </div>
-                            <div>
-                                <div style="color: #999;">竞争度</div>
-                                <div style="font-weight: bold; color: ${compColor};">${kw.competition}</div>
-                            </div>
-                            <div>
-                                <div style="color: #999;">平均CPC</div>
-                                <div style="font-weight: bold; color: #E84D1A;">¥${kw.avg_cpc}</div>
-                            </div>
-                            <div>
-                                <div style="color: #999;">趋势</div>
-                                <div style="font-weight: bold; color: ${trendColor};">${kw.trend}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            html += '</div>';
-            
-            document.getElementById('hot-keywords-list').innerHTML = html;
-        }
-    } catch (error) {
-        console.error('加载热门关键词失败:', error);
-    }
-}
 </script>
 </body>
 </html>
