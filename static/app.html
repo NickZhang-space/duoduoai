@@ -1561,7 +1561,7 @@
                         ⚠️ 风险预警
                     </button>
                 </div>
-                    <button onclick="switchSmartTab(market-insights)" class="smart-tab-btn" data-tab="market-insights" style="flex: 1; min-width: 200px; padding: 15px 25px; border: 2px solid #E84D1A; background: white; color: #E84D1A; border-radius: 12px; font-size: 1.1em; cursor: pointer; transition: all 0.3s; font-weight: bold;">
+                    <button onclick="switchSmartTab('market-insights')" class="smart-tab-btn" data-tab="market-insights" style="flex: 1; min-width: 200px; padding: 15px 25px; border: 2px solid #E84D1A; background: white; color: #E84D1A; border-radius: 12px; font-size: 1.1em; cursor: pointer; transition: all 0.3s; font-weight: bold;">
                         📊 市场洞察
                     </button>
 
@@ -2246,6 +2246,11 @@ async function regenerateReport() {
             // 如果切换到店铺信息，加载店铺数据
             if (tab === 'shop') {
                 loadShopInfo();
+            }
+
+            // 如果切换到AB测试，加载实验列表
+            if (tab === 'ab-test') {
+                if (typeof loadExperiments === 'function') loadExperiments();
             }
         }
 
@@ -3902,7 +3907,9 @@ async function generateReport(historyId) {
                 'recommendations': 'smart-recommendations-tab',
                 'predictions': 'smart-predictions-tab',
                 'qa': 'smart-qa-tab',
-                'risks': 'smart-risks-tab'
+                'risks': 'smart-risks-tab',
+                'daily-report': 'smart-daily-report-tab',
+                'market-insights': 'smart-market-insights-tab'
             };
             
             const targetTab = document.getElementById(tabMap[tabName]);
@@ -3917,6 +3924,14 @@ async function generateReport(historyId) {
                 activeBtn.style.background = '#E84D1A';
                 activeBtn.style.color = 'white';
                 activeBtn.classList.add('active');
+            }
+
+            // 加载对应标签的数据
+            if (tabName === 'market-insights') {
+                if (typeof loadMarketData === 'function') loadMarketData();
+            }
+            if (tabName === 'daily-report') {
+                if (typeof loadDailyReport === 'function') loadDailyReport();
             }
         }
 
