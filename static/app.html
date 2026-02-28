@@ -208,6 +208,13 @@
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .tabs::-webkit-scrollbar {
+            display: none;
         }
 
         .tab {
@@ -1200,6 +1207,23 @@
             margin-top: 15px;
             color: #999;
             font-size: 0.9em;
+        }
+    
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 100vh !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                max-height: 100vh !important;
+            }
+        }
+    
+        @media (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important; /* 防止 iOS 自动缩放 */
+            }
         }
     </style>
     <script src="/static/js/notifications.js"></script>
