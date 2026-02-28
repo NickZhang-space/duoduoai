@@ -2321,3 +2321,86 @@ if __name__ == "__main__":
     init_sample_notifications()
     port = int(os.getenv("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
+
+# ==================== 爬虫数据 API ====================
+
+@app.get("/api/market/real-data")
+async def get_real_market_data(category: str):
+    """
+    获取爬虫采集的真实类目数据
+    """
+    try:
+        from crawler.db import CrawlerDB
+        
+        db = CrawlerDB()
+        trends = db.get_category_trends(category, days=7)
+        
+        if not trends:
+            return {
+                "success": False,
+                "error": "暂无该类目的爬虫数据"
+            }
+        
+        # 统计分析
+        prices = [t['price'] for t in trends if t['price']]
+        sales = [t['sales_count'] for t in trends if t['sales_count']]
+        
+        return {
+            "success": True,
+            "data": {
+                "category": category,
+                "total_products": len(trends),
+                "avg_price": sum(prices) / len(prices) if prices else 0,
+                "avg_sales": sum(sales) / len(sales) if sales else 0,
+                "products": trends[:20],  # 返回前20个
+                "last_update": trends[0]['crawl_date'] if trends else None
+            }
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.get("/api/competitor/real-snapshots")
+async def get_real_competitor_snapshots(goods_id: str):
+    """
+    获取真实竞品快照历史
+    """
+    try:
+        from crawler.db import CrawlerDB
+        
+        db = CrawlerDB()
+        snapshots = db.get_competitor_snapshots(goods_id, days=30)
+        
+        if not snapshots:
+            return {
+                "success": False,
+                "error": "暂无该商品的爬虫数据"
+            }
+        
+        # 计算价格趋势
+        price_trend = []
+        for snap in snapshots:
+            price_trend.append({
+                "date": snap['snapshot_date'],
+                "price": snap['price'],
+                "sales": snap['sales_count']
+            })
+        
+        return {
+            "success": True,
+            "data": {
+                "goods_id": goods_id,
+                "product_name": snapshots[0]['product_name'] if snapshots else None,
+                "current_price": snapshots[0]['price'] if snapshots else None,
+                "snapshots": snapshots,
+                "price_trend": price_trend,
+                "total_snapshots": len(snapshots)
+            }
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e)
+        }
