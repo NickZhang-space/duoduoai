@@ -151,6 +151,11 @@ async def predict_sales_trend(request: Request):
     
     请求体示例:
     {
+        "product_name": "手机壳",
+        "history_data": [100, 120, 110, 130, 125]
+    }
+    或
+    {
         "product_history": [
             {
                 "date": "2026-02-21",
@@ -162,27 +167,57 @@ async def predict_sales_trend(request: Request):
                 "sales": 110,
                 "price": 99.9
             }
-            // ... 更多历史数据
         ]
     }
     """
     try:
         data = await request.json()
-        product_history = data.get("product_history", [])
+        
+        # 支持两种格式：简单数组格式和完整对象格式
+        if "history_data" in data:
+            # 简单格式：只有销量数组
+            history_data = data.get("history_data", [])
+            product_name = data.get("product_name", "未知产品")
+            
+            if not history_data or not isinstance(history_data, list):
+                raise HTTPException(status_code=400, detail="history_data 必须是数字列表")
+            
+            # 转换为标准格式
+            from datetime import datetime, timedelta
+            product_history = []
+            base_date = datetime.now() - timedelta(days=len(history_data))
+            for i, sales in enumerate(history_data):
+                product_history.append({
+                    "date": (base_date + timedelta(days=i)).strftime("%Y-%m-%d"),
+                    "sales": sales,
+                    "price": 0
+                })
+        else:
+            # 完整格式
+            product_history = data.get("product_history", [])
+            product_name = data.get("product_name", "未知产品")
         
         if not product_history:
             raise HTTPException(status_code=400, detail="缺少产品历史数据")
+        
+        if not isinstance(product_history, list):
+            raise HTTPException(status_code=400, detail="product_history 必须是列表类型")
         
         # 进行趋势预测
         prediction = trend_predictor.predict_sales_trend(product_history)
         
         return {
             "success": True,
+            "product_name": product_name,
             "prediction": prediction,
             "data_points": len(product_history),
             "generated_at": datetime.utcnow().isoformat()
         }
         
+    except HTTPException:
+        raise
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=f"参数错误: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"服务器错误: {str(e)}")
 

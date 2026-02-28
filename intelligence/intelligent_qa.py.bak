@@ -402,45 +402,32 @@ class IntelligentQA:
         return prompt
     
     async def _call_deepseek(self, prompt: str) -> str:
-        """调用DeepSeek API（带超时控制）"""
+        """调用DeepSeek API"""
         if not self.api_key:
             # 如果没有API密钥，使用模拟回答
             return self._generate_mock_answer(prompt)
         
         try:
             import openai
-            import asyncio
             
             # 配置OpenAI客户端（DeepSeek兼容OpenAI API）
             client = openai.OpenAI(
                 api_key=self.api_key,
-                base_url="https://api.deepseek.com",
-                timeout=10.0  # 10秒超时
+                base_url="https://api.deepseek.com"
             )
             
-            # 使用asyncio.wait_for添加额外的超时保护
-            async def call_api():
-                loop = asyncio.get_event_loop()
-                return await loop.run_in_executor(
-                    None,
-                    lambda: client.chat.completions.create(
-                        model="deepseek-chat",
-                        messages=[
-                            {"role": "system", "content": "你是拼多多运营专家，专门帮助商家优化店铺运营。"},
-                            {"role": "user", "content": prompt}
-                        ],
-                        temperature=0.7,
-                        max_tokens=1000
-                    )
-                )
+            response = client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": "你是拼多多运营专家，专门帮助商家优化店铺运营。"},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.7,
+                max_tokens=1000
+            )
             
-            # 10秒超时
-            response = await asyncio.wait_for(call_api(), timeout=10.0)
             return response.choices[0].message.content
             
-        except asyncio.TimeoutError:
-            self.logger.warning("DeepSeek API调用超时，使用fallback回答")
-            return self._generate_mock_answer(prompt)
         except Exception as e:
             self.logger.error(f"调用DeepSeek API失败: {e}")
             return self._generate_mock_answer(prompt)

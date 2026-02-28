@@ -38,10 +38,6 @@ class SimpleTrendPredictor:
         Returns:
             Dict: 预测结果
         """
-        # 参数验证
-        if not isinstance(product_history, list):
-            raise ValueError("product_history 必须是列表类型")
-        
         if not product_history or len(product_history) < 7:
             return self._get_default_prediction(product_history)
         
