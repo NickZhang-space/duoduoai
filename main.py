@@ -1208,6 +1208,56 @@ async def delete_shop(
         raise HTTPException(status_code=500, detail="删除失败")
 
 
+@app.put("/api/shop/{shop_id}")
+async def update_shop(
+    shop_id: int,
+    request: ShopRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    try:
+        shop = db.query(Shop).filter(
+            Shop.id == shop_id,
+            Shop.user_id == current_user.id
+        ).first()
+        
+        if not shop:
+            raise HTTPException(status_code=404, detail="店铺不存在")
+        
+        # 更新店铺信息
+        shop.shop_name = request.shop_name
+        shop.category = request.category
+        shop.monthly_revenue = request.monthly_revenue
+        shop.monthly_ad_spend = request.monthly_ad_spend
+        shop.main_products = request.main_products
+        shop.notes = request.notes
+        shop.updated_at = datetime.utcnow()
+        
+        db.commit()
+        db.refresh(shop)
+        
+        return {
+            "success": True,
+            "message": "店铺信息更新成功",
+            "shop": {
+                "id": shop.id,
+                "shop_name": shop.shop_name,
+                "category": shop.category,
+                "monthly_revenue": shop.monthly_revenue,
+                "monthly_ad_spend": shop.monthly_ad_spend,
+                "main_products": shop.main_products,
+                "notes": shop.notes,
+                "created_at": shop.created_at.isoformat(),
+                "updated_at": shop.updated_at.isoformat()
+            }
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"更新店铺失败: {str(e)}")
+        raise HTTPException(status_code=500, detail="更新失败")
+
+
 
 # ==================== 竞品跟踪 API ====================
 
