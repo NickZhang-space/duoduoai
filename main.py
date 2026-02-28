@@ -1981,6 +1981,124 @@ async def pause_automation(request: dict):
         }
 
 
+
+# ==================== 通知系统 API ====================
+# 内存存储通知数据
+notifications_store = []
+notification_id_counter = 1
+
+@app.get("/api/notifications")
+async def get_notifications(user_id: str = "1", limit: int = 50):
+    """获取通知列表"""
+    try:
+        user_notifications = [n for n in notifications_store if n.get("user_id") == user_id]
+        user_notifications.sort(key=lambda x: x.get("created_at", ""), reverse=True)
+        return {
+            "success": True,
+            "data": user_notifications[:limit]
+        }
+    except Exception as e:
+        logger.error(f"获取通知失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/notifications/read")
+async def mark_notification_read(request: dict):
+    """标记通知已读"""
+    try:
+        notification_id = request.get("notification_id")
+        if not notification_id:
+            return {"success": False, "error": "缺少notification_id"}
+        
+        for notif in notifications_store:
+            if notif.get("id") == notification_id:
+                notif["read"] = True
+                break
+        
+        return {
+            "success": True,
+            "message": "已标记为已读"
+        }
+    except Exception as e:
+        logger.error(f"标记已读失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.get("/api/notifications/unread-count")
+async def get_unread_count(user_id: str = "1"):
+    """获取未读通知数量"""
+    try:
+        unread = [n for n in notifications_store if n.get("user_id") == user_id and not n.get("read", False)]
+        return {
+            "success": True,
+            "data": {
+                "count": len(unread)
+            }
+        }
+    except Exception as e:
+        logger.error(f"获取未读数量失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+def init_sample_notifications():
+    """初始化一些示例通知"""
+    global notification_id_counter, notifications_store
+    from datetime import datetime, timedelta
+    
+    sample_notifications = [
+        {
+            "id": notification_id_counter,
+            "user_id": "1",
+            "type": "analysis_complete",
+            "title": "分析完成",
+            "message": "您的产品分析报告已生成",
+            "icon": "📊",
+            "read": False,
+            "created_at": (datetime.now() - timedelta(hours=2)).isoformat()
+        },
+        {
+            "id": notification_id_counter + 1,
+            "user_id": "1",
+            "type": "risk_warning",
+            "title": "风险预警",
+            "message": "广告点击率下降15%，建议优化创意",
+            "icon": "⚠️",
+            "read": False,
+            "created_at": (datetime.now() - timedelta(hours=5)).isoformat()
+        },
+        {
+            "id": notification_id_counter + 2,
+            "user_id": "1",
+            "type": "price_change",
+            "title": "价格变动",
+            "message": "竞品降价提醒：手机壳降价至¥19.9",
+            "icon": "💰",
+            "read": True,
+            "created_at": (datetime.now() - timedelta(days=1)).isoformat()
+        },
+        {
+            "id": notification_id_counter + 3,
+            "user_id": "1",
+            "type": "system_message",
+            "title": "系统消息",
+            "message": "每日智能报告已生成，点击查看",
+            "icon": "🔔",
+            "read": False,
+            "created_at": datetime.now().isoformat()
+        }
+    ]
+    
+    notifications_store.extend(sample_notifications)
+    notification_id_counter += len(sample_notifications)
+
+
 if __name__ == "__main__":
+    init_sample_notifications()
     port = int(os.getenv("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
