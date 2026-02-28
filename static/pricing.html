@@ -254,7 +254,7 @@
     <div class="container">
         <div class="header">
             <h1>💰 定价计算器</h1>
-            <a href="/static/app.html" class="btn-back">返回控制台</a>
+            <a href="/static/app.html" class="btn-back" target="_top">返回控制台</a>
         </div>
 
         <div class="content">
@@ -468,6 +468,13 @@
                 resultDiv.innerHTML = `<p style="color: red;">对比失败：${error.message}</p>`;
             }
         });
+    </script>
+
+    <script>
+    // 如果在iframe里，隐藏返回按钮
+    if (window.self !== window.top) {
+        document.querySelectorAll('.btn-back, .back-btn').forEach(el => el.style.display = 'none');
+    }
     </script>
 </body>
 </html>

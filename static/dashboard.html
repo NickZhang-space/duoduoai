@@ -168,7 +168,7 @@
     <div class="container">
         <div class="header">
             <h1>📊 数据仪表盘</h1>
-            <a href="/static/app.html" class="back-btn">← 返回主页</a>
+            <a href="/static/app.html" class="back-btn" target="_top">← 返回主页</a>
         </div>
 
         <div class="dashboard-grid">
@@ -408,6 +408,13 @@
                 }
             });
         }
+    </script>
+
+    <script>
+    // 如果在iframe里，隐藏返回按钮
+    if (window.self !== window.top) {
+        document.querySelectorAll('.btn-back, .back-btn').forEach(el => el.style.display = 'none');
+    }
     </script>
 </body>
 </html>
