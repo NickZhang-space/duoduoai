@@ -3061,21 +3061,6 @@ async function regenerateReport() {
         loadUserInfo();
         loadShopInfo();
 
-        // 店铺信息
-        );
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.success && result.shop) {
-                        document.getElementById('shop_name').value = result.shop.shop_name || '';
-                        document.getElementById('shop_category').value = result.shop.category || '';
-                        document.getElementById('shop_revenue').value = result.shop.monthly_revenue || '';
-                        document.getElementById('shop_ad_spend').value = result.shop.monthly_ad_spend || '';
-                        document.getElementById('shop_notes').value = result.shop.notes || '';
-                    }
-                }
-            } catch (e) { console.log('加载店铺信息失败'); }
-        }
-
         document.getElementById('shop-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = e.target.querySelector('button');
