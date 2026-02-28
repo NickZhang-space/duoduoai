@@ -1175,6 +1175,32 @@
             }
         }
 
+    
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .loading-spinner .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #E84D1A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        .loading-spinner p {
+            margin-top: 15px;
+            color: #999;
+            font-size: 0.9em;
+        }
     </style>
     <script src="/static/js/notifications.js"></script>
     <script src="/static/js/report.js"></script>
@@ -3553,7 +3579,7 @@ async function generateReport(historyId) {
 
             try {
                 document.getElementById('analysis-modal').style.display = 'flex';
-                document.getElementById('analysis-result').innerHTML = '<div style="text-align: center; padding: 40px;"><span class="loading"></span><br><br>AI 正在分析中，请稍候...</div>';
+                document.getElementById('analysis-result').innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>AI 正在分析中，请稍候...</p></div>';
 
                 const response = await fetch('/api/competitors/analyze', {
                     method: 'POST',
