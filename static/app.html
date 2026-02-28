@@ -16,7 +16,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: #f5f7fa;
+            background: #f6f9fc;
             min-height: 100vh;
         }
 
@@ -61,12 +61,15 @@
 
         /* 顶部导航 */
         .navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 20px rgba(0,0,0,0.06);
             padding: 0 30px;
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
         }
 
         .navbar-content {
@@ -137,8 +140,27 @@
             background: white;
             border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
             transition: all 0.3s;
+            border: 1px solid rgba(0,0,0,0.04);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #E84D1A, #FF6B35);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
         }
 
         .stat-card:hover {
@@ -216,8 +238,9 @@
             background: white;
             border-radius: 16px;
             padding: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
             min-height: 500px;
+            border: 1px solid rgba(0,0,0,0.04);
         }
 
         .section {
@@ -243,18 +266,19 @@
         }
 
         .dashboard-card {
-            background: linear-gradient(135deg, #fff 0%, #f8f9fc 100%);
-            border: 2px solid #e8ecf1;
-            border-radius: 12px;
-            padding: 20px;
+            background: linear-gradient(135deg, #fff 0%, #fafbfe 100%);
+            border: 1px solid #e8ecf1;
+            border-radius: 14px;
+            padding: 24px;
             text-align: center;
             transition: all 0.3s;
+            cursor: default;
         }
 
         .dashboard-card:hover {
             border-color: #E84D1A;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(232, 77, 26, 0.12);
         }
 
         .dashboard-label {
@@ -507,7 +531,8 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(232, 77, 26, 0.3);
+            box-shadow: 0 8px 25px rgba(232, 77, 26, 0.35);
+            filter: brightness(1.05);
         }
 
         .btn-primary:disabled {
@@ -1294,6 +1319,16 @@
             // 如果切换到数据概览，加载数据
             if (tab === 'dashboard') {
                 loadDashboard();
+            }
+
+            // 如果切换到竞品追踪，加载竞品数据
+            if (tab === 'competitor') {
+                loadCompetitors();
+            }
+
+            // 如果切换到店铺信息，加载店铺数据
+            if (tab === 'shop') {
+                loadShopInfo();
             }
         }
 

@@ -561,6 +561,49 @@ async def get_orders(
         logger.error(f"获取订单失败: {str(e)}")
         raise HTTPException(status_code=500, detail="获取订单失败")
 
+
+@app.post("/api/payment/manual-submit")
+async def manual_submit_payment(
+    request: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    try:
+        plan = request.get("plan", "")
+        duration = request.get("duration", "monthly")
+        payment_method = request.get("payment_method", "alipay")
+        
+        if plan not in PLANS or plan == "free":
+            raise HTTPException(status_code=400, detail="无效的套餐")
+        
+        plan_info = PLANS[plan]
+        if duration == "yearly":
+            amount = plan_info["price_yearly"]
+        else:
+            amount = plan_info["price_monthly"]
+        
+        order = Order(
+            user_id=current_user.id,
+            plan=plan,
+            duration=duration,
+            amount=amount,
+            payment_method=payment_method,
+            status="pending"
+        )
+        db.add(order)
+        db.commit()
+        db.refresh(order)
+        
+        return {
+            "success": True,
+            "message": "支付信息已提交，等待管理员审核",
+            "order_id": order.id
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="提交支付失败")
+
 # ==================== 竞品 & 导出 ====================
 
 @app.post("/api/competitor/analyze")
@@ -829,7 +872,22 @@ async def admin_get_orders(
                 "paid_at": o.paid_at.isoformat() if o.paid_at else None
             })
         
-        return {"success": True, "orders": result}
+        # 统计数据
+        from datetime import datetime, timedelta
+        today_start = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        pending_count = sum(1 for o in orders if o.status == "pending")
+        today_count = sum(1 for o in orders if o.created_at >= today_start)
+        today_revenue = sum(o.amount for o in orders if o.status == "approved" and o.paid_at and o.paid_at >= today_start)
+        user_count = db.query(User).count()
+        
+        stats = {
+            "pending": pending_count,
+            "today": today_count,
+            "revenue": today_revenue,
+            "users": user_count
+        }
+        
+        return {"success": True, "orders": result, "stats": stats}
     except Exception as e:
         logger.error(f"获取订单列表失败: {str(e)}")
         raise HTTPException(status_code=500, detail="获取失败")
@@ -1608,3 +1666,40 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
+
+# ==================== 手动支付提交 ====================
+
+@app.post("/api/payment/manual-submit")
+async def manual_payment_submit(
+    request: dict,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    try:
+        plan = request.get("plan")
+        duration = request.get("duration", "monthly")
+        payment_method = request.get("payment_method", "alipay")
+        amount = request.get("amount", 0)
+        transaction_id = request.get("transaction_id", "")
+        note = request.get("note", "")
+
+        if plan not in PLANS or plan == "free":
+            raise HTTPException(status_code=400, detail="无效的套餐")
+
+        order = Order(
+            user_id=current_user.id,
+            plan=plan,
+            duration=duration,
+            amount=float(amount),
+            status="paid"
+        )
+        db.add(order)
+        db.commit()
+        db.refresh(order)
+
+        return {"success": True, "message": "支付信息已提交，等待审核", "order_id": order.id}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"手动支付提交失败: {str(e)}")
+        raise HTTPException(status_code=500, detail="提交失败")
