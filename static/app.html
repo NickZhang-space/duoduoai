@@ -1316,6 +1316,32 @@
             </div>
             <!-- AI选品 -->
             <div id="product-section" class="section">
+                <!-- 欢迎横幅 -->
+                <div style="background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%); border-radius: 12px; padding: 25px 30px; margin-bottom: 30px; color: white; box-shadow: 0 4px 12px rgba(232, 77, 26, 0.2);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                        <div style="flex: 1; min-width: 250px;">
+                            <h2 style="margin: 0 0 8px 0; font-size: 1.5em;">👋 欢迎回来，<span id="welcome-username">用户</span>！</h2>
+                            <p style="margin: 0; opacity: 0.9; font-size: 0.9em;">
+                                <span id="welcome-plan">免费版</span> · 今日已分析 <strong id="welcome-count">0</strong> 次
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button onclick="switchTab('product')" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: all 0.3s;">
+                                🎯 AI选品
+                            </button>
+                            <button onclick="switchTab('ad')" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: all 0.3s;">
+                                📊 投流优化
+                            </button>
+                            <button onclick="switchTab('competitor')" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: all 0.3s;">
+                                🎯 竞品追踪
+                            </button>
+                            <button onclick="switchTab('smart-center')" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: all 0.3s;">
+                                ✨ AI中心
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
                 <h2 style="margin-bottom: 15px; color: #333;">🎯 AI选品助手</h2>
                 <p style="color: #666; margin-bottom: 25px; line-height: 1.8;">不知道卖什么？告诉 AI 你的预算和经验，帮你从拼多多热销数据里<strong>筛出高潜力品类</strong>，少走弯路。</p>
 
@@ -4619,7 +4645,39 @@ async function loadHotKeywords(category) {
         console.error('加载热门关键词失败:', error);
     }
 }
-</script>
+
+        // 加载欢迎横幅数据
+        async function loadWelcomeBanner() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return;
+                
+                // 获取用户信息
+                const userResponse = await fetch('/api/user/profile', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (userResponse.ok) {
+                    const userData = await userResponse.json();
+                    document.getElementById('welcome-username').textContent = userData.name || '用户';
+                    document.getElementById('welcome-plan').textContent = userData.plan || '免费版';
+                }
+                
+                // 获取今日分析次数
+                const statsResponse = await fetch('/api/dashboard-stats', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (statsResponse.ok) {
+                    const statsData = await statsResponse.json();
+                    document.getElementById('welcome-count').textContent = statsData.week_count || 0;
+                }
+            } catch (error) {
+                console.error('加载欢迎横幅失败:', error);
+            }
+        }
+    
+    </script>
 </div>
 </div>
 </body>
