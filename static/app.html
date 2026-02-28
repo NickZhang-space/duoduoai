@@ -1651,8 +1651,24 @@
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 25px;">
                     <div style="background: #FFF1F0; border: 2px solid #FF4D4F; border-radius: 12px; padding: 20px;">
                         <h3 style="color: #FF4D4F; margin-bottom: 15px;">🔴 高风险</h3>
-                        <div id="high-risk-list"><div style="text-align: center; padding: 20px; color: #999;">暂无高风险项</div>
-                </div><!-- .smart-tabs-container -->
+                        <div id="high-risk-list"><div style="text-align: center; padding: 20px; color: #999;">暂无高风险项</div></div>
+                    </div>
+                    <div style="background: #FFF7E6; border: 2px solid #FFA940; border-radius: 12px; padding: 20px;">
+                        <h3 style="color: #FFA940; margin-bottom: 15px;">🟡 中风险</h3>
+                        <div id="medium-risk-list"><div style="text-align: center; padding: 20px; color: #999;">暂无中风险项</div></div>
+                    </div>
+                    <div style="background: #F6FFED; border: 2px solid #52C41A; border-radius: 12px; padding: 20px;">
+                        <h3 style="color: #52C41A; margin-bottom: 15px;">🟢 低风险</h3>
+                        <div id="low-risk-list"><div style="text-align: center; padding: 20px; color: #999;">暂无低风险项</div></div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <button onclick="checkRisks()" class="btn-primary" style="flex: 1; padding: 15px;">🔍 立即检查</button>
+                    <button onclick="toggleAutoRefresh()" id="auto-refresh-btn" class="btn-secondary" style="padding: 15px 30px;">⏸️ 停止自动刷新</button>
+                </div>
+            </div><!-- /smart-risks-tab -->
+
+                <!-- .smart-tabs-container -->
 
             <!-- 市场洞察标签页 -->
             <div id="smart-market-insights-tab" class="smart-tab-content">
@@ -1787,6 +1803,8 @@
                         <div style="text-align: center; padding: 20px; color: #999;">加载中...</div>
                     </div>
                 
+        </div><!-- #smart-center-section -->
+
             <!-- 自动化引擎 -->
             <div id="automation-section" class="section">
                 <iframe src="/static/automation.html" style="width: 100%; height: calc(100vh - 200px); border: none; border-radius: 12px;"></iframe>
@@ -2190,26 +2208,7 @@ async function regenerateReport() {
 
 
 
-</div><!-- #smart-center-section -->
-</div>
-                    </div>
-                    <div style="background: #FFF7E6; border: 2px solid #FFA940; border-radius: 12px; padding: 20px;">
-                        <h3 style="color: #FFA940; margin-bottom: 15px;">🟡 中风险</h3>
-                        <div id="medium-risk-list"><div style="text-align: center; padding: 20px; color: #999;">暂无中风险项</div></div>
-                    </div>
-                    <div style="background: #F6FFED; border: 2px solid #52C41A; border-radius: 12px; padding: 20px;">
-                        <h3 style="color: #52C41A; margin-bottom: 15px;">🟢 低风险</h3>
-                        <div id="low-risk-list"><div style="text-align: center; padding: 20px; color: #999;">暂无低风险项</div></div>
-                    </div>
-                </div>
-                <div style="display: flex; gap: 15px;">
-                    <button onclick="checkRisks()" class="btn-primary" style="flex: 1; padding: 15px;">🔍 立即检查</button>
-                    <button onclick="toggleAutoRefresh()" id="auto-refresh-btn" class="btn-secondary" style="padding: 15px 30px;">⏸️ 停止自动刷新</button>
-                </div>
-            </div>
 
-        </div>
-    </div>
 
     <script>
         let currentUser = null;
