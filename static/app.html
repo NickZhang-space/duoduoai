@@ -3221,9 +3221,13 @@ async function generateReport(historyId) {
             if (competitors.length === 0) {
                 list.innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #999;">
-                        <div style="font-size: 3em; margin-bottom: 20px;">📦</div>
-                        <div style="font-size: 1.2em; margin-bottom: 10px;">还没有添加竞品</div>
-                        <div style="font-size: 0.9em;">点击"添加竞品"按钮开始跟踪竞争对手</div>
+                        <div style="font-size: 3em; margin-bottom: 20px;">🎯</div>
+                        <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 10px; color: #333;">还没有添加竞品</div>
+                        <div style="font-size: 0.9em; margin-bottom: 25px;">添加第一个竞品，开始监控价格变动</div>
+                        <button onclick="document.getElementById('competitor-modal').style.display='flex'" 
+                                style="background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%); color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 500;">
+                            ➕ 添加竞品
+                        </button>
                     </div>
                 `;
                 return;
