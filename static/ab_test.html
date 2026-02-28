@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B测试 - 多多AI优化师</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #333; margin-bottom: 30px; }
+        .smart-card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .smart-button { background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 500; }
+        .smart-button:hover { opacity: 0.9; }
+        .experiments-list { display: grid; gap: 15px; margin-bottom: 20px; }
+        .experiment-item { padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #E84D1A; }
+        .experiment-item h3 { color: #333; margin-bottom: 10px; }
+        .experiment-status { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: 500; }
+        .status-running { background: #e8f5e9; color: #2e7d32; }
+        .status-stopped { background: #fff3e0; color: #e65100; }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: white; border-radius: 16px; padding: 30px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #666; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1em; }
+        .variant-config { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .variant-config h4 { color: #E84D1A; margin-bottom: 10px; }
+        .traffic-split { display: flex; align-items: center; gap: 15px; }
+        .traffic-split input[type="range"] { flex: 1; }
+        .results-comparison { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; margin: 20px 0; }
+        .variant-result { background: #f8f9fa; padding: 20px; border-radius: 12px; }
+        .variant-result h4 { color: #333; margin-bottom: 15px; }
+        .metric { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e0e0e0; }
+        .metric:last-child { border-bottom: none; }
+        .metric .value { font-weight: bold; color: #E84D1A; }
+        .winner-badge { text-align: center; }
+        .winner-icon { font-size: 3em; }
+        .confidence { color: #666; font-size: 0.9em; }
+        .recommendation { background: #fff3e0; padding: 20px; border-radius: 12px; border-left: 4px solid #FFA940; margin-top: 20px; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #999; }
+        .empty-state .icon { font-size: 4em; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 A/B测试</h1>
+        
+        <div class="smart-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">实验列表</h2>
+                <button onclick="showCreateModal()" class="smart-button">➕ 创建新实验</button>
+            </div>
+            
+            <div id="experiments-list" class="experiments-list">
+                <div class="empty-state">
+                    <div class="icon">🧪</div>
+                    <p>还没有创建实验</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="results-section" style="display: none;">
+            <!-- 结果展示区域 -->
+        </div>
+    </div>
+    
+    <!-- 创建实验模态框 -->
+    <div id="create-modal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">创建A/B测试</h2>
+            
+            <form id="experiment-form" onsubmit="createExperiment(event)">
+                <div class="form-group">
+                    <label>实验名称 *</label>
+                    <input type="text" name="name" required placeholder="例如：价格测试">
+                </div>
+                
+                <div class="form-group">
+                    <label>测试目标 *</label>
+                    <select name="metric" required>
+                        <option value="conversion_rate">转化率</option>
+                        <option value="roi">ROI</option>
+                        <option value="revenue">收益</option>
+                    </select>
+                </div>
+                
+                <div class="variant-config">
+                    <h4>方案A</h4>
+                    <div class="form-group">
+                        <label>价格</label>
+                        <input type="number" name="price_a" step="0.01" placeholder="例如：99.00">
+                    </div>
+                    <div class="form-group">
+                        <label>标题</label>
+                        <input type="text" name="title_a" placeholder="例如：限时特惠">
+                    </div>
+                </div>
+                
+                <div class="variant-config">
+                    <h4>方案B</h4>
+                    <div class="form-group">
+                        <label>价格</label>
+                        <input type="number" name="price_b" step="0.01" placeholder="例如：89.00">
+                    </div>
+                    <div class="form-group">
+                        <label>标题</label>
+                        <input type="text" name="title_b" placeholder="例如：超值优惠">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>流量分配</label>
+                    <div class="traffic-split">
+                        <span>A:</span>
+                        <input type="range" id="traffic-slider" min="0" max="100" value="50" oninput="updateSplit(this.value)">
+                        <span>B:</span>
+                    </div>
+                    <div style="text-align: center; margin-top: 10px; color: #666;">
+                        <span id="split-a">50</span>% : <span id="split-b">50</span>%
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 30px;">
+                    <button type="button" onclick="closeModal()" style="flex: 1; background: #ccc; color: #333;" class="smart-button">取消</button>
+                    <button type="submit" style="flex: 1;" class="smart-button">开始实验</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        let currentUser = { id: '1' };
+        
+        // 加载实验列表
+        async function loadExperiments() {
+            try {
+                const response = await fetch('/api/ab-test/list?user_id=' + currentUser.id);
+                const data = await response.json();
+                
+                if (data.success && data.data.length > 0) {
+                    renderExperiments(data.data);
+                }
+            } catch (error) {
+                console.error('加载实验失败:', error);
+            }
+        }
+        
+        // 渲染实验列表
+        function renderExperiments(experiments) {
+            const list = document.getElementById('experiments-list');
+            
+            list.innerHTML = experiments.map(exp => `
+                <div class="experiment-item">
+                    <div style="display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <h3>${exp.name}</h3>
+                            <p style="color: #666; margin: 5px 0;">目标: ${exp.metrics[0]}</p>
+                            <span class="experiment-status status-${exp.status}">${exp.status === 'running' ? '进行中' : '已停止'}</span>
+                        </div>
+                        <button onclick="viewResults('${exp.id}')" class="smart-button" style="padding: 8px 16px;">查看结果</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 显示创建模态框
+        function showCreateModal() {
+            document.getElementById('create-modal').style.display = 'flex';
+        }
+        
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('create-modal').style.display = 'none';
+        }
+        
+        // 更新流量分配
+        function updateSplit(value) {
+            document.getElementById('split-a').textContent = value;
+            document.getElementById('split-b').textContent = 100 - value;
+        }
+        
+        // 创建实验
+        async function createExperiment(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const splitA = parseInt(document.getElementById('split-a').textContent) / 100;
+            
+            const data = {
+                name: formData.get('name'),
+                variants: [
+                    {
+                        name: 'A',
+                        config: {
+                            price: parseFloat(formData.get('price_a')) || 0,
+                            title: formData.get('title_a') || ''
+                        }
+                    },
+                    {
+                        name: 'B',
+                        config: {
+                            price: parseFloat(formData.get('price_b')) || 0,
+                            title: formData.get('title_b') || ''
+                        }
+                    }
+                ],
+                metrics: [formData.get('metric')],
+                traffic_split: [splitA, 1 - splitA],
+                user_id: currentUser.id
+            };
+            
+            try {
+                const response = await fetch('/api/ab-test/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ 实验创建成功！');
+                    closeModal();
+                    form.reset();
+                    loadExperiments();
+                } else {
+                    alert('❌ 创建失败: ' + result.error);
+                }
+            } catch (error) {
+                alert('❌ 创建失败: ' + error.message);
+            }
+        }
+        
+        // 查看结果
+        async function viewResults(experimentId) {
+            try {
+                const response = await fetch('/api/ab-test/results/' + experimentId);
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderResults(data.data);
+                }
+            } catch (error) {
+                alert('获取结果失败: ' + error.message);
+            }
+        }
+        
+        // 渲染结果
+        function renderResults(results) {
+            const section = document.getElementById('results-section');
+            
+            const variantA = results.results.A || { sample_size: 0, metrics: {} };
+            const variantB = results.results.B || { sample_size: 0, metrics: {} };
+            
+            section.innerHTML = `
+                <div class="smart-card">
+                    <h2>📊 实验结果：${results.experiment_name}</h2>
+                    
+                    <div class="results-comparison">
+                        <div class="variant-result">
+                            <h4>方案A</h4>
+                            <div class="metrics">
+                                ${Object.entries(variantA.metrics).map(([key, val]) => `
+                                    <div class="metric">
+                                        <span>${key}</span>
+                                        <span class="value">${val.mean.toFixed(2)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <p style="margin-top: 15px; color: #666;">样本量: ${variantA.sample_size}</p>
+                        </div>
+                        
+                        <div class="winner-badge">
+                            ${results.winner ? `
+                                <div class="winner-icon">👑</div>
+                                <p style="font-weight: bold; color: #E84D1A;">方案${results.winner}获胜</p>
+                                <p class="confidence">置信度: ${(results.confidence * 100).toFixed(0)}%</p>
+                            ` : `
+                                <div class="winner-icon">⏳</div>
+                                <p style="color: #666;">数据收集中</p>
+                            `}
+                        </div>
+                        
+                        <div class="variant-result">
+                            <h4>方案B</h4>
+                            <div class="metrics">
+                                ${Object.entries(variantB.metrics).map(([key, val]) => `
+                                    <div class="metric">
+                                        <span>${key}</span>
+                                        <span class="value">${val.mean.toFixed(2)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <p style="margin-top: 15px; color: #666;">样本量: ${variantB.sample_size}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="recommendation">
+                        <h4>💡 建议</h4>
+                        <p>${results.recommendation}</p>
+                    </div>
+                </div>
+            `;
+            
+            section.style.display = 'block';
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 页面加载时加载实验列表
+        window.addEventListener('load', loadExperiments);
+    </script>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自动化优化 - 多多AI优化师</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f7fa; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #333; margin-bottom: 30px; }
+        .smart-card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .smart-button { background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 500; }
+        .smart-button:hover { opacity: 0.9; }
+        .smart-button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        /* 开关样式 */
+        .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 26px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #E84D1A; }
+        input:checked + .slider:before { transform: translateX(24px); }
+        
+        /* 总开关 */
+        .master-switch { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%); color: white; border-radius: 12px; margin-bottom: 30px; }
+        .master-switch h2 { margin: 0; }
+        .master-switch .description { margin-top: 8px; opacity: 0.9; font-size: 0.9em; }
+        
+        /* 功能卡片 */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .feature-card { padding: 20px; border: 2px solid #e0e0e0; border-radius: 12px; transition: all 0.3s; }
+        .feature-card:hover { border-color: #E84D1A; box-shadow: 0 4px 12px rgba(232, 77, 26, 0.1); }
+        .feature-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .feature-header h3 { margin: 0; color: #333; font-size: 1.1em; }
+        .feature-description { color: #666; margin-bottom: 15px; font-size: 0.9em; }
+        .feature-settings { background: #f8f9fa; padding: 15px; border-radius: 8px; }
+        .feature-settings label { display: block; margin-bottom: 10px; color: #666; }
+        .feature-settings input { width: 80px; padding: 6px; border: 1px solid #ddd; border-radius: 4px; margin-left: 8px; }
+        
+        /* 操作日志 */
+        .log-entry { display: grid; grid-template-columns: 40px 120px 1fr 150px 40px; gap: 15px; align-items: center; padding: 15px; border-bottom: 1px solid #e0e0e0; }
+        .log-entry:last-child { border-bottom: none; }
+        .log-icon { font-size: 1.5em; text-align: center; }
+        .log-time { color: #999; font-size: 0.85em; }
+        .log-action { color: #333; }
+        .log-change { color: #666; font-size: 0.9em; }
+        .log-status { text-align: center; font-size: 1.2em; }
+        .log-status.executed { color: #4CAF50; }
+        .log-status.failed { color: #f44336; }
+        
+        /* 空状态 */
+        .empty-state { text-align: center; padding: 60px 20px; color: #999; }
+        .empty-state .icon { font-size: 4em; margin-bottom: 20px; }
+        
+        /* 手动触发按钮 */
+        .manual-trigger { text-align: center; padding: 30px; background: #f8f9fa; border-radius: 12px; }
+        .manual-trigger .smart-button { padding: 15px 40px; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚙️ 自动化优化</h1>
+        
+        <!-- 总开关 -->
+        <div class="master-switch">
+            <div>
+                <h2>自动化优化引擎</h2>
+                <p class="description">开启后，系统将按照您的设置自动优化广告投放</p>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="auto-enabled" onchange="toggleAutomation()">
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <!-- 功能开关 -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-header">
+                    <h3>💰 自动调整出价</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="auto-bid" onchange="saveSettings()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="feature-description">根据ROI自动调整关键词出价</p>
+                <div class="feature-settings">
+                    <label>最高CPC：¥<input type="number" id="max-cpc" value="5" step="0.1" min="0.5" max="20" onchange="saveSettings()"></label>
+                    <label>最低CPC：¥<input type="number" id="min-cpc" value="0.5" step="0.1" min="0.1" max="5" onchange="saveSettings()"></label>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <h3>⏸️ 自动暂停低效关键词</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="auto-keyword" onchange="saveSettings()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="feature-description">连续3天ROI低于阈值自动暂停</p>
+                <div class="feature-settings">
+                    <label>ROI阈值：<input type="number" id="roi-threshold" value="1.0" step="0.1" min="0.1" max="5" onchange="saveSettings()"></label>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <h3>⏰ 自动优化投放时段</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="auto-schedule" onchange="saveSettings()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="feature-description">自动集中预算在高转化时段</p>
+                <div class="feature-settings">
+                    <p style="color: #999; font-size: 0.85em; margin: 0;">系统会自动分析24小时转化数据，选择最佳8个时段投放</p>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-header">
+                    <h3>🏷️ 自动调整价格</h3>
+                    <label class="switch">
+                        <input type="checkbox" id="auto-price" onchange="saveSettings()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="feature-description">根据市场变化自动调整产品价格</p>
+                <div class="feature-settings">
+                    <label>调价幅度限制：±<input type="number" id="price-limit" value="10" step="1" min="1" max="30" onchange="saveSettings()">%</label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 手动触发 -->
+        <div class="smart-card manual-trigger">
+            <button onclick="runOptimization()" class="smart-button" id="run-btn">
+                🚀 立即运行一轮优化
+            </button>
+            <p style="color: #666; margin-top: 15px; font-size: 0.9em;">手动触发一次优化，查看效果</p>
+        </div>
+        
+        <!-- 操作日志 -->
+        <div class="smart-card">
+            <h2 style="margin-bottom: 20px;">📋 操作日志</h2>
+            <div id="log-list">
+                <div class="empty-state">
+                    <div class="icon">📋</div>
+                    <p>还没有操作记录</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentUser = { id: '1' };
+        
+        // 页面加载时加载设置和日志
+        window.addEventListener('load', function() {
+            loadSettings();
+            loadLogs();
+        });
+        
+        // 加载设置
+        async function loadSettings() {
+            try {
+                const response = await fetch(`/api/automation/settings/${currentUser.id}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const s = data.data;
+                    document.getElementById('auto-enabled').checked = s.enabled;
+                    document.getElementById('auto-bid').checked = s.auto_bid_adjust;
+                    document.getElementById('auto-keyword').checked = s.auto_keyword_pause;
+                    document.getElementById('auto-schedule').checked = s.auto_schedule;
+                    document.getElementById('auto-price').checked = s.auto_price;
+                    document.getElementById('max-cpc').value = s.max_cpc;
+                    document.getElementById('min-cpc').value = s.min_cpc;
+                    document.getElementById('roi-threshold').value = s.roi_threshold;
+                    document.getElementById('price-limit').value = s.price_change_limit;
+                }
+            } catch (error) {
+                console.error('加载设置失败:', error);
+            }
+        }
+        
+        // 切换总开关
+        async function toggleAutomation() {
+            await saveSettings();
+            const enabled = document.getElementById('auto-enabled').checked;
+            
+            if (enabled) {
+                alert('✅ 自动化已启用！系统将按照您的设置自动优化。');
+            } else {
+                alert('⏸️ 自动化已暂停。');
+            }
+        }
+        
+        // 保存设置
+        async function saveSettings() {
+            const settings = {
+                enabled: document.getElementById('auto-enabled').checked,
+                auto_bid_adjust: document.getElementById('auto-bid').checked,
+                auto_keyword_pause: document.getElementById('auto-keyword').checked,
+                auto_schedule: document.getElementById('auto-schedule').checked,
+                auto_price: document.getElementById('auto-price').checked,
+                max_cpc: parseFloat(document.getElementById('max-cpc').value),
+                min_cpc: parseFloat(document.getElementById('min-cpc').value),
+                roi_threshold: parseFloat(document.getElementById('roi-threshold').value),
+                price_change_limit: parseFloat(document.getElementById('price-limit').value)
+            };
+            
+            try {
+                const response = await fetch('/api/automation/configure', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        user_id: currentUser.id,
+                        settings: settings
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    alert('保存失败: ' + data.error);
+                }
+            } catch (error) {
+                alert('保存失败: ' + error.message);
+            }
+        }
+        
+        // 运行优化
+        async function runOptimization() {
+            const btn = document.getElementById('run-btn');
+            btn.disabled = true;
+            btn.textContent = '⏳ 优化中...';
+            
+            try {
+                const response = await fetch('/api/automation/run', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ user_id: currentUser.id })
+                });
+                
+                const data = await response.json();
+                
+                btn.disabled = false;
+                btn.textContent = '🚀 立即运行一轮优化';
+                
+                if (data.success) {
+                    if (data.data.status === 'disabled') {
+                        alert('⚠️ 请先启用自动化优化！');
+                    } else {
+                        alert(`✅ 优化完成！执行了 ${data.data.actions_count} 个操作`);
+                        loadLogs();
+                    }
+                } else {
+                    alert('❌ 优化失败: ' + data.error);
+                }
+            } catch (error) {
+                btn.disabled = false;
+                btn.textContent = '🚀 立即运行一轮优化';
+                alert('❌ 优化失败: ' + error.message);
+            }
+        }
+        
+        // 加载日志
+        async function loadLogs() {
+            try {
+                const response = await fetch(`/api/automation/logs/${currentUser.id}?limit=50`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderLogs(data.data);
+                }
+            } catch (error) {
+                console.error('加载日志失败:', error);
+            }
+        }
+        
+        // 渲染日志
+        function renderLogs(logs) {
+            const icons = {
+                'adjust_bid': '💰',
+                'pause_keyword': '⏸️',
+                'adjust_schedule': '⏰',
+                'adjust_price': '🏷️'
+            };
+            
+            if (logs.length === 0) {
+                document.getElementById('log-list').innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📋</div>
+                        <p>还没有操作记录</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const html = logs.map(log => {
+                const details = log.details;
+                const changeText = typeof details.old_value === 'object' 
+                    ? `时段调整` 
+                    : `${details.old_value} → ${details.new_value}`;
+                
+                return `
+                    <div class="log-entry">
+                        <span class="log-icon">${icons[log.action_type] || '⚙️'}</span>
+                        <span class="log-time">${formatTime(log.timestamp)}</span>
+                        <span class="log-action">${details.reason}</span>
+                        <span class="log-change">${changeText}</span>
+                        <span class="log-status ${log.result}">${log.result === 'executed' ? '✅' : '❌'}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('log-list').innerHTML = html;
+        }
+        
+        // 格式化时间
+        function formatTime(timestamp) {
+            const date = new Date(timestamp * 1000);
+            const now = new Date();
+            const diff = now - date;
+            
+            if (diff < 60000) {
+                return '刚刚';
+            } else if (diff < 3600000) {
+                return Math.floor(diff / 60000) + '分钟前';
+            } else if (diff < 86400000) {
+                return Math.floor(diff / 3600000) + '小时前';
+            } else {
+                return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+            }
+        }
+    </script>
+</body>
+</html>
