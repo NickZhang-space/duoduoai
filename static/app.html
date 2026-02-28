@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>控制台 - 多多AI优化师</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js">
         // ==================== AI推荐功能 ====================
@@ -434,7 +434,7 @@
         }
 
         .navbar-content {
-            max-width: 1400px;
+            max-max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -484,7 +484,7 @@
 
         /* 主容器 */
         .container {
-            max-width: 1400px;
+            max-max-width: 1400px;
             margin: 0 auto;
             padding: 30px;
         }
@@ -1427,6 +1427,115 @@
             }
         }
 
+
+        /* 手机端适配 */
+        @media (max-width: 768px) {
+            /* 标签栏横向滚动 */
+            .tab-buttons, .tabs { 
+                overflow-x: auto; 
+                white-space: nowrap; 
+                -webkit-overflow-scrolling: touch;
+                padding: 8px;
+            }
+            .tab-buttons button, .tab {
+                font-size: 13px;
+                padding: 8px 12px;
+                min-width: auto;
+            }
+            
+            /* 内容区域全宽 */
+            .container, .content, main {
+                padding: 8px !important;
+                margin: 0 !important;
+            }
+            
+            /* 卡片单列 */
+            .card, .smart-card, .shop-card, .stat-card {
+                width: 100% !important;
+                margin: 8px 0 !important;
+            }
+            
+            /* 统计卡片网格 */
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+                gap: 10px;
+            }
+            
+            /* 表格横向滚动 */
+            table { 
+                display: block; 
+                overflow-x: auto; 
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* 表单全宽 */
+            input, select, textarea, button {
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            
+            /* AI问答聊天框适配 */
+            .chat-container { 
+                height: 300px !important; 
+            }
+            
+            /* 图表容器适配 */
+            canvas { 
+                max-width: 100% !important; 
+                height: auto !important; 
+            }
+            
+            /* 隐藏不必要的侧边栏 */
+            .sidebar { 
+                display: none; 
+            }
+            
+            /* 导航栏适配 */
+            nav, .navbar, header, .navbar-content {
+                flex-wrap: wrap;
+                padding: 8px !important;
+            }
+            
+            /* 字体适配 */
+            h1 { font-size: 20px !important; }
+            h2 { font-size: 18px !important; }
+            h3 { font-size: 16px !important; }
+            
+            /* Logo适配 */
+            .logo {
+                font-size: 1.1em;
+            }
+            
+            /* 用户菜单适配 */
+            .user-menu {
+                gap: 10px;
+            }
+            
+            .user-badge {
+                padding: 6px 12px;
+                font-size: 0.75em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tab-buttons button, .tab {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            body { 
+                font-size: 14px; 
+            }
+            
+            .stat-value {
+                font-size: 1.8em;
+            }
+            
+            .navbar-content {
+                height: auto;
+                padding: 10px 0;
+            }
+        }
+
     </style>
     <script src="/static/js/notifications.js"></script>
     <script src="/static/js/report.js"></script>
@@ -1478,6 +1587,9 @@
             </button>
             <button class="tab" onclick="switchTab('notification-settings')">🔔 通知设置</button>
             <button class="tab" onclick="switchTab('plans')">套餐升级</button>
+            <button class="tab" onclick="switchTab('automation')" style="background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%); color: white; font-weight: bold;">
+                ⚡ 自动化
+            </button>
         </div>
 
         <!-- 内容区域 -->
@@ -1947,7 +2059,12 @@
                     <div id="report-history">
                         <div style="text-align: center; padding: 20px; color: #999;">加载中...</div>
                     </div>
-                </div>
+                
+            <!-- 自动化引擎 -->
+            <div id="automation-section" class="section">
+                <iframe src="/static/automation.html" style="width: 100%; height: calc(100vh - 200px); border: none; border-radius: 12px;"></iframe>
+            </div>
+</div>
             </div>
 
 <script>
