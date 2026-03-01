@@ -2317,11 +2317,6 @@ async def check_proxy_health(proxy_id: int = None):
             "error": str(e)
         }
 
-if __name__ == "__main__":
-    init_sample_notifications()
-    port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
-
 # ==================== 爬虫数据 API ====================
 
 @app.get("/api/market/real-data")
@@ -2404,3 +2399,9 @@ async def get_real_competitor_snapshots(goods_id: str):
             "success": False,
             "error": str(e)
         }
+
+if __name__ == "__main__":
+    init_sample_notifications()
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
+
