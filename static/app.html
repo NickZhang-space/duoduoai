@@ -1225,6 +1225,85 @@
                 font-size: 16px !important; /* 防止 iOS 自动缩放 */
             }
         }
+
+        /* 社区详情页样式 */
+        .post-detail {
+            padding: 24px;
+        }
+        .post-detail-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 24px;
+        }
+        .post-detail-header h2 {
+            margin: 12px 0;
+            font-size: 28px;
+        }
+        .post-meta {
+            display: flex;
+            gap: 16px;
+            color: #666;
+            font-size: 14px;
+        }
+        .post-detail-body {
+            margin-bottom: 32px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        .post-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .comments-section {
+            border-top: 1px solid #eee;
+            padding-top: 24px;
+        }
+        .comments-section h3 {
+            margin-bottom: 16px;
+        }
+        .comment-input-box {
+            margin-bottom: 24px;
+        }
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .comment-item {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .comment-header strong {
+            color: #E84D1A;
+        }
+        .comment-header span {
+            color: #999;
+        }
+        .comment-content {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .comment-actions {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+            color: #666;
+        }
+        .comment-actions span {
+            cursor: pointer;
+        }
+        .comment-actions span:hover {
+            color: #E84D1A;
+        }
+
     </style>
 
     <style>
@@ -2246,83 +2325,47 @@
             <section id="community-main" class="main-section">
                 <h2 class="section-title">💬 社区交流</h2>
                 
-                <!-- 发帖区域 -->
+                <!-- 发布话题 -->
                 <div class="post-editor">
-                    <h3 style="margin-bottom: 16px;">发布话题</h3>
-                    <input type="text" id="post-title" placeholder="输入话题标题..." class="form-input" style="margin-bottom: 12px;">
-                    <textarea id="post-content" placeholder="分享你的经验、问题或想法..." class="form-textarea" rows="4"></textarea>
-                    <div style="display: flex; gap: 12px; margin-top: 12px;">
-                        <select id="post-category" class="form-input" style="width: 150px;">
-                            <option value="experience">经验分享</option>
-                            <option value="question">问题求助</option>
-                            <option value="discussion">讨论交流</option>
-                            <option value="news">行业资讯</option>
+                    <h3>发布话题</h3>
+                    <input type="text" id="post-title" placeholder="标题" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                    <textarea id="post-content" placeholder="分享你的经验、问题或想法..." style="width: 100%; height: 120px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px;"></textarea>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <select id="post-category" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px;">
+                            <option value="经验分享">经验分享</option>
+                            <option value="问题求助">问题求助</option>
+                            <option value="讨论交流">讨论交流</option>
+                            <option value="行业资讯">行业资讯</option>
                         </select>
-                        <button class="btn-primary" onclick="publishPost()">发布话题</button>
+                        <button class="btn-primary" onclick="publishPost()">发布</button>
                     </div>
                 </div>
                 
-                <!-- 话题分类 -->
-                <div class="community-filters">
-                    <button class="filter-btn active" onclick="filterPosts('all')">全部</button>
-                    <button class="filter-btn" onclick="filterPosts('experience')">经验分享</button>
-                    <button class="filter-btn" onclick="filterPosts('question')">问题求助</button>
-                    <button class="filter-btn" onclick="filterPosts('discussion')">讨论交流</button>
-                    <button class="filter-btn" onclick="filterPosts('news')">行业资讯</button>
+                <!-- 话题分类筛选 -->
+                <div style="margin: 24px 0; display: flex; gap: 12px;">
+                    <button class="btn-secondary" onclick="filterPosts('all')">全部</button>
+                    <button class="btn-secondary" onclick="filterPosts('经验分享')">经验分享</button>
+                    <button class="btn-secondary" onclick="filterPosts('问题求助')">问题求助</button>
+                    <button class="btn-secondary" onclick="filterPosts('讨论交流')">讨论交流</button>
+                    <button class="btn-secondary" onclick="filterPosts('行业资讯')">行业资讯</button>
                 </div>
                 
                 <!-- 话题列表 -->
                 <div id="posts-list" class="posts-list">
-                    <!-- 示例话题 -->
-                    <div class="post-card">
-                        <div class="post-header">
-                            <span class="post-category experience">经验分享</span>
-                            <span class="post-author">@优化师小王</span>
-                            <span class="post-time">2小时前</span>
-                        </div>
-                        <h3 class="post-title">搜索推广ROI从3提升到5的实战经验</h3>
-                        <p class="post-preview">分享一下我最近优化搜索推广的经验，通过调整关键词出价策略和优化创意，ROI从3.2提升到了5.1...</p>
-                        <div class="post-footer">
-                            <span class="post-stat">👁️ 128</span>
-                            <span class="post-stat">💬 15</span>
-                            <span class="post-stat">👍 23</span>
-                            <button class="btn-secondary btn-sm" onclick="viewPost(1)">查看详情</button>
-                        </div>
-                    </div>
-                    
-                    <div class="post-card">
-                        <div class="post-header">
-                            <span class="post-category question">问题求助</span>
-                            <span class="post-author">@新手卖家</span>
-                            <span class="post-time">5小时前</span>
-                        </div>
-                        <h3 class="post-title">全站推广点击率很低怎么办？</h3>
-                        <p class="post-preview">我的全站推广点击率只有1.5%，花费很高但转化很少，请问大家有什么优化建议吗...</p>
-                        <div class="post-footer">
-                            <span class="post-stat">👁️ 89</span>
-                            <span class="post-stat">💬 8</span>
-                            <span class="post-stat">👍 12</span>
-                            <button class="btn-secondary btn-sm" onclick="viewPost(2)">查看详情</button>
-                        </div>
-                    </div>
-                    
-                    <div class="post-card">
-                        <div class="post-header">
-                            <span class="post-category news">行业资讯</span>
-                            <span class="post-author">@行业观察</span>
-                            <span class="post-time">1天前</span>
-                        </div>
-                        <h3 class="post-title">拼多多3月推广政策更新解读</h3>
-                        <p class="post-preview">拼多多官方发布了3月份的推广政策调整，主要涉及搜索推广出价规则和全站推广流量分配...</p>
-                        <div class="post-footer">
-                            <span class="post-stat">👁️ 256</span>
-                            <span class="post-stat">💬 32</span>
-                            <span class="post-stat">👍 45</span>
-                            <button class="btn-secondary btn-sm" onclick="viewPost(3)">查看详情</button>
-                        </div>
-                    </div>
+                    <!-- 帖子会动态加载 -->
                 </div>
             </section>
+            
+            <!-- 帖子详情模态框 -->
+            <div id="post-detail-modal" class="modal" style="display: none;">
+                <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
+                    <span class="close" onclick="closePostDetail()">&times;</span>
+                    <div id="post-detail-content">
+                        <!-- 详情内容 -->
+                    </div>
+                </div>
+            </div>
+
 
                         <!-- 6. 设置 -->
             <section id="settings-main" class="main-section">
@@ -6623,6 +6666,313 @@ ${issue.recommendation}
         function expandBudget(keyword) {
             alert('💡 扩量功能说明\n\n此功能需要连接您的拼多多店铺后台才能使用。\n\n建议操作：\n1. 登录拼多多商家后台\n2. 找到关键词"' + keyword + '"\n3. 手动提高出价20-30%\n4. 增加预算50%');
         }
+
+
+        // ========== 社区交流功能 ==========
+        
+        // 社区数据
+        let communityPosts = [
+            {
+                id: 1,
+                title: '新手必看！拼多多推广从0到1完整攻略',
+                content: '我是去年10月开始做拼多多的，刚开始完全不懂推广，烧了不少冤枉钱。经过半年摸索，现在ROI稳定在2.5左右，分享一下我的经验...\n\n1. 选品很重要：不要盲目跟风，要选择自己熟悉的类目\n2. 关键词要精准：宁可少投几个词，也要保证转化\n3. 预算要合理：新手建议从50-100元/天开始\n4. 数据要盯紧：每天至少看3次数据，及时调整\n\n具体操作步骤我写在评论里了，有问题可以问我！',
+                author: '新手上路',
+                category: '经验分享',
+                time: '2小时前',
+                views: 328,
+                comments: [],
+                likes: 45
+            },
+            {
+                id: 2,
+                title: '求助：ROI突然从2.0掉到1.2，怎么办？',
+                content: '各位大佬救命！我的店铺ROI这周突然暴跌，从之前稳定的2.0掉到现在的1.2，每天都在亏钱...\n\n情况：\n- 类目：女装\n- 日预算：300元\n- 主推关键词：夏季连衣裙、碎花裙\n- 点击率：3.5%（正常）\n- 转化率：从8%掉到4%\n\n我已经尝试：\n1. 降低了出价\n2. 暂停了几个低转化词\n3. 调整了投放时段\n\n但是效果不明显，求大佬指点！',
+                author: '焦虑的卖家',
+                category: '问题求助',
+                time: '5小时前',
+                views: 156,
+                comments: [],
+                likes: 12
+            },
+            {
+                id: 3,
+                title: '拼多多3月推广政策更新解读',
+                content: '拼多多官方刚发布了3月份的推广政策调整，主要涉及搜索推广出价规则和全站推广流量分配，对我们影响挺大的...\n\n主要变化：\n1. 搜索推广最低出价从0.1元提高到0.15元\n2. 全站推广新增\'智能投放\'模式\n3. 场景推广增加了\'直播间\'场景\n4. 优质商家可以申请更高的日预算上限\n\n详细解读看官方文档，链接我放评论里了。',
+                author: '行业观察',
+                category: '行业资讯',
+                time: '1天前',
+                views: 512,
+                comments: [],
+                likes: 78
+            },
+            {
+                id: 4,
+                title: '分享一个关键词挖掘的小技巧',
+                content: '很多新手不知道怎么找关键词，我分享一个我常用的方法...\n\n1. 打开拼多多APP，搜索你的产品\n2. 看下拉框推荐的词，这些都是高搜索量的词\n3. 看搜索结果页底部的\'大家还在搜\'\n4. 用生意参谋的关键词工具（如果有）\n5. 看竞品在投什么词\n\n我一般会找20-30个词，然后测试一周，留下ROI>1.5的词继续投。',
+                author: '关键词专家',
+                category: '经验分享',
+                time: '2天前',
+                views: 234,
+                comments: [],
+                likes: 34
+            },
+            {
+                id: 5,
+                title: '讨论：全站推广和搜索推广，哪个更适合新手？',
+                content: '最近看到很多人在讨论这个问题，我说说我的看法...\n\n搜索推广：\n优点：精准，转化率高\n缺点：需要选词，需要优化，门槛高\n\n全站推广：\n优点：简单，系统自动投放\n缺点：不够精准，ROI可能不稳定\n\n我的建议：新手先从全站开始，熟悉了再做搜索。大家怎么看？',
+                author: '老司机',
+                category: '讨论交流',
+                time: '3天前',
+                views: 189,
+                comments: [],
+                likes: 23
+            },
+            {
+                id: 6,
+                title: '血泪教训：千万不要盲目提高出价！',
+                content: '上周我犯了一个大错，看到某个词转化好，就把出价从0.8提到1.5，结果...\n\n后果：\n- 点击成本翻倍\n- ROI从2.5掉到1.3\n- 3天亏了2000多\n\n教训：\n1. 提价要循序渐进，每次最多提10-20%\n2. 提价后要密切观察数据\n3. 如果ROI下降，立即降回去\n\n希望大家不要重蹈我的覆辙！',
+                author: '吃过亏的人',
+                category: '经验分享',
+                time: '4天前',
+                views: 445,
+                comments: [],
+                likes: 67
+            },
+            {
+                id: 7,
+                title: '求推荐：有没有好用的数据分析工具？',
+                content: '每天手动看数据太累了，想找个工具帮忙分析...\n\n需求：\n1. 能自动抓取拼多多后台数据\n2. 能生成报表和趋势图\n3. 最好能给优化建议\n4. 价格不要太贵\n\n大家有推荐的吗？',
+                author: '懒人卖家',
+                category: '问题求助',
+                time: '5天前',
+                views: 267,
+                comments: [],
+                likes: 18
+            },
+            {
+                id: 8,
+                title: '3月爆款预测：这些类目要火了！',
+                content: '根据往年数据和今年趋势，我预测3月这些类目会爆...\n\n1. 春装（连衣裙、T恤、薄外套）\n2. 运动户外（跑步鞋、瑜伽服）\n3. 家居用品（收纳、清洁）\n4. 美妆护肤（防晒、美白）\n\n建议提前布局，抢占先机！',
+                author: '趋势分析师',
+                category: '行业资讯',
+                time: '6天前',
+                views: 389,
+                comments: [],
+                likes: 56
+            },
+            {
+                id: 9,
+                title: '如何判断一个关键词值不值得投？',
+                content: '很多人问我怎么选词，我的标准是...\n\n必须满足：\n1. 搜索量>1000/天\n2. 竞争度适中（不要太高也不要太低）\n3. 和产品相关度高\n\n加分项：\n1. 转化率>5%\n2. 点击成本<1元\n3. 有购买意图（如\'购买\'、\'正品\'等）\n\n测试方法：\n1. 先投7天\n2. 看ROI是否>1.5\n3. 不行就换词',
+                author: '选词高手',
+                category: '经验分享',
+                time: '1周前',
+                views: 298,
+                comments: [],
+                likes: 41
+            },
+            {
+                id: 10,
+                title: '讨论：AI工具真的能提高ROI吗？',
+                content: '最近AI工具很火，有人用过吗？效果怎么样？\n\n我看到有些工具说能自动优化出价、自动选词，听起来很厉害...\n\n但是我担心：\n1. 会不会不够精准？\n2. 会不会乱花钱？\n3. 价格会不会很贵？\n\n用过的朋友来说说体验？',
+                author: '观望中',
+                category: '讨论交流',
+                time: '1周前',
+                views: 223,
+                comments: [],
+                likes: 15
+            }
+        ];
+        
+        let currentFilter = 'all';
+        
+        // 加载帖子列表
+        function loadPosts() {
+            const container = document.getElementById('posts-list');
+            if (!container) return;
+            
+            let filteredPosts = communityPosts;
+            if (currentFilter !== 'all') {
+                filteredPosts = communityPosts.filter(p => p.category === currentFilter);
+            }
+            
+            container.innerHTML = filteredPosts.map(post => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-category ${post.category === '经验分享' ? 'share' : post.category === '问题求助' ? 'help' : post.category === '讨论交流' ? 'discuss' : 'news'}">${post.category}</span>
+                        <span class="post-author">@${post.author}</span>
+                        <span class="post-time">${post.time}</span>
+                    </div>
+                    <h3 class="post-title" onclick="viewPostDetail(${post.id})" style="cursor: pointer;">${post.title}</h3>
+                    <p class="post-preview">${post.content.substring(0, 100)}...</p>
+                    <div class="post-footer">
+                        <span class="post-stat">👁️ ${post.views}</span>
+                        <span class="post-stat">💬 ${post.comments.length}</span>
+                        <span class="post-stat" onclick="likePost(${post.id})" style="cursor: pointer;">👍 ${post.likes}</span>
+                        <button class="btn-secondary btn-sm" onclick="viewPostDetail(${post.id})">查看详情</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 筛选帖子
+        function filterPosts(category) {
+            currentFilter = category;
+            loadPosts();
+        }
+        
+        // 查看帖子详情
+        function viewPostDetail(postId) {
+            const post = communityPosts.find(p => p.id === postId);
+            if (!post) return;
+            
+            // 增加浏览量
+            post.views++;
+            
+            const modal = document.getElementById('post-detail-modal');
+            const content = document.getElementById('post-detail-content');
+            
+            content.innerHTML = `
+                <div class="post-detail">
+                    <div class="post-detail-header">
+                        <span class="post-category ${post.category === '经验分享' ? 'share' : post.category === '问题求助' ? 'help' : post.category === '讨论交流' ? 'discuss' : 'news'}">${post.category}</span>
+                        <h2>${post.title}</h2>
+                        <div class="post-meta">
+                            <span>@${post.author}</span>
+                            <span>${post.time}</span>
+                            <span>👁️ ${post.views}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="post-detail-body">
+                        <p style="white-space: pre-wrap; line-height: 1.8;">${post.content}</p>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <button class="btn-secondary" onclick="likePost(${post.id})">👍 点赞 (${post.likes})</button>
+                        <button class="btn-secondary" onclick="document.getElementById('comment-input-${post.id}').focus()">💬 评论 (${post.comments.length})</button>
+                    </div>
+                    
+                    <div class="comments-section">
+                        <h3>评论 (${post.comments.length})</h3>
+                        <div class="comment-input-box">
+                            <textarea id="comment-input-${post.id}" placeholder="写下你的评论..." style="width: 100%; height: 80px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px;"></textarea>
+                            <button class="btn-primary" onclick="addComment(${post.id})">发表评论</button>
+                        </div>
+                        <div id="comments-list-${post.id}" class="comments-list">
+                            ${post.comments.map((comment, index) => `
+                                <div class="comment-item">
+                                    <div class="comment-header">
+                                        <strong>@${comment.author}</strong>
+                                        <span>${comment.time}</span>
+                                    </div>
+                                    <div class="comment-content">${comment.content}</div>
+                                    <div class="comment-actions">
+                                        <span onclick="likeComment(${post.id}, ${index})" style="cursor: pointer;">👍 ${comment.likes}</span>
+                                        <span onclick="replyComment(${post.id}, '${comment.author}')" style="cursor: pointer;">回复</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+        
+        // 关闭帖子详情
+        function closePostDetail() {
+            document.getElementById('post-detail-modal').style.display = 'none';
+            loadPosts();
+        }
+        
+        // 点赞帖子
+        function likePost(postId) {
+            const post = communityPosts.find(p => p.id === postId);
+            if (post) {
+                post.likes++;
+                loadPosts();
+                if (document.getElementById('post-detail-modal').style.display === 'block') {
+                    viewPostDetail(postId);
+                }
+            }
+        }
+        
+        // 添加评论
+        function addComment(postId) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const content = input.value.trim();
+            
+            if (!content) {
+                alert('请输入评论内容');
+                return;
+            }
+            
+            const post = communityPosts.find(p => p.id === postId);
+            if (post) {
+                post.comments.push({
+                    author: '当前用户',
+                    content: content,
+                    time: '刚刚',
+                    likes: 0
+                });
+                
+                input.value = '';
+                viewPostDetail(postId);
+                alert('评论发表成功！');
+            }
+        }
+        
+        // 点赞评论
+        function likeComment(postId, commentIndex) {
+            const post = communityPosts.find(p => p.id === postId);
+            if (post && post.comments[commentIndex]) {
+                post.comments[commentIndex].likes++;
+                viewPostDetail(postId);
+            }
+        }
+        
+        // 回复评论
+        function replyComment(postId, authorName) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            input.value = `@${authorName} `;
+            input.focus();
+        }
+        
+        // 发布新帖子
+        function publishPost() {
+            const title = document.getElementById('post-title').value.trim();
+            const content = document.getElementById('post-content').value.trim();
+            const category = document.getElementById('post-category').value;
+            
+            if (!title || !content) {
+                alert('请填写标题和内容');
+                return;
+            }
+            
+            const newPost = {
+                id: communityPosts.length + 1,
+                title: title,
+                content: content,
+                author: '当前用户',
+                category: category,
+                time: '刚刚',
+                views: 0,
+                comments: [],
+                likes: 0
+            };
+            
+            communityPosts.unshift(newPost);
+            
+            document.getElementById('post-title').value = '';
+            document.getElementById('post-content').value = '';
+            
+            loadPosts();
+            alert('发布成功！');
+        }
+        
+        // ========== 社区交流功能结束 ==========
 
     </script>
 
