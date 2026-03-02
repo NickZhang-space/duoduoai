@@ -2043,8 +2043,6 @@
                 </div>
             </section>
 
-                            </div><!-- diagnosis-list -->
-
             <!-- 3. 增长机会 -->
             <section id="growth-main" class="main-section">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -2055,9 +2053,7 @@
                     <h3>放量清单 - Top 5 可扩量项</h3>
                     <div id="growth-list" class="growth-list">
 
-                        <!-- 增长机会列表 -->
-                    <div id="growth-list">
-                    <div class="growth-card">
+                        <div class="growth-card">
                             <div class="diagnosis-header">
                                 <div class="diagnosis-title">
                                     <span class="diagnosis-icon">🚀</span>
@@ -2098,8 +2094,6 @@
                     </div>
                 </div>
             </section>
-
-                            </div><!-- growth-list -->
 
             <!-- 4. AI 建议 -->
             <section id="ai-suggestions-main" class="main-section">
@@ -5819,24 +5813,28 @@ async function loadHotKeywords(category) {
         }
         
         
-        // 生成诊断
+        // 生成诊断（替换整个诊断中心的内容）
         function generateDiagnosis() {
-            const list = document.getElementById('diagnosis-list');
-            list.innerHTML = '<p class="placeholder-text">正在调用 DeepSeek AI 诊断...</p>';
+            const section = document.getElementById('diagnosis-tab');
+            if (!section) {
+                alert('诊断中心未找到');
+                return;
+            }
+            
+            // 保存标题和按钮
+            const titleHtml = section.querySelector('div[style*="display: flex"]').outerHTML;
+            
+            section.innerHTML = titleHtml + '<p class="placeholder-text">正在调用 DeepSeek AI 诊断...</p>';
             
             fetch('/api/ai/analyze', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    type: 'diagnosis',
-                    data: {}
-                })
+                body: JSON.stringify({type: 'diagnosis', data: {}})
             })
             .then(response => response.json())
             .then(result => {
                 if (result.success && result.data) {
                     let issues = [];
-                    
                     if (result.data.text) {
                         try {
                             const jsonMatch = result.data.text.match(/\{[\s\S]*\}/);
@@ -5844,21 +5842,19 @@ async function loadHotKeywords(category) {
                                 const parsed = JSON.parse(jsonMatch[0]);
                                 issues = parsed.issues || [];
                             }
-                        } catch (e) {
-                            console.error('解析失败:', e);
-                        }
+                        } catch (e) { console.error('解析失败:', e); }
                     } else if (result.data.issues) {
                         issues = result.data.issues;
                     }
                     
                     if (issues.length > 0) {
-                        list.innerHTML = '<h3 style="margin-bottom: 20px;">亏损雷达 - Top ' + issues.length + ' 拖累项</h3>' +
+                        section.innerHTML = titleHtml + '<h3 style="margin: 20px 0;">亏损雷达 - Top ' + issues.length + ' 拖累项</h3>' +
                             issues.map((issue, idx) => `
                             <div class="diagnosis-card">
                                 <div class="diagnosis-header">
                                     <span class="diagnosis-rank">#${idx + 1}</span>
                                     <span class="diagnosis-item">${issue.item}</span>
-                                    <span class="impact-badge ${issue.impact === '高' ? 'high' : issue.impact === '中' ? 'medium' : 'low'}">${issue.impact}影响</span>
+                                    <span class="impact-badge ${issue.impact === '高' ? 'high' : 'medium'}">${issue.impact}影响</span>
                                 </div>
                                 <div class="diagnosis-problem">⚠️ ${issue.problem}</div>
                                 <div class="diagnosis-cause">🔍 根因：${issue.root_cause}</div>
@@ -5867,36 +5863,40 @@ async function loadHotKeywords(category) {
                             </div>
                         `).join('');
                     } else {
-                        list.innerHTML = '<p class="placeholder-text">未发现明显问题</p>';
+                        section.innerHTML = titleHtml + '<p class="placeholder-text">未发现明显问题</p>';
                     }
                 } else {
-                    list.innerHTML = `<p class="placeholder-text" style="color: #dc2626;">诊断失败：${result.message || result.error}</p>`;
+                    section.innerHTML = titleHtml + '<p class="placeholder-text" style="color: #dc2626;">诊断失败：' + (result.message || result.error) + '</p>';
                 }
             })
             .catch(error => {
                 console.error('API 调用失败:', error);
-                list.innerHTML = '<p class="placeholder-text" style="color: #dc2626;">网络错误，请稍后重试</p>';
+                section.innerHTML = titleHtml + '<p class="placeholder-text" style="color: #dc2626;">网络错误，请稍后重试</p>';
             });
         }
         
-        // 发现增长机会
+        // 发现增长机会（替换整个增长机会的内容）
         function generateGrowth() {
-            const list = document.getElementById('growth-list');
-            list.innerHTML = '<p class="placeholder-text">正在调用 DeepSeek AI 分析...</p>';
+            const section = document.getElementById('growth-tab');
+            if (!section) {
+                alert('增长机会未找到');
+                return;
+            }
+            
+            // 保存标题和按钮
+            const titleHtml = section.querySelector('div[style*="display: flex"]').outerHTML;
+            
+            section.innerHTML = titleHtml + '<p class="placeholder-text">正在调用 DeepSeek AI 分析...</p>';
             
             fetch('/api/ai/analyze', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    type: 'growth',
-                    data: {}
-                })
+                body: JSON.stringify({type: 'growth', data: {}})
             })
             .then(response => response.json())
             .then(result => {
                 if (result.success && result.data) {
                     let opportunities = [];
-                    
                     if (result.data.text) {
                         try {
                             const jsonMatch = result.data.text.match(/\{[\s\S]*\}/);
@@ -5904,15 +5904,13 @@ async function loadHotKeywords(category) {
                                 const parsed = JSON.parse(jsonMatch[0]);
                                 opportunities = parsed.opportunities || [];
                             }
-                        } catch (e) {
-                            console.error('解析失败:', e);
-                        }
+                        } catch (e) { console.error('解析失败:', e); }
                     } else if (result.data.opportunities) {
                         opportunities = result.data.opportunities;
                     }
                     
                     if (opportunities.length > 0) {
-                        list.innerHTML = opportunities.map(opp => `
+                        section.innerHTML = titleHtml + opportunities.map(opp => `
                             <div class="growth-card">
                                 <div class="growth-header">
                                     <span class="growth-icon">📈</span>
@@ -5927,15 +5925,15 @@ async function loadHotKeywords(category) {
                             </div>
                         `).join('');
                     } else {
-                        list.innerHTML = '<p class="placeholder-text">暂无增长机会</p>';
+                        section.innerHTML = titleHtml + '<p class="placeholder-text">暂无增长机会</p>';
                     }
                 } else {
-                    list.innerHTML = `<p class="placeholder-text" style="color: #dc2626;">分析失败：${result.message || result.error}</p>`;
+                    section.innerHTML = titleHtml + '<p class="placeholder-text" style="color: #dc2626;">分析失败：' + (result.message || result.error) + '</p>';
                 }
             })
             .catch(error => {
                 console.error('API 调用失败:', error);
-                list.innerHTML = '<p class="placeholder-text" style="color: #dc2626;">网络错误，请稍后重试</p>';
+                section.innerHTML = titleHtml + '<p class="placeholder-text" style="color: #dc2626;">网络错误，请稍后重试</p>';
             });
         }
         
