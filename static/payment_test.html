@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支付测试 - 多多优化</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f8f9fa;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1a1a2e;
+            margin-bottom: 30px;
+        }
+        
+        .info {
+            background: #fff5f2;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .info p {
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .info p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232, 77, 26, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #333;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 支付功能测试</h1>
+        
+        <div class="info">
+            <p><strong>说明：</strong></p>
+            <p>1. 点击"模拟支付成功"按钮可以直接完成支付</p>
+            <p>2. 生产环境需要接入真实的微信/支付宝支付</p>
+            <p>3. 当前订单号会显示在下方</p>
+        </div>
+        
+        <button class="btn" onclick="testCreateOrder()">1. 创建测试订单</button>
+        <button class="btn" onclick="testSimulatePayment()" id="btn-simulate" disabled>2. 模拟支付成功</button>
+        <button class="btn" onclick="testCheckStatus()" id="btn-check" disabled>3. 查询支付状态</button>
+        
+        <div id="result" class="result"></div>
+    </div>
+    
+    <script>
+        let currentOrderId = null;
+        
+        async function testCreateOrder() {
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = '创建中...';
+            
+            try {
+                const response = await fetch('/api/payment/create', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        plan: '基础版',
+                        method: 'wechat',
+                        amount: 49
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentOrderId = result.order_id;
+                    showResult('✅ 订单创建成功', result);
+                    
+                    // 启用其他按钮
+                    document.getElementById('btn-simulate').disabled = false;
+                    document.getElementById('btn-check').disabled = false;
+                } else {
+                    showResult('❌ 创建失败', result);
+                }
+            } catch (error) {
+                showResult('❌ 请求失败', {error: error.message});
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '1. 创建测试订单';
+            }
+        }
+        
+        async function testSimulatePayment() {
+            if (!currentOrderId) {
+                alert('请先创建订单');
+                return;
+            }
+            
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = '支付中...';
+            
+            try {
+                const response = await fetch('/api/payment/simulate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        order_id: currentOrderId
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showResult('✅ 支付成功', result);
+                } else {
+                    showResult('❌ 支付失败', result);
+                }
+            } catch (error) {
+                showResult('❌ 请求失败', {error: error.message});
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '2. 模拟支付成功';
+            }
+        }
+        
+        async function testCheckStatus() {
+            if (!currentOrderId) {
+                alert('请先创建订单');
+                return;
+            }
+            
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = '查询中...';
+            
+            try {
+                const response = await fetch(`/api/payment/status?order_id=${currentOrderId}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    showResult('✅ 查询成功', result);
+                } else {
+                    showResult('❌ 查询失败', result);
+                }
+            } catch (error) {
+                showResult('❌ 请求失败', {error: error.message});
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '3. 查询支付状态';
+            }
+        }
+        
+        function showResult(title, data) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<strong>${title}</strong><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            resultDiv.classList.add('show');
+        }
+    </script>
+</body>
+</html>

@@ -2809,6 +2809,170 @@ async def get_post(post_id: int):
 
 
 
+
+# ==================== 支付功能 API ====================
+
+# 订单存储（生产环境应使用数据库）
+payment_orders = {}
+
+@app.post("/api/payment/create")
+async def create_payment(request: dict):
+    """创建支付订单"""
+    try:
+        import secrets
+        from datetime import datetime
+        
+        plan = request.get('plan', '')
+        method = request.get('method', 'wechat')
+        amount = request.get('amount', 0)
+        
+        # 生成订单号
+        order_id = 'ORDER' + datetime.now().strftime('%Y%m%d%H%M%S') + secrets.token_hex(4).upper()
+        
+        # 创建订单
+        order = {
+            'order_id': order_id,
+            'plan': plan,
+            'method': method,
+            'amount': amount,
+            'status': 'pending',
+            'created_at': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'paid_at': None
+        }
+        
+        payment_orders[order_id] = order
+        
+        # 生成二维码URL（这里使用模拟二维码）
+        # 生产环境应该调用微信/支付宝API生成真实支付二维码
+        qrcode_url = f'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ORDER:{order_id}'
+        
+        logger.info(f"创建支付订单: {order_id}, 套餐: {plan}, 金额: {amount}")
+        
+        return {
+            "success": True,
+            "order_id": order_id,
+            "qrcode_url": qrcode_url,
+            "created_at": order['created_at']
+        }
+        
+    except Exception as e:
+        logger.error(f"创建支付订单失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.get("/api/payment/status")
+async def check_payment_status(order_id: str):
+    """查询支付状态"""
+    try:
+        if order_id not in payment_orders:
+            return {
+                "success": False,
+                "message": "订单不存在"
+            }
+        
+        order = payment_orders[order_id]
+        
+        return {
+            "success": True,
+            "status": order['status'],
+            "order": order
+        }
+        
+    except Exception as e:
+        logger.error(f"查询支付状态失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/payment/callback")
+async def payment_callback(request: dict):
+    """支付回调（模拟）"""
+    try:
+        from datetime import datetime
+        
+        order_id = request.get('order_id', '')
+        
+        if order_id not in payment_orders:
+            return {
+                "success": False,
+                "message": "订单不存在"
+            }
+        
+        order = payment_orders[order_id]
+        order['status'] = 'paid'
+        order['paid_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
+        logger.info(f"支付成功: {order_id}")
+        
+        # TODO: 更新用户套餐
+        
+        return {
+            "success": True,
+            "message": "支付成功"
+        }
+        
+    except Exception as e:
+        logger.error(f"支付回调失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/payment/simulate")
+async def simulate_payment(request: dict):
+    """模拟支付成功（测试用）"""
+    try:
+        from datetime import datetime
+        
+        order_id = request.get('order_id', '')
+        
+        if order_id not in payment_orders:
+            return {
+                "success": False,
+                "message": "订单不存在"
+            }
+        
+        order = payment_orders[order_id]
+        order['status'] = 'paid'
+        order['paid_at'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
+        logger.info(f"模拟支付成功: {order_id}")
+        
+        return {
+            "success": True,
+            "message": "支付成功"
+        }
+        
+    except Exception as e:
+        logger.error(f"模拟支付失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.get("/api/payment/orders")
+async def get_payment_orders():
+    """获取所有订单（管理员用）"""
+    try:
+        orders = list(payment_orders.values())
+        orders.sort(key=lambda x: x['created_at'], reverse=True)
+        
+        return {
+            "success": True,
+            "data": orders
+        }
+        
+    except Exception as e:
+        logger.error(f"获取订单列表失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
 # ==================== 管理员后台 API ====================
 
 # 管理员认证装饰器（简化版，生产环境应使用 JWT）
