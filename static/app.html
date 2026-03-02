@@ -5737,28 +5737,93 @@ async function loadHotKeywords(category) {
         // 生成 AI 建议
         function generateAISuggestions() {
             const list = document.getElementById('ai-actions-list');
-            list.innerHTML = '<p class="placeholder-text">正在生成 AI 建议...</p>';
+            list.innerHTML = '<p class="placeholder-text">正在调用 DeepSeek AI 分析...</p>';
             
-            setTimeout(() => {
-                list.innerHTML = `
-                    <div class="action-card">
-                        <div class="action-header">
-                            <span class="action-icon">💰</span>
-                            <span class="action-type">调整预算</span>
-                            <span class="risk-badge low">低风险</span>
-                        </div>
-                        <div class="action-problem">问题：搜索推广预算利用率仅 65%</div>
-                        <div class="action-suggestion">建议：将每日预算从 ¥500 提升至 ¥650</div>
-                        <div class="action-effect">预期效果：ROI 保持 2.5，销售额提升 30%</div>
-                        <div class="action-window">观察窗口：3天</div>
-                        <div class="action-buttons">
-                            <button class="btn-primary btn-sm">执行</button>
-                            <button class="btn-secondary btn-sm">忽略</button>
-                            <button class="btn-secondary btn-sm">稍后</button>
-                        </div>
-                    </div>
-                `;
-            }, 1000);
+            // 调用后端 API
+            fetch('/api/ai/analyze', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    type: 'suggestions',
+                    data: {}  // 这里应该传入用户上传的数据
+                })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success && result.data) {
+                    // 解析 AI 返回的建议
+                    let suggestions = [];
+                    
+                    // 处理可能的 text 格式
+                    if (result.data.text) {
+                        try {
+                            // 提取 JSON 部分
+                            const jsonMatch = result.data.text.match(/\{[\s\S]*\}/);
+                            if (jsonMatch) {
+                                const parsed = JSON.parse(jsonMatch[0]);
+                                suggestions = parsed.suggestions || [];
+                            }
+                        } catch (e) {
+                            console.error('解析 AI 返回失败:', e);
+                        }
+                    } else if (result.data.suggestions) {
+                        suggestions = result.data.suggestions;
+                    }
+                    
+                    // 渲染建议卡片
+                    if (suggestions.length > 0) {
+                        list.innerHTML = suggestions.map(s => `
+                            <div class="action-card">
+                                <div class="action-header">
+                                    <span class="action-icon">${getActionIcon(s.type)}</span>
+                                    <span class="action-type">${s.type}</span>
+                                    <span class="risk-badge ${getRiskClass(s.risk_level)}">${s.risk_level}</span>
+                                </div>
+                                <div class="action-problem">问题：${s.problem}</div>
+                                <div class="action-suggestion">建议：${s.suggestion}</div>
+                                <div class="action-effect">预期效果：${s.expected_effect}</div>
+                                <div class="action-footer">
+                                    <span class="observation-window">观察窗口：${s.observation_days}天</span>
+                                    <div class="action-buttons">
+                                        <button class="btn-secondary btn-sm" onclick="alert('查看详情功能开发中')">查看详情</button>
+                                        <button class="btn-primary btn-sm" onclick="alert('一键执行功能开发中')">一键执行</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        list.innerHTML = '<p class="placeholder-text">AI 未生成建议，请检查数据</p>';
+                    }
+                } else {
+                    list.innerHTML = `<p class="placeholder-text" style="color: #dc2626;">AI 分析失败：${result.message || result.error}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('API 调用失败:', error);
+                list.innerHTML = '<p class="placeholder-text" style="color: #dc2626;">网络错误，请稍后重试</p>';
+            });
+        }
+        
+        function getActionIcon(type) {
+            const icons = {
+                '调整预算': '💰',
+                '优化出价': '📊',
+                '调整关键词': '🔑',
+                '优化创意': '🎨',
+                '调整投放策略': '⚙️'
+            };
+            return icons[type] || '💡';
+        }
+        
+        function getRiskClass(level) {
+            const classes = {
+                '低风险': 'low',
+                '中风险': 'medium',
+                '高风险': 'high'
+            };
+            return classes[level] || 'medium';
         }
         
         // 设置项点击

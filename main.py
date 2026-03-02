@@ -2400,6 +2400,32 @@ async def get_real_competitor_snapshots(goods_id: str):
             "error": str(e)
         }
 
+
+# ==================== DeepSeek AI 分析 API ====================
+from deepseek_analyzer import analyze_with_deepseek, get_sample_data
+
+@app.post("/api/ai/analyze")
+async def ai_analyze(request: Request):
+    """AI 分析接口"""
+    try:
+        body = await request.json()
+        analysis_type = body.get("type", "suggestions")
+        data = body.get("data", get_sample_data())
+        result = await analyze_with_deepseek(data, analysis_type)
+        return result
+    except Exception as e:
+        return {"success": False, "error": str(e), "message": "AI 分析失败"}
+
+@app.get("/api/ai/test")
+async def ai_test():
+    """测试 DeepSeek API 连接"""
+    try:
+        sample_data = get_sample_data()
+        result = await analyze_with_deepseek(sample_data, "suggestions")
+        return result
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
 if __name__ == "__main__":
     init_sample_notifications()
     port = int(os.getenv("PORT", 8000))
