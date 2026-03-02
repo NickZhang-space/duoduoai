@@ -3,567 +3,738 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理后台 - 多多AI优化师</title>
+    <title>管理员后台 - PDD GrowthOS</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background: #f8f9fa; 
         }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: #f5f7fa;
+        
+        /* 顶部导航 */
+        .admin-header {
+            background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%);
+            color: white;
+            padding: 20px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
-        .navbar {
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            padding: 0 30px;
+        .admin-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
         }
-
-        .navbar-content {
+        .admin-header .subtitle {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        /* 主容器 */
+        .admin-container {
             max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
-
-        .logo {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .btn-logout {
-            background: #f5f7fa;
-            color: #666;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-logout:hover {
-            background: #e8ecf1;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 30px;
-        }
-
+        
+        /* 统计卡片 */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-
         .stat-card {
             background: white;
-            border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-
-        .stat-card h3 {
+        .stat-card .label {
             color: #666;
-            font-size: 0.9em;
+            font-size: 14px;
             margin-bottom: 10px;
         }
-
         .stat-card .value {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #667eea;
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a2e;
         }
-
-        .orders-section {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        .stat-card .trend {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #10b981;
         }
-
-        .orders-section h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
+        
+        /* 标签页 */
         .tabs {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid #e3e8ee;
         }
-
         .tab {
             padding: 12px 24px;
-            background: transparent;
+            background: none;
             border: none;
-            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
             color: #666;
-            font-size: 1em;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -2px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
             transition: all 0.3s;
         }
-
         .tab:hover {
-            color: #667eea;
+            color: #E84D1A;
         }
-
         .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
+            color: #E84D1A;
+            border-bottom-color: #E84D1A;
         }
-
-        .order-list {
+        
+        /* 内容区域 */
+        .tab-content {
             display: none;
         }
-
-        .order-list.active {
+        .tab-content.active {
             display: block;
         }
-
-        .order-item {
-            border: 2px solid #e8ecf1;
+        
+        /* 用户表格 */
+        .users-table {
+            background: white;
             border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .table-header {
             padding: 20px;
-            margin-bottom: 15px;
-            transition: all 0.3s;
-        }
-
-        .order-item:hover {
-            border-color: #667eea;
-        }
-
-        .order-header {
+            border-bottom: 1px solid #e3e8ee;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
         }
-
-        .order-id {
-            font-weight: bold;
-            color: #333;
+        .table-header h2 {
+            font-size: 18px;
+            color: #1a1a2e;
         }
-
-        .order-status {
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-
-        .order-status.pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .order-status.approved {
-            background: #d1e7dd;
-            color: #0f5132;
-        }
-
-        .order-status.rejected {
-            background: #f8d7da;
-            color: #842029;
-        }
-
-        .order-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .order-detail {
-            color: #666;
-        }
-
-        .order-detail strong {
-            color: #333;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .order-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
+        .search-box {
+            padding: 8px 16px;
+            border: 2px solid #e3e8ee;
             border-radius: 8px;
-            cursor: pointer;
+            font-size: 14px;
+            width: 300px;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: #E84D1A;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
             font-weight: 600;
+            color: #666;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e3e8ee;
+            color: #333;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        /* 状态标签 */
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-badge.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .status-badge.banned {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .status-badge.free {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+        .status-badge.basic {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .status-badge.pro {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        /* 按钮 */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s;
         }
-
-        .btn-approve {
-            background: #10b981;
+        .btn-primary {
+            background: #E84D1A;
             color: white;
         }
-
-        .btn-approve:hover {
-            background: #059669;
+        .btn-primary:hover {
+            background: #d43d0a;
         }
-
-        .btn-reject {
-            background: #ef4444;
-            color: white;
+        .btn-secondary {
+            background: #e3e8ee;
+            color: #666;
         }
-
-        .btn-reject:hover {
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+        .btn-danger {
             background: #dc2626;
-        }
-
-        .btn-view {
-            background: #667eea;
             color: white;
         }
-
-        .btn-view:hover {
-            background: #5568d3;
+        .btn-danger:hover {
+            background: #b91c1c;
         }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
         }
-
-        .empty-state .icon {
-            font-size: 4em;
-            margin-bottom: 20px;
+        
+        /* 操作按钮组 */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
         }
-
-        .login-form {
-            max-width: 400px;
-            margin: 100px auto;
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
             background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            width: 500px;
+            max-width: 90%;
         }
-
-        .login-form h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
+        .modal-header {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1a1a2e;
         }
-
         .form-group {
             margin-bottom: 20px;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e8ecf1;
-            border-radius: 8px;
-            font-size: 1em;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
             font-weight: 600;
-            cursor: pointer;
+            color: #666;
         }
-
-        .btn-login:hover {
-            opacity: 0.9;
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e3e8ee;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #E84D1A;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+        
+        /* 日志表格 */
+        .log-entry {
+            padding: 15px;
+            border-bottom: 1px solid #e3e8ee;
+            display: grid;
+            grid-template-columns: 150px 100px 1fr 150px;
+            gap: 15px;
+            align-items: center;
+        }
+        .log-time {
+            color: #999;
+            font-size: 13px;
+        }
+        .log-admin {
+            font-weight: 600;
+            color: #E84D1A;
+        }
+        .log-action {
+            color: #333;
+        }
+        .log-target {
+            color: #666;
+            font-size: 13px;
         }
     </style>
 </head>
 <body>
-    <div id="login-page" style="display: none;">
-        <div class="login-form">
-            <h2>🔐 管理员登录</h2>
-            <form id="admin-login-form">
-                <div class="form-group">
-                    <label>用户名</label>
-                    <input type="text" id="admin-username" required>
-                </div>
-                <div class="form-group">
-                    <label>密码</label>
-                    <input type="password" id="admin-password" required>
-                </div>
-                <button type="submit" class="btn-login">登录</button>
-            </form>
-        </div>
+    <!-- 顶部导航 -->
+    <div class="admin-header">
+        <h1>🛡️ 管理员后台</h1>
+        <div class="subtitle">PDD GrowthOS 系统管理</div>
     </div>
-
-    <div id="admin-page" style="display: none;">
-        <nav class="navbar">
-            <div class="navbar-content">
-                <div class="logo">🚀 多多AI优化师 - 管理后台</div>
-                <button class="btn-logout" onclick="logout()">退出登录</button>
+    
+    <!-- 主容器 -->
+    <div class="admin-container">
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">总用户数</div>
+                <div class="value" id="total-users">0</div>
+                <div class="trend">↑ 本周新增 12 人</div>
             </div>
-        </nav>
-
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>待审核订单</h3>
-                    <div class="value" id="pending-count">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>今日订单</h3>
-                    <div class="value" id="today-count">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>总用户数</h3>
-                    <div class="value" id="user-count">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>今日收入</h3>
-                    <div class="value" id="today-revenue">¥0</div>
-                </div>
+            <div class="stat-card">
+                <div class="label">付费用户</div>
+                <div class="value" id="paid-users">0</div>
+                <div class="trend">转化率 35%</div>
             </div>
-
-            <div class="orders-section">
-                <h2>订单管理</h2>
-                <div class="tabs">
-                    <button class="tab active" onclick="switchTab('pending')">待审核</button>
-                    <button class="tab" onclick="switchTab('approved')">已通过</button>
-                    <button class="tab" onclick="switchTab('rejected')">已拒绝</button>
-                    <button class="tab" onclick="switchTab('all')">全部</button>
-                </div>
-
-                <div id="pending-orders" class="order-list active"></div>
-                <div id="approved-orders" class="order-list"></div>
-                <div id="rejected-orders" class="order-list"></div>
-                <div id="all-orders" class="order-list"></div>
+            <div class="stat-card">
+                <div class="label">今日活跃</div>
+                <div class="value" id="active-users">0</div>
+                <div class="trend">↑ 较昨日 +8%</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">本月收入</div>
+                <div class="value">¥<span id="monthly-revenue">0</span></div>
+                <div class="trend">↑ 较上月 +23%</div>
             </div>
         </div>
+        
+        <!-- 标签页 -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('users')">👥 用户管理</button>
+            <button class="tab" onclick="switchTab('logs')">📋 操作日志</button>
+            <button class="tab" onclick="switchTab('settings')">⚙️ 系统设置</button>
+        </div>
+        
+        <!-- 用户管理 -->
+        <div id="users-tab" class="tab-content active">
+            <div class="users-table">
+                <div class="table-header">
+                    <h2>用户列表</h2>
+                    <input type="text" class="search-box" placeholder="搜索用户..." onkeyup="searchUsers(this.value)">
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>用户ID</th>
+                            <th>用户名</th>
+                            <th>邮箱</th>
+                            <th>套餐</th>
+                            <th>AI额度</th>
+                            <th>状态</th>
+                            <th>注册时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <!-- 动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 操作日志 -->
+        <div id="logs-tab" class="tab-content">
+            <div class="users-table">
+                <div class="table-header">
+                    <h2>操作日志</h2>
+                </div>
+                <div id="logs-list">
+                    <!-- 动态加载 -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- 系统设置 -->
+        <div id="settings-tab" class="tab-content">
+            <div class="users-table">
+                <div class="table-header">
+                    <h2>系统设置</h2>
+                </div>
+                <div style="padding: 30px;">
+                    <div class="form-group">
+                        <label>免费版 AI 额度（每月）</label>
+                        <input type="number" id="free-quota" value="2">
+                    </div>
+                    <div class="form-group">
+                        <label>基础版 AI 额度（每日）</label>
+                        <input type="number" id="basic-quota" value="50">
+                    </div>
+                    <div class="form-group">
+                        <label>专业版 AI 额度</label>
+                        <input type="text" id="pro-quota" value="无限" readonly>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveSystemSettings()">保存设置</button>
+                </div>
+            </div>
+        </div>
     </div>
-
+    
+    <!-- 调整额度模态框 -->
+    <div id="quota-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">调整 AI 额度</div>
+            <div class="form-group">
+                <label>用户</label>
+                <input type="text" id="modal-username" readonly>
+            </div>
+            <div class="form-group">
+                <label>当前额度</label>
+                <input type="number" id="modal-current-quota" readonly>
+            </div>
+            <div class="form-group">
+                <label>新额度</label>
+                <input type="number" id="modal-new-quota" placeholder="输入新的额度">
+            </div>
+            <div class="form-group">
+                <label>备注</label>
+                <input type="text" id="modal-reason" placeholder="调整原因（可选）">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="closeModal('quota-modal')">取消</button>
+                <button class="btn btn-primary" onclick="confirmQuotaChange()">确认</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 封禁用户模态框 -->
+    <div id="ban-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">封禁用户</div>
+            <div class="form-group">
+                <label>用户</label>
+                <input type="text" id="ban-username" readonly>
+            </div>
+            <div class="form-group">
+                <label>封禁原因</label>
+                <input type="text" id="ban-reason" placeholder="请输入封禁原因">
+            </div>
+            <div class="form-group">
+                <label>封禁时长</label>
+                <select id="ban-duration">
+                    <option value="7">7天</option>
+                    <option value="30">30天</option>
+                    <option value="365">1年</option>
+                    <option value="-1">永久</option>
+                </select>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-secondary" onclick="closeModal('ban-modal')">取消</button>
+                <button class="btn btn-danger" onclick="confirmBan()">确认封禁</button>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        let adminToken = localStorage.getItem('admin_token');
-
-        function checkAuth() {
-            if (adminToken) {
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('admin-page').style.display = 'block';
-                loadData();
-            } else {
-                document.getElementById('login-page').style.display = 'block';
-                document.getElementById('admin-page').style.display = 'none';
-            }
-        }
-
-        document.getElementById('admin-login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('admin-username').value;
-            const password = document.getElementById('admin-password').value;
-
+        let currentUserId = null;
+        let users = [];
+        
+        // 加载用户列表
+        async function loadUsers() {
             try {
-                const response = await fetch('/api/admin/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-
+                const response = await fetch('/api/admin/users');
                 const result = await response.json();
+                
                 if (result.success) {
-                    adminToken = result.token;
-                    localStorage.setItem('admin_token', adminToken);
-                    checkAuth();
-                } else {
-                    alert('登录失败：' + result.message);
+                    users = result.data;
+                    renderUsers(users);
+                    updateStats(users);
                 }
             } catch (error) {
-                alert('登录失败：' + error.message);
-            }
-        });
-
-        function logout() {
-            localStorage.removeItem('admin_token');
-            adminToken = null;
-            checkAuth();
-        }
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-
-            document.querySelectorAll('.order-list').forEach(l => l.classList.remove('active'));
-            document.getElementById(tab + '-orders').classList.add('active');
-        }
-
-        async function loadData() {
-            try {
-                const response = await fetch('/api/admin/orders', {
-                    headers: { 'Authorization': `Bearer ${adminToken}` }
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    updateStats(result.stats);
-                    renderOrders(result.orders);
-                }
-            } catch (error) {
-                console.error('加载数据失败:', error);
+                console.error('加载用户失败:', error);
             }
         }
-
-        function updateStats(stats) {
-            document.getElementById('pending-count').textContent = stats.pending || 0;
-            document.getElementById('today-count').textContent = stats.today || 0;
-            document.getElementById('user-count').textContent = stats.users || 0;
-            document.getElementById('today-revenue').textContent = '¥' + (stats.revenue || 0);
+        
+        // 渲染用户列表
+        function renderUsers(userList) {
+            const tbody = document.getElementById('users-tbody');
+            tbody.innerHTML = userList.map(user => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td><span class="status-badge ${user.plan}">${user.plan_name}</span></td>
+                    <td>${user.ai_quota}</td>
+                    <td><span class="status-badge ${user.status}">${user.status === 'active' ? '正常' : '已封禁'}</span></td>
+                    <td>${user.created_at}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary btn-sm" onclick="openQuotaModal(${user.id})">调整额度</button>
+                            ${user.status === 'active' 
+                                ? `<button class="btn btn-danger btn-sm" onclick="openBanModal(${user.id})">封禁</button>`
+                                : `<button class="btn btn-secondary btn-sm" onclick="unbanUser(${user.id})">解封</button>`
+                            }
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
         }
-
-        function renderOrders(orders) {
-            const pending = orders.filter(o => o.status === 'pending');
-            const approved = orders.filter(o => o.status === 'approved');
-            const rejected = orders.filter(o => o.status === 'rejected');
-
-            renderOrderList('pending-orders', pending);
-            renderOrderList('approved-orders', approved);
-            renderOrderList('rejected-orders', rejected);
-            renderOrderList('all-orders', orders);
-        }
-
-        function renderOrderList(containerId, orders) {
-            const container = document.getElementById(containerId);
+        
+        // 更新统计
+        function updateStats(userList) {
+            document.getElementById('total-users').textContent = userList.length;
+            document.getElementById('paid-users').textContent = userList.filter(u => u.plan !== 'free').length;
+            document.getElementById('active-users').textContent = userList.filter(u => u.status === 'active').length;
             
-            if (orders.length === 0) {
-                container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>暂无订单</p></div>';
+            const revenue = userList.reduce((sum, u) => {
+                if (u.plan === 'basic') return sum + 49;
+                if (u.plan === 'pro') return sum + 129;
+                return sum;
+            }, 0);
+            document.getElementById('monthly-revenue').textContent = revenue;
+        }
+        
+        // 搜索用户
+        function searchUsers(keyword) {
+            if (!keyword) {
+                renderUsers(users);
                 return;
             }
-
-            container.innerHTML = orders.map(order => `
-                <div class="order-item">
-                    <div class="order-header">
-                        <span class="order-id">订单 #${order.id}</span>
-                        <span class="order-status ${order.status}">${getStatusText(order.status)}</span>
-                    </div>
-                    <div class="order-details">
-                        <div class="order-detail">
-                            <strong>用户</strong>
-                            ${order.user_email}
-                        </div>
-                        <div class="order-detail">
-                            <strong>套餐</strong>
-                            ${order.plan_name}
-                        </div>
-                        <div class="order-detail">
-                            <strong>金额</strong>
-                            ¥${order.amount}
-                        </div>
-                        <div class="order-detail">
-                            <strong>支付方式</strong>
-                            ${order.payment_method === 'alipay' ? '支付宝' : '微信'}
-                        </div>
-                        <div class="order-detail">
-                            <strong>交易单号后4位</strong>
-                            ${order.transaction_id}
-                        </div>
-                        <div class="order-detail">
-                            <strong>提交时间</strong>
-                            ${new Date(order.created_at).toLocaleString()}
-                        </div>
-                    </div>
-                    ${order.note ? `<div style="color: #666; margin-bottom: 15px;">备注：${order.note}</div>` : ''}
-                    ${order.status === 'pending' ? `
-                        <div class="order-actions">
-                            <button class="btn btn-approve" onclick="approveOrder(${order.id})">✓ 通过</button>
-                            <button class="btn btn-reject" onclick="rejectOrder(${order.id})">✗ 拒绝</button>
-                        </div>
-                    ` : ''}
+            
+            const filtered = users.filter(u => 
+                u.username.includes(keyword) || 
+                u.email.includes(keyword) ||
+                u.id.toString().includes(keyword)
+            );
+            renderUsers(filtered);
+        }
+        
+        // 打开调整额度模态框
+        function openQuotaModal(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            currentUserId = userId;
+            document.getElementById('modal-username').value = user.username;
+            document.getElementById('modal-current-quota').value = user.ai_quota;
+            document.getElementById('modal-new-quota').value = '';
+            document.getElementById('modal-reason').value = '';
+            document.getElementById('quota-modal').classList.add('active');
+        }
+        
+        // 确认调整额度
+        async function confirmQuotaChange() {
+            const newQuota = document.getElementById('modal-new-quota').value;
+            const reason = document.getElementById('modal-reason').value;
+            
+            if (!newQuota) {
+                alert('请输入新的额度');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/admin/adjust-quota', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        user_id: currentUserId,
+                        new_quota: parseInt(newQuota),
+                        reason: reason
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ 额度调整成功');
+                    closeModal('quota-modal');
+                    loadUsers();
+                    loadLogs();
+                } else {
+                    alert('❌ 调整失败：' + result.message);
+                }
+            } catch (error) {
+                alert('❌ 调整失败：' + error.message);
+            }
+        }
+        
+        // 打开封禁模态框
+        function openBanModal(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            currentUserId = userId;
+            document.getElementById('ban-username').value = user.username;
+            document.getElementById('ban-reason').value = '';
+            document.getElementById('ban-modal').classList.add('active');
+        }
+        
+        // 确认封禁
+        async function confirmBan() {
+            const reason = document.getElementById('ban-reason').value;
+            const duration = document.getElementById('ban-duration').value;
+            
+            if (!reason) {
+                alert('请输入封禁原因');
+                return;
+            }
+            
+            if (!confirm('确认封禁此用户？')) return;
+            
+            try {
+                const response = await fetch('/api/admin/ban-user', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        user_id: currentUserId,
+                        reason: reason,
+                        duration: parseInt(duration)
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ 用户已封禁');
+                    closeModal('ban-modal');
+                    loadUsers();
+                    loadLogs();
+                } else {
+                    alert('❌ 封禁失败：' + result.message);
+                }
+            } catch (error) {
+                alert('❌ 封禁失败：' + error.message);
+            }
+        }
+        
+        // 解封用户
+        async function unbanUser(userId) {
+            if (!confirm('确认解封此用户？')) return;
+            
+            try {
+                const response = await fetch('/api/admin/unban-user', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ user_id: userId })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ 用户已解封');
+                    loadUsers();
+                    loadLogs();
+                } else {
+                    alert('❌ 解封失败：' + result.message);
+                }
+            } catch (error) {
+                alert('❌ 解封失败：' + error.message);
+            }
+        }
+        
+        // 加载操作日志
+        async function loadLogs() {
+            try {
+                const response = await fetch('/api/admin/logs');
+                const result = await response.json();
+                
+                if (result.success) {
+                    renderLogs(result.data);
+                }
+            } catch (error) {
+                console.error('加载日志失败:', error);
+            }
+        }
+        
+        // 渲染日志
+        function renderLogs(logs) {
+            const list = document.getElementById('logs-list');
+            list.innerHTML = logs.map(log => `
+                <div class="log-entry">
+                    <div class="log-time">${log.timestamp}</div>
+                    <div class="log-admin">${log.admin}</div>
+                    <div class="log-action">${log.action}</div>
+                    <div class="log-target">${log.target}</div>
                 </div>
             `).join('');
         }
-
-        function getStatusText(status) {
-            const map = {
-                'pending': '待审核',
-                'approved': '已通过',
-                'rejected': '已拒绝'
-            };
-            return map[status] || status;
-        }
-
-        async function approveOrder(orderId) {
-            if (!confirm('确认通过此订单？')) return;
-
+        
+        // 保存系统设置
+        async function saveSystemSettings() {
+            const freeQuota = document.getElementById('free-quota').value;
+            const basicQuota = document.getElementById('basic-quota').value;
+            
             try {
-                const response = await fetch(`/api/admin/orders/${orderId}/approve`, {
+                const response = await fetch('/api/admin/system-settings', {
                     method: 'POST',
-                    headers: { 'Authorization': `Bearer ${adminToken}` }
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        free_quota: parseInt(freeQuota),
+                        basic_quota: parseInt(basicQuota)
+                    })
                 });
-
+                
                 const result = await response.json();
+                
                 if (result.success) {
-                    alert('订单已通过，套餐已开通');
-                    loadData();
+                    alert('✅ 设置已保存');
                 } else {
-                    alert('操作失败：' + result.message);
+                    alert('❌ 保存失败：' + result.message);
                 }
             } catch (error) {
-                alert('操作失败：' + error.message);
+                alert('❌ 保存失败：' + error.message);
             }
         }
-
-        async function rejectOrder(orderId) {
-            const reason = prompt('请输入拒绝原因：');
-            if (!reason) return;
-
-            try {
-                const response = await fetch(`/api/admin/orders/${orderId}/reject`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${adminToken}`
-                    },
-                    body: JSON.stringify({ reason })
-                });
-
-                const result = await response.json();
-                if (result.success) {
-                    alert('订单已拒绝');
-                    loadData();
-                } else {
-                    alert('操作失败：' + result.message);
-                }
-            } catch (error) {
-                alert('操作失败：' + error.message);
+        
+        // 切换标签页
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tab + '-tab').classList.add('active');
+            
+            if (tab === 'logs') {
+                loadLogs();
             }
         }
-
-        // 自动刷新
-        setInterval(loadData, 30000);
-
-        // 初始化
-        checkAuth();
+        
+        // 关闭模态框
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        // 页面加载时初始化
+        window.onload = function() {
+            loadUsers();
+        };
     </script>
 </body>
 </html>

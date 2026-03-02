@@ -2808,6 +2808,277 @@ async def get_post(post_id: int):
         }
 
 
+
+# ==================== 管理员后台 API ====================
+
+# 管理员认证装饰器（简化版，生产环境应使用 JWT）
+def admin_required(func):
+    """管理员权限验证"""
+    async def wrapper(*args, **kwargs):
+        # TODO: 实际应该验证管理员 token
+        return await func(*args, **kwargs)
+    return wrapper
+
+# 模拟用户数据（生产环境应使用数据库）
+admin_users = [
+    {
+        'id': 1,
+        'username': '测试用户1',
+        'email': 'user1@example.com',
+        'plan': 'free',
+        'plan_name': '免费版',
+        'ai_quota': 2,
+        'status': 'active',
+        'created_at': '2026-02-15'
+    },
+    {
+        'id': 2,
+        'username': '测试用户2',
+        'email': 'user2@example.com',
+        'plan': 'basic',
+        'plan_name': '基础版',
+        'ai_quota': 50,
+        'status': 'active',
+        'created_at': '2026-02-20'
+    },
+    {
+        'id': 3,
+        'username': '测试用户3',
+        'email': 'user3@example.com',
+        'plan': 'pro',
+        'plan_name': '专业版',
+        'ai_quota': 999999,
+        'status': 'active',
+        'created_at': '2026-02-25'
+    },
+    {
+        'id': 4,
+        'username': '违规用户',
+        'email': 'banned@example.com',
+        'plan': 'free',
+        'plan_name': '免费版',
+        'ai_quota': 0,
+        'status': 'banned',
+        'created_at': '2026-03-01'
+    }
+]
+
+# 操作日志
+admin_logs = []
+
+@app.get("/api/admin/users")
+async def get_admin_users():
+    """获取用户列表"""
+    try:
+        return {
+            "success": True,
+            "data": admin_users
+        }
+    except Exception as e:
+        logger.error(f"获取用户列表失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/admin/adjust-quota")
+async def adjust_user_quota(request: dict):
+    """调整用户 AI 额度"""
+    try:
+        from datetime import datetime
+        
+        user_id = request.get('user_id')
+        new_quota = request.get('new_quota')
+        reason = request.get('reason', '')
+        
+        # 查找用户
+        user = None
+        for u in admin_users:
+            if u['id'] == user_id:
+                user = u
+                break
+        
+        if not user:
+            return {
+                "success": False,
+                "message": "用户不存在"
+            }
+        
+        old_quota = user['ai_quota']
+        user['ai_quota'] = new_quota
+        
+        # 记录日志
+        log = {
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'admin': '管理员',
+            'action': f'调整额度：{old_quota} → {new_quota}',
+            'target': f'{user["username"]} (ID: {user_id})',
+            'reason': reason
+        }
+        admin_logs.insert(0, log)
+        
+        logger.info(f"调整用户 {user_id} 额度: {old_quota} → {new_quota}")
+        
+        return {
+            "success": True,
+            "message": "额度调整成功"
+        }
+        
+    except Exception as e:
+        logger.error(f"调整额度失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/admin/ban-user")
+async def ban_user(request: dict):
+    """封禁用户"""
+    try:
+        from datetime import datetime
+        
+        user_id = request.get('user_id')
+        reason = request.get('reason', '')
+        duration = request.get('duration', 7)
+        
+        # 查找用户
+        user = None
+        for u in admin_users:
+            if u['id'] == user_id:
+                user = u
+                break
+        
+        if not user:
+            return {
+                "success": False,
+                "message": "用户不存在"
+            }
+        
+        user['status'] = 'banned'
+        
+        # 记录日志
+        duration_text = '永久' if duration == -1 else f'{duration}天'
+        log = {
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'admin': '管理员',
+            'action': f'封禁用户（{duration_text}）',
+            'target': f'{user["username"]} (ID: {user_id})',
+            'reason': reason
+        }
+        admin_logs.insert(0, log)
+        
+        logger.info(f"封禁用户 {user_id}: {reason}")
+        
+        return {
+            "success": True,
+            "message": "用户已封禁"
+        }
+        
+    except Exception as e:
+        logger.error(f"封禁用户失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/admin/unban-user")
+async def unban_user(request: dict):
+    """解封用户"""
+    try:
+        from datetime import datetime
+        
+        user_id = request.get('user_id')
+        
+        # 查找用户
+        user = None
+        for u in admin_users:
+            if u['id'] == user_id:
+                user = u
+                break
+        
+        if not user:
+            return {
+                "success": False,
+                "message": "用户不存在"
+            }
+        
+        user['status'] = 'active'
+        
+        # 记录日志
+        log = {
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'admin': '管理员',
+            'action': '解封用户',
+            'target': f'{user["username"]} (ID: {user_id})',
+            'reason': ''
+        }
+        admin_logs.insert(0, log)
+        
+        logger.info(f"解封用户 {user_id}")
+        
+        return {
+            "success": True,
+            "message": "用户已解封"
+        }
+        
+    except Exception as e:
+        logger.error(f"解封用户失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.get("/api/admin/logs")
+async def get_admin_logs():
+    """获取操作日志"""
+    try:
+        return {
+            "success": True,
+            "data": admin_logs[:50]  # 最近50条
+        }
+    except Exception as e:
+        logger.error(f"获取日志失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/admin/system-settings")
+async def save_system_settings(request: dict):
+    """保存系统设置"""
+    try:
+        from datetime import datetime
+        
+        free_quota = request.get('free_quota', 2)
+        basic_quota = request.get('basic_quota', 50)
+        
+        # TODO: 保存到数据库或配置文件
+        
+        # 记录日志
+        log = {
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'admin': '管理员',
+            'action': '修改系统设置',
+            'target': f'免费版额度: {free_quota}, 基础版额度: {basic_quota}',
+            'reason': ''
+        }
+        admin_logs.insert(0, log)
+        
+        logger.info(f"更新系统设置: free={free_quota}, basic={basic_quota}")
+        
+        return {
+            "success": True,
+            "message": "设置已保存"
+        }
+        
+    except Exception as e:
+        logger.error(f"保存设置失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
 if __name__ == "__main__":
     init_sample_notifications()
     port = int(os.getenv("PORT", 8000))
