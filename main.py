@@ -5,7 +5,7 @@ import hmac
 import hashlib
 import re
 import time
-from fastapi import FastAPI, HTTPException, Depends, Header, Request
+from fastapi import FastAPI, HTTPException, Depends, Header, Request, UploadFile, File, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -2557,6 +2557,251 @@ async def fix_diagnosis_issue(request: dict):
             
     except Exception as e:
         logger.error(f"修复诊断问题失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
+
+# ==================== 数据导入 API ====================
+
+@app.post("/api/data/import")
+async def import_data(file: UploadFile = File(...), user_id: str = Form("1")):
+    """导入数据文件（Excel/CSV）"""
+    try:
+        import pandas as pd
+        from io import BytesIO
+        
+        logger.info(f"用户 {user_id} 上传文件: {file.filename}")
+        
+        # 读取文件内容
+        contents = await file.read()
+        
+        # 根据文件类型解析
+        if file.filename.endswith('.csv'):
+            df = pd.read_csv(BytesIO(contents))
+        elif file.filename.endswith(('.xlsx', '.xls')):
+            df = pd.read_excel(BytesIO(contents))
+        else:
+            return {
+                "success": False,
+                "message": "不支持的文件格式，请上传 Excel 或 CSV 文件"
+            }
+        
+        logger.info(f"解析成功，共 {len(df)} 行数据")
+        
+        # 判断数据类型（根据列名）
+        columns = set(df.columns)
+        
+        search_count = 0
+        allsite_count = 0
+        product_count = 0
+        
+        # 搜索推广数据
+        if 'keyword' in columns or '关键词' in columns:
+            search_count = len(df)
+            logger.info(f"识别为搜索推广数据: {search_count} 条")
+            # TODO: 存储到数据库
+            
+        # 全站推广数据
+        elif 'product_id' in columns or '商品ID' in columns:
+            if 'plan_name' in columns or '计划名称' in columns:
+                allsite_count = len(df)
+                logger.info(f"识别为全站推广数据: {allsite_count} 条")
+            else:
+                product_count = len(df)
+                logger.info(f"识别为商品数据: {product_count} 条")
+            # TODO: 存储到数据库
+        
+        return {
+            "success": True,
+            "message": "数据导入成功",
+            "data": {
+                "search_count": search_count,
+                "allsite_count": allsite_count,
+                "product_count": product_count,
+                "total": len(df)
+            }
+        }
+        
+    except Exception as e:
+        logger.error(f"数据导入失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e),
+            "message": "数据导入失败，请检查文件格式"
+        }
+
+
+
+# ==================== 社区交流 API ====================
+
+# 内存存储（生产环境应使用数据库）
+community_posts = []
+post_id_counter = 4  # 从4开始，因为有3个示例
+
+@app.post("/api/community/post")
+async def create_post(request: dict):
+    """发布话题"""
+    try:
+        global post_id_counter
+        from datetime import datetime
+        
+        post = {
+            'id': post_id_counter,
+            'title': request.get('title', ''),
+            'content': request.get('content', ''),
+            'category': request.get('category', 'discussion'),
+            'author': request.get('author', '匿名用户'),
+            'time': '刚刚',
+            'views': 0,
+            'comments': 0,
+            'likes': 0,
+            'created_at': datetime.now().isoformat()
+        }
+        
+        community_posts.insert(0, post)  # 插入到最前面
+        post_id_counter += 1
+        
+        logger.info(f"发布话题: {post['title']}")
+        
+        return {
+            "success": True,
+            "message": "话题发布成功",
+            "data": post
+        }
+        
+    except Exception as e:
+        logger.error(f"发布话题失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.get("/api/community/posts")
+async def get_posts(limit: int = 20, category: str = None):
+    """获取话题列表"""
+    try:
+        # 如果没有数据，返回示例数据
+        if not community_posts:
+            posts = [
+                {
+                    'id': 1,
+                    'title': '搜索推广ROI从3提升到5的实战经验',
+                    'content': '分享一下我最近优化搜索推广的经验，通过调整关键词出价策略和优化创意，ROI从3.2提升到了5.1...',
+                    'category': 'experience',
+                    'author': '优化师小王',
+                    'time': '2小时前',
+                    'views': 128,
+                    'comments': 15,
+                    'likes': 23
+                },
+                {
+                    'id': 2,
+                    'title': '全站推广点击率很低怎么办？',
+                    'content': '我的全站推广点击率只有1.5%，花费很高但转化很少，请问大家有什么优化建议吗...',
+                    'category': 'question',
+                    'author': '新手卖家',
+                    'time': '5小时前',
+                    'views': 89,
+                    'comments': 8,
+                    'likes': 12
+                },
+                {
+                    'id': 3,
+                    'title': '拼多多3月推广政策更新解读',
+                    'content': '拼多多官方发布了3月份的推广政策调整，主要涉及搜索推广出价规则和全站推广流量分配...',
+                    'category': 'news',
+                    'author': '行业观察',
+                    'time': '1天前',
+                    'views': 256,
+                    'comments': 32,
+                    'likes': 45
+                }
+            ]
+        else:
+            posts = community_posts[:limit]
+        
+        # 按分类筛选
+        if category and category != 'all':
+            posts = [p for p in posts if p['category'] == category]
+        
+        return {
+            "success": True,
+            "data": posts
+        }
+        
+    except Exception as e:
+        logger.error(f"获取话题列表失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.get("/api/community/post/{post_id}")
+async def get_post(post_id: int):
+    """获取话题详情"""
+    try:
+        # 查找话题
+        post = None
+        for p in community_posts:
+            if p['id'] == post_id:
+                post = p
+                break
+        
+        # 如果没找到，返回示例数据
+        if not post:
+            if post_id == 1:
+                post = {
+                    'id': 1,
+                    'title': '搜索推广ROI从3提升到5的实战经验',
+                    'content': '分享一下我最近优化搜索推广的经验，通过调整关键词出价策略和优化创意，ROI从3.2提升到了5.1。主要做了以下几点：\n\n1. 精准关键词筛选\n2. 动态出价调整\n3. 创意优化测试\n4. 时段优化投放',
+                    'category': '经验分享',
+                    'author': '优化师小王',
+                    'time': '2小时前',
+                    'views': 128,
+                    'comments': 15,
+                    'likes': 23
+                }
+            elif post_id == 2:
+                post = {
+                    'id': 2,
+                    'title': '全站推广点击率很低怎么办？',
+                    'content': '我的全站推广点击率只有1.5%，花费很高但转化很少，请问大家有什么优化建议吗？我已经尝试了调整出价和更换图片，但效果不明显。',
+                    'category': '问题求助',
+                    'author': '新手卖家',
+                    'time': '5小时前',
+                    'views': 89,
+                    'comments': 8,
+                    'likes': 12
+                }
+            elif post_id == 3:
+                post = {
+                    'id': 3,
+                    'title': '拼多多3月推广政策更新解读',
+                    'content': '拼多多官方发布了3月份的推广政策调整，主要涉及搜索推广出价规则和全站推广流量分配。重点变化包括：\n\n1. 搜索推广最低出价调整\n2. 全站推广流量分配优化\n3. 新增智能投放模式',
+                    'category': '行业资讯',
+                    'author': '行业观察',
+                    'time': '1天前',
+                    'views': 256,
+                    'comments': 32,
+                    'likes': 45
+                }
+        
+        if post:
+            return {
+                "success": True,
+                "data": post
+            }
+        else:
+            return {
+                "success": False,
+                "message": "话题不存在"
+            }
+        
+    except Exception as e:
+        logger.error(f"获取话题详情失败: {str(e)}")
         return {
             "success": False,
             "error": str(e)

@@ -6316,7 +6316,7 @@ ${suggestion.expected_effect}
         // 增长机会扩量
         
         // 发布话题
-        function publishPost() {
+        async function publishPost() {
             const title = document.getElementById('post-title').value;
             const content = document.getElementById('post-content').value;
             const category = document.getElementById('post-category').value;
@@ -6326,14 +6326,83 @@ ${suggestion.expected_effect}
                 return;
             }
             
-            alert('话题发布成功！\n\n标题：' + title + '\n分类：' + category + '\n\n（实际功能需要后端支持）');
-            
-            // 清空表单
-            document.getElementById('post-title').value = '';
-            document.getElementById('post-content').value = '';
+            try {
+                const response = await fetch('/api/community/post', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        title: title,
+                        content: content,
+                        category: category,
+                        user_id: '1',
+                        author: '当前用户'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('✅ 话题发布成功！');
+                    // 清空表单
+                    document.getElementById('post-title').value = '';
+                    document.getElementById('post-content').value = '';
+                    // 刷新话题列表
+                    loadPosts();
+                } else {
+                    alert('❌ 发布失败：' + (result.message || result.error));
+                }
+            } catch (error) {
+                alert('❌ 发布失败：' + error.message);
+            }
         }
         
         // 筛选话题
+        
+        // 加载话题列表
+        async function loadPosts() {
+            try {
+                const response = await fetch('/api/community/posts?limit=20');
+                const result = await response.json();
+                
+                if (result.success && result.data) {
+                    renderPosts(result.data);
+                }
+            } catch (error) {
+                console.error('加载话题失败:', error);
+            }
+        }
+        
+        // 渲染话题列表
+        function renderPosts(posts) {
+            const list = document.getElementById('posts-list');
+            if (!list) return;
+            
+            const categoryMap = {
+                'experience': '经验分享',
+                'question': '问题求助',
+                'discussion': '讨论交流',
+                'news': '行业资讯'
+            };
+            
+            list.innerHTML = posts.map(post => `
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-category ${post.category}">${categoryMap[post.category] || post.category}</span>
+                        <span class="post-author">@${post.author}</span>
+                        <span class="post-time">${post.time}</span>
+                    </div>
+                    <h3 class="post-title">${post.title}</h3>
+                    <p class="post-preview">${post.content.substring(0, 100)}...</p>
+                    <div class="post-footer">
+                        <span class="post-stat">👁️ ${post.views}</span>
+                        <span class="post-stat">💬 ${post.comments}</span>
+                        <span class="post-stat">👍 ${post.likes}</span>
+                        <button class="btn-secondary btn-sm" onclick="viewPost(${post.id})">查看详情</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
         function filterPosts(category) {
             // 更新按钮状态
             document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -6358,8 +6427,33 @@ ${suggestion.expected_effect}
         }
         
         // 查看话题详情
-        function viewPost(postId) {
-            alert('查看话题详情功能开发中\n话题ID: ' + postId);
+        async function viewPost(postId) {
+            try {
+                const response = await fetch('/api/community/post/' + postId);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const post = result.data;
+                    const detail = `
+📝 ${post.title}
+
+👤 作者：${post.author}
+🏷️ 分类：${post.category}
+🕐 时间：${post.time}
+
+${post.content}
+
+---
+👁️ ${post.views} 浏览 | 💬 ${post.comments} 评论 | 👍 ${post.likes} 点赞
+                    `.trim();
+                    
+                    alert(detail);
+                } else {
+                    alert('❌ 加载失败：' + (result.message || result.error));
+                }
+            } catch (error) {
+                alert('❌ 加载失败：' + error.message);
+            }
         }
         
         
@@ -6448,6 +6542,45 @@ ${issue.recommendation}
                     alert('❌ 执行失败：' + error.message);
                 }
             }
+        }
+        
+        
+        // 数据导入
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.xlsx,.xls,.csv';
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('user_id', '1');
+                
+                try {
+                    const response = await fetch('/api/data/import', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert('✅ 数据导入成功！\n\n' + 
+                              '搜索推广：' + (result.data.search_count || 0) + ' 条\n' +
+                              '全站推广：' + (result.data.allsite_count || 0) + ' 条\n' +
+                              '商品数据：' + (result.data.product_count || 0) + ' 条');
+                        // 刷新页面数据
+                        location.reload();
+                    } else {
+                        alert('❌ 导入失败：' + (result.message || result.error));
+                    }
+                } catch (error) {
+                    alert('❌ 导入失败：' + error.message);
+                }
+            };
+            input.click();
         }
         
         function expandBudget(keyword) {
