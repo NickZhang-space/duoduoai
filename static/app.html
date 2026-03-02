@@ -2797,7 +2797,7 @@
                             </div>
                             <div class="diagnosis-actions">
                                 <button class="btn-drill" onclick="expandBudget('夏季新款')">立即扩量</button>
-                                <button class="btn-secondary btn-sm">查看详情</button>
+                                <button class="btn-secondary btn-sm" onclick="viewDetails('growth')">查看详情</button>
                             </div>
                         </div>
                     </div>
@@ -2826,16 +2826,11 @@
                         <!-- 顶部导航 -->
                         <div class="tieba-nav">
                             <div class="tieba-title">
-                                <h2>💬 多多优化吧</h2>
-                                <span class="tieba-stats">本吧共有 <strong>2,847</strong> 位吧友</span>
+                                <h2>社区交流</h2>
+                                
                             </div>
                             <div class="tieba-tabs">
                                 <button class="tieba-tab active" onclick="filterTiebaPosts('all')">全部</button>
-                                <button class="tieba-tab" onclick="filterTiebaPosts('hot')">🔥 热门</button>
-                                <button class="tieba-tab" onclick="filterTiebaPosts('精华')">⭐ 精华</button>
-                                <button class="tieba-tab" onclick="filterTiebaPosts('经验分享')">📚 经验</button>
-                                <button class="tieba-tab" onclick="filterTiebaPosts('问题求助')">🆘 求助</button>
-                                <button class="tieba-tab" onclick="filterTiebaPosts('讨论交流')">💬 讨论</button>
                             </div>
                         </div>
                         
@@ -2850,32 +2845,195 @@
                         </div>
                     </div>
                     
-                    <!-- 右侧：侧边栏 -->
-                    <div class="tieba-right">
-                        <!-- 吧主推荐 -->
-                        <div class="tieba-card">
-                            <h3>🎯 本周热议</h3>
-                            <div class="hot-topics">
-                                <div class="hot-topic">1. ROI突然暴跌怎么办？</div>
-                                <div class="hot-topic">2. 3月爆款预测</div>
-                                <div class="hot-topic">3. 新手推广攻略</div>
-                            </div>
-                        </div>
-                        
 
-                        <!-- 吧规 -->
-                        <div class="tieba-card">
-                            <h3>📋 吧规</h3>
-                            <div class="tieba-rules">
-                                <p>1. 禁止发布广告</p>
-                                <p>2. 禁止恶意灌水</p>
-                                <p>3. 尊重他人，文明交流</p>
-                                <p>4. 分享真实经验</p>
-                            </div>
+                </div>
+            </section>
+
+                        <section id="settings-main" class="main-section">
+                <h2 class="section-title">⚙️ 设置</h2>
+                <div class="settings-menu">
+                    <div class="setting-item" onclick="openShopSettings()">
+                        <div class="setting-icon">🏪</div>
+                        <div class="setting-info">
+                            <div class="setting-name">店铺管理</div>
+                            <div class="setting-desc">配置店铺信息和授权</div>
+                        </div>
+                    </div>
+                    <div class="setting-item" onclick="openNotificationSettings()">
+                        <div class="setting-icon">🔔</div>
+                        <div class="setting-info">
+                            <div class="setting-name">通知设置</div>
+                            <div class="setting-desc">管理推送通知偏好</div>
+                        </div>
+                    </div>
+                    <div class="setting-item" onclick="openPlanSettings()">
+                        <div class="setting-icon">💎</div>
+                        <div class="setting-info">
+                            <div class="setting-name">套餐升级</div>
+                            <div class="setting-desc">查看和升级套餐</div>
+                        </div>
+                    </div>
+                    <div class="setting-item" onclick="openAutomationSettings()">
+                        <div class="setting-icon">🤖</div>
+                        <div class="setting-info">
+                            <div class="setting-name">自动化规则</div>
+                            <div class="setting-desc">配置自动优化规则</div>
                         </div>
                     </div>
                 </div>
+                
+                <!-- 店铺管理面板 -->
+                <div id="shop-settings-panel" style="display:none;">
+                    <button class="btn-secondary" onclick="backToSettings()" style="margin-bottom: 20px;">← 返回设置</button>
+                    <h3 style="margin-bottom: 20px;">店铺管理</h3>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>店铺名称</label>
+                            <input type="text" id="shop-name" placeholder="请输入店铺名称" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>拼多多店铺ID</label>
+                            <input type="text" id="shop-id" placeholder="请输入店铺ID" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>数据导入</label>
+                            <div class="upload-area" onclick="document.getElementById('data-file').click()">
+                                <div class="upload-icon">📊</div>
+                                <div class="upload-text">点击上传数据表格</div>
+                                <div class="upload-hint">支持 Excel (.xlsx, .xls) 或 CSV 格式</div>
+                                <input type="file" id="data-file" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload(event)">
+                            </div>
+                            <div id="upload-status" style="margin-top: 10px; display: none;">
+                                <span class="status-badge authorized">✓ 已导入数据</span>
+                                <span id="upload-info" style="margin-left: 10px; color: #666; font-size: 14px;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>数据模板下载</label>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn-secondary" onclick="downloadTemplate('search')">搜索推广模板</button>
+                                <button class="btn-secondary" onclick="downloadTemplate('allsite')">全站推广模板</button>
+                                <button class="btn-secondary" onclick="downloadTemplate('product')">商品数据模板</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>店铺类型</label>
+                            <select id="shop-type" class="form-input">
+                                <option value="personal">个人店铺</option>
+                                <option value="enterprise">企业店铺</option>
+                                <option value="flagship">旗舰店</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>主营类目</label>
+                            <input type="text" id="shop-category" placeholder="如：女装、数码、食品等" class="form-input">
+                        </div>
+                        <button class="btn-primary" onclick="saveShopSettings()">保存设置</button>
+                    </div>
+                </div>
+                
+                <!-- 通知设置面板 -->
+                <div id="notification-settings-panel" style="display:none;">
+                    <button class="btn-secondary" onclick="backToSettings()" style="margin-bottom: 20px;">← 返回设置</button>
+                    <h3 style="margin-bottom: 20px;">通知设置</h3>
+                    <div class="settings-form">
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <div class="notification-title">风险预警通知</div>
+                                <div class="notification-desc">当检测到高风险问题时推送通知</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notify-risk" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <div class="notification-title">增长机会通知</div>
+                                <div class="notification-desc">发现可扩量机会时推送通知</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notify-growth" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <div class="notification-title">每日报告</div>
+                                <div class="notification-desc">每天早上9点推送数据报告</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notify-daily">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <div class="notification-title">自动化执行通知</div>
+                                <div class="notification-desc">自动化规则执行后推送结果</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notify-automation">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <button class="btn-primary" onclick="saveNotificationSettings()">保存设置</button>
+                    </div>
+                </div>
+                
+                <!-- 套餐升级面板 -->
+                <div id="plan-settings-panel" style="display:none;">
+                    <button class="btn-secondary" onclick="backToSettings()" style="margin-bottom: 20px;">← 返回设置</button>
+                    <h3 style="margin-bottom: 20px;">套餐升级</h3>
+                    <div class="plans-grid">
+                        <div class="plan-card">
+                            <div class="plan-header">
+                                <h4>免费版</h4>
+                                <div class="plan-price">¥0<span>/月</span></div>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✓ 基础数据看板</li>
+                                <li>✓ 每月 2 次 AI 分析</li>
+                                <li>✓ 手动执行优化</li>
+                                <li>✗ 自动化执行</li>
+                                <li>✗ 竞品监控</li>
+                            </ul>
+                            <button class="btn-secondary" disabled>当前套餐</button>
+                        </div>
+                        <div class="plan-card featured">
+                            <div class="plan-badge">推荐</div>
+                            <div class="plan-header">
+                                <h4>基础版</h4>
+                                <div class="plan-price">¥49<span>/月</span></div>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✓ 完整数据看板</li>
+                                <li>✓ 每月 30 次 AI 分析</li>
+                                <li>✓ 自动化执行</li>
+                                <li>✓ 竞品监控（5个）</li>
+                                <li>✓ A/B 测试</li>
+                            </ul>
+                            <button class="btn-primary" onclick="upgradePlan('基础版')">立即升级</button>
+                        </div>
+                        <div class="plan-card">
+                            <div class="plan-header">
+                                <h4>专业版</h4>
+                                <div class="plan-price">¥129<span>/月</span></div>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✓ 所有基础版功能</li>
+                                <li>✓ 无限次 AI 分析</li>
+                                <li>✓ 竞品监控（无限）</li>
+                                <li>✓ 定制化策略</li>
+                                <li>✓ 专属客服支持</li>
+                            </ul>
+                            <button class="btn-primary" onclick="upgradePlan('专业版')">立即升级</button>
+                        </div>
+                    </div>
+                </div>
+
             </section>
+
             
             <!-- 发帖编辑器模态框 -->
             <div id="post-editor-modal" class="modal" style="display: none;">
@@ -7265,7 +7423,7 @@ ${issue.recommendation}
                 
                 return `
                     <div class="tieba-post-item" onclick="viewTiebaDetail(${post.id})">
-                        <div class="tieba-post-avatar">${post.authorAvatar}</div>
+                        
                         <div class="tieba-post-content">
                             <div class="tieba-post-header">
                                 <span class="tieba-post-author">${post.author}</span>
@@ -7371,7 +7529,7 @@ ${issue.recommendation}
                 <div class="tieba-detail-header">
                     <div class="tieba-detail-title">${post.title}</div>
                     <div class="tieba-detail-meta">
-                        <span>${post.authorAvatar} <strong>${post.author}</strong></span>
+                        <span><strong>${post.author}</strong></span>
                         <span>${post.level}</span>
                         ${post.tags.map(tag => {
                             const tClass = tag === '精华' ? 'jinghua' : tag === '热门' ? 'hot' : tagClass;
@@ -7400,7 +7558,7 @@ ${issue.recommendation}
                     <div class="tieba-reply-list">
                         ${post.replies.map((reply, index) => `
                             <div class="tieba-reply-item">
-                                <div class="tieba-reply-avatar">${reply.avatar}</div>
+                                
                                 <div class="tieba-reply-content">
                                     <div class="tieba-reply-header">
                                         <span class="tieba-reply-author">${reply.author}</span>
