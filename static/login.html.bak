@@ -3,319 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录 - 多多优化</title>
+    <title>登录 - 多多AI优化师</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #0A2540; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
             -webkit-font-smoothing: antialiased;
         }
         a { text-decoration: none; color: #E84D1A; transition: color 0.2s; }
         a:hover { color: #d4410f; }
         
         .container {
-            display: flex;
-            width: 100%;
-            max-width: 1100px;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            overflow: hidden;
-            margin: 20px;
+            display: flex; width: 100%; max-width: 1000px;
+            background: #fff; border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden; margin: 20px;
         }
         
-        /* 左侧品牌区 */
+        /* 左侧品牌展示 */
         .brand-side {
-            flex: 1;
-            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
-            padding: 60px 50px;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            flex: 1; background: linear-gradient(170deg, #0A2540 0%, #1a1a4e 100%);
+            padding: 60px 50px; color: #fff; display: flex;
+            flex-direction: column; justify-content: center;
         }
         .brand-logo {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            line-height: 1.2;
+            font-size: 32px; font-weight: 800; margin-bottom: 16px;
         }
         .brand-logo span { color: #E84D1A; }
         .brand-slogan {
-            font-size: 20px;
-            color: rgba(255,255,255,0.85);
-            margin-bottom: 48px;
-            line-height: 1.6;
+            font-size: 20px; color: rgba(255,255,255,0.8);
+            margin-bottom: 48px; line-height: 1.5;
         }
         .brand-features {
             list-style: none;
         }
         .brand-features li {
-            padding: 16px 0;
-            font-size: 16px;
+            padding: 16px 0; font-size: 16px;
             color: rgba(255,255,255,0.9);
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
         }
         .brand-features li::before {
-            content: '✓';
-            color: #E84D1A;
-            font-size: 20px;
-            font-weight: 700;
-            margin-right: 12px;
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(232,77,26,0.2);
-            border-radius: 50%;
+            content: '✓'; color: #E84D1A; font-size: 20px;
+            font-weight: 700; margin-right: 12px;
+            width: 24px; height: 24px; display: flex;
+            align-items: center; justify-content: center;
+            background: rgba(232,77,26,0.15); border-radius: 50%;
         }
         
         /* 右侧表单 */
         .form-side {
-            flex: 1;
-            padding: 60px 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            flex: 1; padding: 60px 50px;
+            display: flex; flex-direction: column; justify-content: center;
         }
         .form-header {
             margin-bottom: 32px;
         }
         .form-header h2 {
-            font-size: 32px;
-            font-weight: 700;
-            color: #1a1a2e;
+            font-size: 28px; font-weight: 700; color: #0A2540;
             margin-bottom: 8px;
         }
         .form-header p {
-            font-size: 15px;
-            color: #666;
+            font-size: 15px; color: #425466;
         }
         
         .tabs {
-            display: flex;
-            margin-bottom: 32px;
+            display: flex; margin-bottom: 32px;
             border-bottom: 2px solid #e3e8ee;
         }
         .tab {
-            flex: 1;
-            text-align: center;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #666;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
-            transition: all 0.3s;
+            flex: 1; text-align: center; padding: 12px;
+            font-size: 16px; font-weight: 600; color: #425466;
+            cursor: pointer; border-bottom: 3px solid transparent;
+            margin-bottom: -2px; transition: all 0.3s;
+            position: relative;
         }
-        .tab.active {
-            color: #E84D1A;
-            border-bottom-color: #E84D1A;
-        }
-        .tab:hover {
-            color: #E84D1A;
-        }
+        .tab.active { color: #E84D1A; border-bottom-color: #E84D1A; }
+        .tab:hover:not(.active) { color: #0A2540; }
         
-        .msg {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            display: none;
+        .form-container {
+            position: relative; overflow: hidden;
         }
-        .msg.success {
-            background: #d1fae5;
-            color: #065f46;
-            border: 1px solid #6ee7b7;
-            display: block;
-        }
-        .msg.error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
-            display: block;
-        }
-        
         .form {
-            display: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0; transform: translateX(20px);
+            position: absolute; width: 100%; top: 0;
+            pointer-events: none;
         }
         .form.active {
-            display: block;
+            opacity: 1; transform: translateX(0);
+            position: relative; pointer-events: all;
         }
         
-        .field {
-            margin-bottom: 20px;
-        }
+        .field { margin-bottom: 20px; }
         .field label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #1a1a2e;
-            margin-bottom: 8px;
+            display: block; font-size: 14px; font-weight: 600;
+            color: #0A2540; margin-bottom: 8px;
         }
         .field input {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 15px;
-            border: 2px solid #e3e8ee;
-            border-radius: 8px;
-            transition: all 0.3s;
-            font-family: inherit;
+            width: 100%; padding: 12px 14px;
+            border: 2px solid #e3e8ee; border-radius: 8px;
+            font-size: 15px; color: #0A2540; outline: none;
+            transition: all 0.2s;
         }
         .field input:focus {
-            outline: none;
             border-color: #E84D1A;
             box-shadow: 0 0 0 3px rgba(232,77,26,0.1);
         }
+        .field input::placeholder { color: #a3acb9; }
         
-        .remember-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        .remember-row input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin-right: 8px;
-            cursor: pointer;
-        }
-        .remember-row label {
-            font-size: 14px;
-            color: #666;
-            cursor: pointer;
-        }
-        
+        /* 密码强度 */
         .password-strength {
-            height: 4px;
-            background: #e3e8ee;
-            border-radius: 2px;
-            margin-top: 8px;
-            overflow: hidden;
+            margin-top: 8px; height: 4px; background: #e3e8ee;
+            border-radius: 2px; overflow: hidden;
             display: none;
         }
-        .password-strength.show {
-            display: block;
-        }
+        .password-strength.show { display: block; }
         .password-strength-bar {
-            height: 100%;
-            width: 0;
-            transition: all 0.3s;
-        }
-        .password-strength-bar.weak {
-            width: 33%;
+            height: 100%; width: 0; transition: all 0.3s;
             background: #dc2626;
         }
-        .password-strength-bar.medium {
-            width: 66%;
-            background: #f59e0b;
-        }
-        .password-strength-bar.strong {
-            width: 100%;
-            background: #16a34a;
-        }
-        
+        .password-strength-bar.weak { width: 33%; background: #dc2626; }
+        .password-strength-bar.medium { width: 66%; background: #f59e0b; }
+        .password-strength-bar.strong { width: 100%; background: #16a34a; }
         .password-hint {
-            font-size: 12px;
-            margin-top: 4px;
+            font-size: 12px; color: #425466; margin-top: 4px;
             display: none;
         }
-        .password-hint.show {
-            display: block;
+        .password-hint.show { display: block; }
+        
+        .remember-row {
+            display: flex; align-items: center; margin-bottom: 20px;
+        }
+        .remember-row input[type="checkbox"] {
+            width: 18px; height: 18px; margin-right: 8px;
+            cursor: pointer; accent-color: #E84D1A;
+        }
+        .remember-row label {
+            font-size: 14px; color: #425466; cursor: pointer;
+            margin: 0;
         }
         
         .btn-submit {
-            width: 100%;
-            padding: 14px;
-            background: #E84D1A;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
+            width: 100%; padding: 14px; background: #E84D1A;
+            color: #fff; border: none; border-radius: 8px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s;
         }
-        .btn-submit:hover {
-            background: #d4410f;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(232,77,26,0.3);
+        .btn-submit:hover { background: #d4410f; transform: translateY(-1px); }
+        .btn-submit:disabled { background: #a3acb9; cursor: not-allowed; transform: none; }
+        
+        .msg {
+            padding: 12px 16px; border-radius: 8px; font-size: 14px;
+            margin-bottom: 20px; display: none;
         }
-        .btn-submit:active {
-            transform: translateY(0);
+        .msg.error {
+            background: #fef2f2; color: #dc2626;
+            border: 1px solid #fecaca; display: block;
+        }
+        .msg.success {
+            background: #f0fdf4; color: #16a34a;
+            border: 1px solid #bbf7d0; display: block;
         }
         
         .back {
-            margin-top: 24px;
-            text-align: center;
-            font-size: 14px;
-            color: #666;
+            text-align: center; margin-top: 24px; font-size: 14px;
+            color: #425466;
         }
         
-        /* 移动端适配 */
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                margin: 0;
-                border-radius: 0;
-            }
-            .brand-side {
-                padding: 40px 30px;
-            }
-            .brand-logo {
-                font-size: 28px;
-            }
-            .brand-slogan {
-                font-size: 16px;
-                margin-bottom: 32px;
-            }
-            .brand-features li {
-                font-size: 14px;
-                padding: 12px 0;
-            }
-            .form-side {
-                padding: 40px 30px;
-            }
-            .form-header h2 {
-                font-size: 24px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .brand-side, .form-side {
-                padding: 30px 20px;
-            }
+            .container { flex-direction: column; margin: 0; border-radius: 0; }
+            .brand-side { padding: 40px 30px; }
+            .form-side { padding: 40px 30px; }
+            .brand-features { display: none; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 左侧品牌区 -->
         <div class="brand-side">
-            <div class="brand-logo">
-                <span>PDD</span> GrowthOS
-            </div>
+            <div class="brand-logo">多多<span>AI</span>优化师</div>
             <div class="brand-slogan">
-                拼多多投放与运营一体的 AI 优化师
+                你的拼多多 AI 推广优化师<br>
+                10 秒出方案，省下 62% 推广费
             </div>
             <ul class="brand-features">
-                <li>数据统一 - 搜索/全站/场景统一指标</li>
-                <li>智能诊断 - 自动识别亏损点和机会</li>
-                <li>动作系统 - 可执行的优化清单</li>
-                <li>执行闭环 - 一键执行并自动复盘</li>
+                <li>每天 3 次免费 AI 分析</li>
+                <li>推广计划深度诊断</li>
+                <li>关键词出价优化建议</li>
+                <li>智能选品推荐</li>
+                <li>7 天无理由退款</li>
             </ul>
         </div>
         
-        <!-- 右侧表单 -->
         <div class="form-side">
             <div class="form-header">
                 <h2>欢迎回来</h2>
@@ -329,11 +211,11 @@
             
             <div id="msg" class="msg"></div>
             
-            <div class="forms">
+            <div class="form-container">
                 <form id="login-form" class="form active">
                     <div class="field">
                         <label>邮箱</label>
-                        <input type="email" name="email" placeholder="请输入邮箱" required autocomplete="email">
+                        <input type="email" name="email" placeholder="请输入注册邮箱" required autocomplete="email">
                     </div>
                     <div class="field">
                         <label>密码</label>

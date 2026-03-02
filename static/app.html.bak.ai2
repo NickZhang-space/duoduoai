@@ -1228,135 +1228,6 @@
     </style>
 
     <style>
-        /* 社区交流样式 */
-        .post-editor {
-            background: #fff;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 24px;
-        }
-        .form-textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e3e8ee;
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: inherit;
-            resize: vertical;
-            transition: all 0.3s;
-        }
-        .form-textarea:focus {
-            outline: none;
-            border-color: #E84D1A;
-        }
-        
-        .community-filters {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #e3e8ee;
-            background: #fff;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .filter-btn:hover {
-            border-color: #E84D1A;
-            color: #E84D1A;
-        }
-        .filter-btn.active {
-            background: #E84D1A;
-            color: #fff;
-            border-color: #E84D1A;
-        }
-        
-        .posts-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .post-card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s;
-        }
-        .post-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-        }
-        .post-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-            font-size: 13px;
-        }
-        .post-category {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 12px;
-        }
-        .post-category.experience {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        .post-category.question {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        .post-category.discussion {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        .post-category.news {
-            background: #fce7f3;
-            color: #9f1239;
-        }
-        .post-author {
-            color: #666;
-            font-weight: 600;
-        }
-        .post-time {
-            color: #999;
-            margin-left: auto;
-        }
-        .post-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 8px;
-        }
-        .post-preview {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-        .post-footer {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        .post-stat {
-            color: #999;
-            font-size: 14px;
-        }
-        .post-footer .btn-sm {
-            margin-left: auto;
-        }
-    </style>
-
-
-    <style>
         /* 数据导入提示 */
         .data-import-notice {
             display: flex;
@@ -2069,10 +1940,9 @@
         <!-- 标签页 -->
         <div class="tabs">
             <button class="tab main-tab active" onclick="switchMainTab('overview')">📊 数据总览</button>
-            <button class="tab main-tab" onclick="switchMainTab('diagnosis')">🔍 AI诊断中心</button>
+            <button class="tab main-tab" onclick="switchMainTab('diagnosis')">🔍 AIAI诊断中心</button>
             <button class="tab main-tab" onclick="switchMainTab('growth')">🚀 增长机会</button>
             <button class="tab main-tab" onclick="switchMainTab('ai-suggestions')">🤖 AI 建议</button>
-            <button class="tab main-tab" onclick="switchMainTab('community')">💬 社区交流</button>
             <button class="tab main-tab" onclick="switchMainTab('settings')">⚙️ 设置</button>
         </div>
 
@@ -2123,11 +1993,8 @@
             </section>
 
             <!-- 2. AI诊断中心 -->
-            <section id="diagnosis-tab" class="main-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2 class="section-title" style="margin: 0;">🔍 AI诊断中心</h2>
-                    <button class="btn-primary" onclick="generateDiagnosis()">🔍 生成诊断</button>
-                </div>
+            <section id="diagnosis-main" class="main-section">
+                <h2 class="section-title">🔍 AIAI诊断中心</h2>
                 <div class="diagnosis-radar">
                     <h3>亏损雷达 - Top 5 拖累项</h3>
                     <div id="diagnosis-list" class="diagnosis-list">
@@ -2174,11 +2041,8 @@
             </section>
 
             <!-- 3. 增长机会 -->
-            <section id="growth-tab" class="main-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2 class="section-title" style="margin: 0;">🚀 增长机会</h2>
-                    <button class="btn-primary" onclick="generateGrowth()">🚀 发现机会</button>
-                </div>
+            <section id="growth-main" class="main-section">
+                <h2 class="section-title">🚀 增长机会</h2>
                 <div class="growth-opportunities">
                     <h3>放量清单 - Top 5 可扩量项</h3>
                     <div id="growth-list" class="growth-list">
@@ -2226,7 +2090,7 @@
             </section>
 
             <!-- 4. AI 建议 -->
-            <section id="ai-suggestions-tab" class="main-section">
+            <section id="ai-suggestions-main" class="main-section">
                 <h2 class="section-title">🤖 AI 建议</h2>
                 <div class="ai-actions">
                     <div class="actions-header">
@@ -2239,89 +2103,7 @@
                 </div>
             </section>
 
-            <!-- 5. 社区交流 -->
-            <section id="community-tab" class="main-tab-content">
-                <h2 class="section-title">💬 社区交流</h2>
-                
-                <!-- 发帖区域 -->
-                <div class="post-editor">
-                    <h3 style="margin-bottom: 16px;">发布话题</h3>
-                    <input type="text" id="post-title" placeholder="输入话题标题..." class="form-input" style="margin-bottom: 12px;">
-                    <textarea id="post-content" placeholder="分享你的经验、问题或想法..." class="form-textarea" rows="4"></textarea>
-                    <div style="display: flex; gap: 12px; margin-top: 12px;">
-                        <select id="post-category" class="form-input" style="width: 150px;">
-                            <option value="experience">经验分享</option>
-                            <option value="question">问题求助</option>
-                            <option value="discussion">讨论交流</option>
-                            <option value="news">行业资讯</option>
-                        </select>
-                        <button class="btn-primary" onclick="publishPost()">发布话题</button>
-                    </div>
-                </div>
-                
-                <!-- 话题分类 -->
-                <div class="community-filters">
-                    <button class="filter-btn active" onclick="filterPosts('all')">全部</button>
-                    <button class="filter-btn" onclick="filterPosts('experience')">经验分享</button>
-                    <button class="filter-btn" onclick="filterPosts('question')">问题求助</button>
-                    <button class="filter-btn" onclick="filterPosts('discussion')">讨论交流</button>
-                    <button class="filter-btn" onclick="filterPosts('news')">行业资讯</button>
-                </div>
-                
-                <!-- 话题列表 -->
-                <div id="posts-list" class="posts-list">
-                    <!-- 示例话题 -->
-                    <div class="post-card">
-                        <div class="post-header">
-                            <span class="post-category experience">经验分享</span>
-                            <span class="post-author">@优化师小王</span>
-                            <span class="post-time">2小时前</span>
-                        </div>
-                        <h3 class="post-title">搜索推广ROI从3提升到5的实战经验</h3>
-                        <p class="post-preview">分享一下我最近优化搜索推广的经验，通过调整关键词出价策略和优化创意，ROI从3.2提升到了5.1...</p>
-                        <div class="post-footer">
-                            <span class="post-stat">👁️ 128</span>
-                            <span class="post-stat">💬 15</span>
-                            <span class="post-stat">👍 23</span>
-                            <button class="btn-secondary btn-sm" onclick="viewPost(1)">查看详情</button>
-                        </div>
-                    </div>
-                    
-                    <div class="post-card">
-                        <div class="post-header">
-                            <span class="post-category question">问题求助</span>
-                            <span class="post-author">@新手卖家</span>
-                            <span class="post-time">5小时前</span>
-                        </div>
-                        <h3 class="post-title">全站推广点击率很低怎么办？</h3>
-                        <p class="post-preview">我的全站推广点击率只有1.5%，花费很高但转化很少，请问大家有什么优化建议吗...</p>
-                        <div class="post-footer">
-                            <span class="post-stat">👁️ 89</span>
-                            <span class="post-stat">💬 8</span>
-                            <span class="post-stat">👍 12</span>
-                            <button class="btn-secondary btn-sm" onclick="viewPost(2)">查看详情</button>
-                        </div>
-                    </div>
-                    
-                    <div class="post-card">
-                        <div class="post-header">
-                            <span class="post-category news">行业资讯</span>
-                            <span class="post-author">@行业观察</span>
-                            <span class="post-time">1天前</span>
-                        </div>
-                        <h3 class="post-title">拼多多3月推广政策更新解读</h3>
-                        <p class="post-preview">拼多多官方发布了3月份的推广政策调整，主要涉及搜索推广出价规则和全站推广流量分配...</p>
-                        <div class="post-footer">
-                            <span class="post-stat">👁️ 256</span>
-                            <span class="post-stat">💬 32</span>
-                            <span class="post-stat">👍 45</span>
-                            <button class="btn-secondary btn-sm" onclick="viewPost(3)">查看详情</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-                        <!-- 6. 设置 -->
+            <!-- 5. 设置 -->
             <section id="settings-main" class="main-section">
                 <h2 class="section-title">⚙️ 设置</h2>
                 <div class="settings-menu">
@@ -2466,7 +2248,7 @@
                             </div>
                             <ul class="plan-features">
                                 <li>✓ 基础数据看板</li>
-                                <li>✓ 每月 2 次 AI 分析</li>
+                                <li>✓ 每日 5 次 AI 分析</li>
                                 <li>✓ 手动执行优化</li>
                                 <li>✗ 自动化执行</li>
                                 <li>✗ 竞品监控</li>
@@ -2481,7 +2263,7 @@
                             </div>
                             <ul class="plan-features">
                                 <li>✓ 完整数据看板</li>
-                                <li>✓ 每月 30 次 AI 分析</li>
+                                <li>✓ 每日 50 次 AI 分析</li>
                                 <li>✓ 自动化执行</li>
                                 <li>✓ 竞品监控（5个）</li>
                                 <li>✓ A/B 测试</li>
@@ -6005,8 +5787,8 @@ async function loadHotKeywords(category) {
                                 <div class="action-footer">
                                     <span class="observation-window">观察窗口：${s.observation_days}天</span>
                                     <div class="action-buttons">
-                                        <button class="btn-secondary btn-sm" onclick="viewSuggestionDetail(s)">查看详情</button>
-                                        <button class="btn-primary btn-sm" onclick="executeAISuggestion(s)">一键执行</button>
+                                        <button class="btn-secondary btn-sm" onclick="alert('查看详情功能开发中')">查看详情</button>
+                                        <button class="btn-primary btn-sm" onclick="alert('一键执行功能开发中')">一键执行</button>
                                     </div>
                                 </div>
                             </div>
@@ -6022,197 +5804,6 @@ async function loadHotKeywords(category) {
                 console.error('API 调用失败:', error);
                 list.innerHTML = '<p class="placeholder-text" style="color: #dc2626;">网络错误，请稍后重试</p>';
             });
-        }
-        
-        
-        // 生成诊断（替换整个诊断中心的内容）
-        function generateDiagnosis() {
-            const section = document.getElementById('diagnosis-tab');
-            if (!section) {
-                alert('诊断中心未找到');
-                return;
-            }
-            
-            // 保存标题和按钮
-            const titleHtml = section.querySelector('div[style*="display: flex"]').outerHTML;
-            
-            section.innerHTML = titleHtml + '<p class="placeholder-text">正在调用 DeepSeek AI 诊断...</p>';
-            
-            fetch('/api/ai/analyze', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({type: 'diagnosis', data: {}})
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.success && result.data) {
-                    let issues = [];
-                    if (result.data.text) {
-                        try {
-                            const jsonMatch = result.data.text.match(/\{[\s\S]*\}/);
-                            if (jsonMatch) {
-                                const parsed = JSON.parse(jsonMatch[0]);
-                                issues = parsed.issues || [];
-                            }
-                        } catch (e) { console.error('解析失败:', e); }
-                    } else if (result.data.issues) {
-                        issues = result.data.issues;
-                    }
-                    
-                    if (issues.length > 0) {
-                        section.innerHTML = titleHtml + '<h3 style="margin: 20px 0;">亏损雷达 - Top ' + issues.length + ' 拖累项</h3>' +
-                            issues.map((issue, idx) => `
-                            <div class="diagnosis-card">
-                                <div class="diagnosis-header">
-                                    <span class="diagnosis-rank">#${idx + 1}</span>
-                                    <span class="diagnosis-item">${issue.item}</span>
-                                    <span class="impact-badge ${issue.impact === '高' ? 'high' : 'medium'}">${issue.impact}影响</span>
-                                </div>
-                                <div class="diagnosis-problem">⚠️ ${issue.problem}</div>
-                                <div class="diagnosis-cause">🔍 根因：${issue.root_cause}</div>
-                                <div class="diagnosis-recommendation">💡 建议：${issue.recommendation}</div>
-                                <button class="btn-drill" onclick="drillDiagnosis(issue)">钻取详情</button>
-                            </div>
-                        `).join('');
-                    } else {
-                        section.innerHTML = titleHtml + '<p class="placeholder-text">未发现明显问题</p>';
-                    }
-                } else {
-                    section.innerHTML = titleHtml + '<p class="placeholder-text" style="color: #dc2626;">诊断失败：' + (result.message || result.error) + '</p>';
-                }
-            })
-            .catch(error => {
-                console.error('API 调用失败:', error);
-                section.innerHTML = titleHtml + '<p class="placeholder-text" style="color: #dc2626;">网络错误，请稍后重试</p>';
-            });
-        }
-        
-        // 发现增长机会（替换整个增长机会的内容）
-        function generateGrowth() {
-            const section = document.getElementById('growth-tab');
-            if (!section) {
-                alert('增长机会未找到');
-                return;
-            }
-            
-            // 保存标题和按钮
-            const titleHtml = section.querySelector('div[style*="display: flex"]').outerHTML;
-            
-            section.innerHTML = titleHtml + '<p class="placeholder-text">正在调用 DeepSeek AI 分析...</p>';
-            
-            fetch('/api/ai/analyze', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({type: 'growth', data: {}})
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.success && result.data) {
-                    let opportunities = [];
-                    if (result.data.text) {
-                        try {
-                            const jsonMatch = result.data.text.match(/\{[\s\S]*\}/);
-                            if (jsonMatch) {
-                                const parsed = JSON.parse(jsonMatch[0]);
-                                opportunities = parsed.opportunities || [];
-                            }
-                        } catch (e) { console.error('解析失败:', e); }
-                    } else if (result.data.opportunities) {
-                        opportunities = result.data.opportunities;
-                    }
-                    
-                    if (opportunities.length > 0) {
-                        section.innerHTML = titleHtml + opportunities.map(opp => `
-                            <div class="growth-card">
-                                <div class="growth-header">
-                                    <span class="growth-icon">📈</span>
-                                    <span class="growth-item">${opp.item}</span>
-                                    <span class="roi-badge">ROI ${opp.expected_roi}</span>
-                                </div>
-                                <div class="growth-current">当前表现：${opp.current_performance}</div>
-                                <div class="growth-potential">增长潜力：${opp.growth_potential}</div>
-                                <div class="growth-action">建议动作：${opp.recommended_action}</div>
-                                <div class="growth-budget">建议预算：${opp.budget_suggestion}</div>
-                                <button class="btn-drill" onclick="expandOpportunity(opp)">立即扩量</button>
-                            </div>
-                        `).join('');
-                    } else {
-                        section.innerHTML = titleHtml + '<p class="placeholder-text">暂无增长机会</p>';
-                    }
-                } else {
-                    section.innerHTML = titleHtml + '<p class="placeholder-text" style="color: #dc2626;">分析失败：' + (result.message || result.error) + '</p>';
-                }
-            })
-            .catch(error => {
-                console.error('API 调用失败:', error);
-                section.innerHTML = titleHtml + '<p class="placeholder-text" style="color: #dc2626;">网络错误，请稍后重试</p>';
-            });
-        }
-        
-        
-        // 一键执行 AI 建议
-        async function executeAISuggestion(suggestion) {
-            if (!confirm('确认执行此优化建议？\n\n' + suggestion.suggestion)) {
-                return;
-            }
-            
-            const btn = event.target;
-            btn.disabled = true;
-            btn.textContent = '执行中...';
-            
-            try {
-                // 调用自动化 API 执行建议
-                const response = await fetch('/api/ai/execute', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        suggestion: suggestion,
-                        user_id: '1'
-                    })
-                });
-                
-                const result = await response.json();
-                
-                btn.disabled = false;
-                btn.textContent = '一键执行';
-                
-                if (result.success) {
-                    alert('✅ 执行成功！\n\n' + (result.message || '优化操作已完成'));
-                    // 刷新建议列表
-                    generateAISuggestions();
-                } else {
-                    alert('❌ 执行失败：' + (result.message || result.error));
-                }
-            } catch (error) {
-                btn.disabled = false;
-                btn.textContent = '一键执行';
-                alert('❌ 执行失败：' + error.message);
-            }
-        }
-        
-        // 查看建议详情
-        function viewSuggestionDetail(suggestion) {
-            const detail = `
-📊 优化建议详情
-
-🔍 问题诊断：
-${suggestion.problem}
-
-💡 优化建议：
-${suggestion.suggestion}
-
-📈 预期效果：
-${suggestion.expected_effect}
-
-⚠️ 风险等级：${suggestion.risk_level}
-
-📅 观察窗口：${suggestion.observation_days}天
-
----
-建议类型：${suggestion.type}
-            `.trim();
-            
-            alert(detail);
         }
         
         function getActionIcon(type) {
@@ -6310,295 +5901,12 @@ ${suggestion.expected_effect}
     
         // 诊断卡片钻取
         function drillDownKeyword(keyword) {
-            const detail = `
-📊 关键词详情：${keyword}
-
-💰 当前出价：¥0.80
-📈 点击率：3.2%
-💵 平均点击成本：¥0.75
-🎯 转化率：4.5%
-📊 ROI：4.2
-
----
-建议：表现良好，可适当提高出价
-    `.trim();
-    alert(detail);
+            alert('查看关键词详情：' + keyword + '\n功能开发中...');
         }
         
         // 增长机会扩量
-        
-        // 发布话题
-        async function publishPost() {
-            const title = document.getElementById('post-title').value;
-            const content = document.getElementById('post-content').value;
-            const category = document.getElementById('post-category').value;
-            
-            if (!title || !content) {
-                alert('请填写标题和内容');
-                return;
-            }
-            
-            try {
-                const response = await fetch('/api/community/post', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        title: title,
-                        content: content,
-                        category: category,
-                        user_id: '1',
-                        author: '当前用户'
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    alert('✅ 话题发布成功！');
-                    // 清空表单
-                    document.getElementById('post-title').value = '';
-                    document.getElementById('post-content').value = '';
-                    // 刷新话题列表
-                    loadPosts();
-                } else {
-                    alert('❌ 发布失败：' + (result.message || result.error));
-                }
-            } catch (error) {
-                alert('❌ 发布失败：' + error.message);
-            }
-        }
-        
-        // 筛选话题
-        
-        // 加载话题列表
-        async function loadPosts() {
-            try {
-                const response = await fetch('/api/community/posts?limit=20');
-                const result = await response.json();
-                
-                if (result.success && result.data) {
-                    renderPosts(result.data);
-                }
-            } catch (error) {
-                console.error('加载话题失败:', error);
-            }
-        }
-        
-        // 渲染话题列表
-        function renderPosts(posts) {
-            const list = document.getElementById('posts-list');
-            if (!list) return;
-            
-            const categoryMap = {
-                'experience': '经验分享',
-                'question': '问题求助',
-                'discussion': '讨论交流',
-                'news': '行业资讯'
-            };
-            
-            list.innerHTML = posts.map(post => `
-                <div class="post-card">
-                    <div class="post-header">
-                        <span class="post-category ${post.category}">${categoryMap[post.category] || post.category}</span>
-                        <span class="post-author">@${post.author}</span>
-                        <span class="post-time">${post.time}</span>
-                    </div>
-                    <h3 class="post-title">${post.title}</h3>
-                    <p class="post-preview">${post.content.substring(0, 100)}...</p>
-                    <div class="post-footer">
-                        <span class="post-stat">👁️ ${post.views}</span>
-                        <span class="post-stat">💬 ${post.comments}</span>
-                        <span class="post-stat">👍 ${post.likes}</span>
-                        <button class="btn-secondary btn-sm" onclick="viewPost(${post.id})">查看详情</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function filterPosts(category) {
-            // 更新按钮状态
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // 筛选逻辑（示例）
-            const posts = document.querySelectorAll('.post-card');
-            posts.forEach(post => {
-                if (category === 'all') {
-                    post.style.display = 'block';
-                } else {
-                    const postCategory = post.querySelector('.post-category').classList;
-                    if (postCategory.contains(category)) {
-                        post.style.display = 'block';
-                    } else {
-                        post.style.display = 'none';
-                    }
-                }
-            });
-        }
-        
-        // 查看话题详情
-        async function viewPost(postId) {
-            try {
-                const response = await fetch('/api/community/post/' + postId);
-                const result = await response.json();
-                
-                if (result.success) {
-                    const post = result.data;
-                    const detail = `
-📝 ${post.title}
-
-👤 作者：${post.author}
-🏷️ 分类：${post.category}
-🕐 时间：${post.time}
-
-${post.content}
-
----
-👁️ ${post.views} 浏览 | 💬 ${post.comments} 评论 | 👍 ${post.likes} 点赞
-                    `.trim();
-                    
-                    alert(detail);
-                } else {
-                    alert('❌ 加载失败：' + (result.message || result.error));
-                }
-            } catch (error) {
-                alert('❌ 加载失败：' + error.message);
-            }
-        }
-        
-        
-        // 立即扩量
-        async function expandOpportunity(opportunity) {
-            if (!confirm('确认立即扩量？\n\n' + opportunity.item + '\n建议预算：' + opportunity.budget_suggestion)) {
-                return;
-            }
-            
-            const btn = event.target;
-            btn.disabled = true;
-            btn.textContent = '扩量中...';
-            
-            try {
-                const response = await fetch('/api/growth/expand', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        opportunity: opportunity,
-                        user_id: '1'
-                    })
-                });
-                
-                const result = await response.json();
-                
-                btn.disabled = false;
-                btn.textContent = '立即扩量';
-                
-                if (result.success) {
-                    alert('✅ 扩量成功！\n\n' + (result.message || '已增加预算并提高出价'));
-                    generateGrowth();
-                } else {
-                    alert('❌ 扩量失败：' + (result.message || result.error));
-                }
-            } catch (error) {
-                btn.disabled = false;
-                btn.textContent = '立即扩量';
-                alert('❌ 扩量失败：' + error.message);
-            }
-        }
-        
-        
-        // 钻取详情
-        async function drillDiagnosis(issue) {
-            const detail = `
-🔍 诊断详情
-
-📊 问题项目：${issue.item}
-
-⚠️ 问题描述：
-${issue.problem}
-
-🔎 根本原因：
-${issue.root_cause}
-
-💡 优化建议：
-${issue.recommendation}
-
-📈 影响等级：${issue.impact}
-
----
-建议立即采取行动以改善表现
-            `.trim();
-            
-            if (confirm(detail + '\n\n是否立即执行优化？')) {
-                // 调用自动化执行
-                try {
-                    const response = await fetch('/api/diagnosis/fix', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({
-                            issue: issue,
-                            user_id: '1'
-                        })
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        alert('✅ 优化已执行！');
-                        generateDiagnosis();
-                    } else {
-                        alert('❌ 执行失败：' + (result.message || result.error));
-                    }
-                } catch (error) {
-                    alert('❌ 执行失败：' + error.message);
-                }
-            }
-        }
-        
-        
-        // 数据导入
-        function importData() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.xlsx,.xls,.csv';
-            input.onchange = async (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('user_id', '1');
-                
-                try {
-                    const response = await fetch('/api/data/import', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        alert('✅ 数据导入成功！\n\n' + 
-                              '搜索推广：' + (result.data.search_count || 0) + ' 条\n' +
-                              '全站推广：' + (result.data.allsite_count || 0) + ' 条\n' +
-                              '商品数据：' + (result.data.product_count || 0) + ' 条');
-                        // 刷新页面数据
-                        location.reload();
-                    } else {
-                        alert('❌ 导入失败：' + (result.message || result.error));
-                    }
-                } catch (error) {
-                    alert('❌ 导入失败：' + error.message);
-                }
-            };
-            input.click();
-        }
-        
         function expandBudget(keyword) {
-            if (confirm('确认为关键词"' + keyword + '"扩量？\n\n将提高出价并增加预算')) {
-        alert('✅ 扩量成功！\n\n关键词：' + keyword + '\n出价：¥0.80 → ¥1.20\n预算：+50%');
-    }
+            alert('为关键词"' + keyword + '"扩量\n功能开发中...');
         }
 
     </script>

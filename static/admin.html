@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理员后台 - PDD GrowthOS</title>
+    <title>管理员后台 - 多多优化</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -311,7 +311,7 @@
     <div class="admin-header">
         <div>
             <h1>🛡️ 管理员后台</h1>
-            <div class="subtitle">PDD GrowthOS 系统管理</div>
+            <div class="subtitle">多多优化 系统管理</div>
         </div>
         <button onclick="logout()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">退出登录</button>
     </div>
@@ -364,6 +364,7 @@
                             <th>邮箱</th>
                             <th>套餐</th>
                             <th>AI额度</th>
+                            <th>使用天数</th>
                             <th>状态</th>
                             <th>注册时间</th>
                             <th>操作</th>
@@ -498,6 +499,7 @@
                     <td>${user.email}</td>
                     <td><span class="status-badge ${user.plan}">${user.plan_name}</span></td>
                     <td>${user.ai_quota}</td>
+                    <td>${user.usage_days || 0} 天</td>
                     <td><span class="status-badge ${user.status}">${user.status === 'active' ? '正常' : '已封禁'}</span></td>
                     <td>${user.created_at}</td>
                     <td>
