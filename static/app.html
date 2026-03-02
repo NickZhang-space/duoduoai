@@ -1228,6 +1228,179 @@
     </style>
 
     <style>
+        /* 设置表单样式 */
+        .settings-form {
+            max-width: 600px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e3e8ee;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #E84D1A;
+        }
+        .auth-status {
+            display: flex;
+            align-items: center;
+        }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .status-badge.unauthorized {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .status-badge.authorized {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        /* 通知设置样式 */
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+        }
+        .notification-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+        .notification-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* 开关样式 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 28px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #E84D1A;
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+        
+        /* 套餐卡片样式 */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .plan-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: relative;
+            transition: all 0.3s;
+        }
+        .plan-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .plan-card.featured {
+            border: 3px solid #E84D1A;
+        }
+        .plan-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: #E84D1A;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .plan-header h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+        }
+        .plan-price {
+            font-size: 36px;
+            font-weight: 800;
+            color: #E84D1A;
+            margin-bottom: 20px;
+        }
+        .plan-price span {
+            font-size: 16px;
+            color: #666;
+        }
+        .plan-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+        .plan-features li {
+            padding: 10px 0;
+            font-size: 14px;
+            color: #666;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .plan-card button {
+            width: 100%;
+        }
+    </style>
+
+
+    <style>
         /* C1: 动作卡片增强样式 */
         .action-card {
             position: relative;
@@ -1884,6 +2057,143 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- 店铺管理面板 -->
+                <div id="shop-settings-panel" style="display:none;">
+                    <button class="btn-secondary" onclick="backToSettings()" style="margin-bottom: 20px;">← 返回设置</button>
+                    <h3 style="margin-bottom: 20px;">店铺管理</h3>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label>店铺名称</label>
+                            <input type="text" id="shop-name" placeholder="请输入店铺名称" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>拼多多店铺ID</label>
+                            <input type="text" id="shop-id" placeholder="请输入店铺ID" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>API授权状态</label>
+                            <div class="auth-status">
+                                <span class="status-badge unauthorized">未授权</span>
+                                <button class="btn-primary" style="margin-left: 10px;">立即授权</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>店铺类型</label>
+                            <select id="shop-type" class="form-input">
+                                <option value="personal">个人店铺</option>
+                                <option value="enterprise">企业店铺</option>
+                                <option value="flagship">旗舰店</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>主营类目</label>
+                            <input type="text" id="shop-category" placeholder="如：女装、数码、食品等" class="form-input">
+                        </div>
+                        <button class="btn-primary" onclick="saveShopSettings()">保存设置</button>
+                    </div>
+                </div>
+                
+                <!-- 通知设置面板 -->
+                <div id="notification-settings-panel" style="display:none;">
+                    <button class="btn-secondary" onclick="backToSettings()" style="margin-bottom: 20px;">← 返回设置</button>
+                    <h3 style="margin-bottom: 20px;">通知设置</h3>
+                    <div class="settings-form">
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <div class="notification-title">风险预警通知</div>
+                                <div class="notification-desc">当检测到高风险问题时推送通知</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notify-risk" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <div class="notification-title">增长机会通知</div>
+                                <div class="notification-desc">发现可扩量机会时推送通知</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notify-growth" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <div class="notification-title">每日报告</div>
+                                <div class="notification-desc">每天早上9点推送数据报告</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notify-daily">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-info">
+                                <div class="notification-title">自动化执行通知</div>
+                                <div class="notification-desc">自动化规则执行后推送结果</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notify-automation">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <button class="btn-primary" onclick="saveNotificationSettings()">保存设置</button>
+                    </div>
+                </div>
+                
+                <!-- 套餐升级面板 -->
+                <div id="plan-settings-panel" style="display:none;">
+                    <button class="btn-secondary" onclick="backToSettings()" style="margin-bottom: 20px;">← 返回设置</button>
+                    <h3 style="margin-bottom: 20px;">套餐升级</h3>
+                    <div class="plans-grid">
+                        <div class="plan-card">
+                            <div class="plan-header">
+                                <h4>免费版</h4>
+                                <div class="plan-price">¥0<span>/月</span></div>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✓ 基础数据看板</li>
+                                <li>✓ 每日 5 次 AI 分析</li>
+                                <li>✓ 手动执行优化</li>
+                                <li>✗ 自动化执行</li>
+                                <li>✗ 竞品监控</li>
+                            </ul>
+                            <button class="btn-secondary" disabled>当前套餐</button>
+                        </div>
+                        <div class="plan-card featured">
+                            <div class="plan-badge">推荐</div>
+                            <div class="plan-header">
+                                <h4>基础版</h4>
+                                <div class="plan-price">¥49<span>/月</span></div>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✓ 完整数据看板</li>
+                                <li>✓ 每日 50 次 AI 分析</li>
+                                <li>✓ 自动化执行</li>
+                                <li>✓ 竞品监控（5个）</li>
+                                <li>✓ A/B 测试</li>
+                            </ul>
+                            <button class="btn-primary" onclick="upgradePlan('基础版')">立即升级</button>
+                        </div>
+                        <div class="plan-card">
+                            <div class="plan-header">
+                                <h4>专业版</h4>
+                                <div class="plan-price">¥129<span>/月</span></div>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✓ 所有基础版功能</li>
+                                <li>✓ 无限次 AI 分析</li>
+                                <li>✓ 竞品监控（无限）</li>
+                                <li>✓ 定制化策略</li>
+                                <li>✓ 专属客服支持</li>
+                            </ul>
+                            <button class="btn-primary" onclick="upgradePlan('专业版')">立即升级</button>
+                        </div>
+                    </div>
+                </div>
+
             </section>
         </div>
         
@@ -5359,9 +5669,37 @@ async function loadHotKeywords(category) {
         }
         
         // 设置项点击
-        function openShopSettings() { alert('店铺设置功能开发中'); }
-        function openNotificationSettings() { alert('通知设置功能开发中'); }
-        function openPlanSettings() { alert('套餐升级功能开发中'); }
+        function openShopSettings() {
+            // 隐藏设置菜单，显示店铺管理
+            document.querySelector('.settings-menu').style.display = 'none';
+            document.getElementById('shop-settings-panel').style.display = 'block';
+        }
+        function openNotificationSettings() {
+            // 隐藏设置菜单，显示通知设置
+            document.querySelector('.settings-menu').style.display = 'none';
+            document.getElementById('notification-settings-panel').style.display = 'block';
+        }
+        function openPlanSettings() {
+            // 隐藏设置菜单，显示套餐升级
+            document.querySelector('.settings-menu').style.display = 'none';
+            document.getElementById('plan-settings-panel').style.display = 'block';
+        }
+        function backToSettings() {
+            // 返回设置菜单
+            document.querySelector('.settings-menu').style.display = 'grid';
+            document.getElementById('shop-settings-panel').style.display = 'none';
+            document.getElementById('notification-settings-panel').style.display = 'none';
+            document.getElementById('plan-settings-panel').style.display = 'none';
+        }
+        function saveShopSettings() {
+            alert('店铺设置已保存！');
+        }
+        function saveNotificationSettings() {
+            alert('通知设置已保存！');
+        }
+        function upgradePlan(plan) {
+            alert('即将升级到' + plan + '套餐');
+        }
         function openAutomationSettings() { window.location.href = '/static/automation.html'; }
     
         // 诊断卡片钻取
