@@ -1228,6 +1228,201 @@
     </style>
 
     <style>
+        /* C1: 动作卡片增强样式 */
+        .action-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #E84D1A 0%, #d4410f 100%);
+        }
+        .action-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(232,77,26,0.15);
+        }
+        .action-type {
+            flex: 1;
+        }
+        .risk-badge.medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .risk-badge.high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .action-buttons .btn-primary {
+            background: #E84D1A;
+            padding: 8px 16px !important;
+        }
+        .action-buttons .btn-secondary {
+            background: transparent;
+            color: #666;
+            border: 1px solid #e3e8ee;
+            padding: 8px 16px !important;
+        }
+        .action-buttons .btn-secondary:hover {
+            border-color: #E84D1A;
+            color: #E84D1A;
+            background: rgba(232,77,26,0.05);
+        }
+        
+        /* C2: 诊断卡片设计 */
+        .diagnosis-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+            border-left: 4px solid #dc2626;
+            transition: all 0.3s;
+        }
+        .diagnosis-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(220,38,38,0.15);
+        }
+        .diagnosis-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .diagnosis-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        .diagnosis-icon {
+            font-size: 24px;
+        }
+        .diagnosis-rank {
+            background: #dc2626;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .diagnosis-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .diagnosis-metric {
+            text-align: center;
+        }
+        .diagnosis-metric-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        .diagnosis-metric-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        .diagnosis-metric-value.down {
+            color: #dc2626;
+        }
+        .diagnosis-metric-value.up {
+            color: #16a34a;
+        }
+        .diagnosis-reason {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+        .diagnosis-reason strong {
+            color: #dc2626;
+        }
+        .diagnosis-chain {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: #666;
+        }
+        .diagnosis-chain-item {
+            padding: 6px 12px;
+            background: #fff;
+            border: 1px solid #e3e8ee;
+            border-radius: 6px;
+        }
+        .diagnosis-chain-arrow {
+            color: #E84D1A;
+            font-weight: 700;
+        }
+        .diagnosis-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .btn-drill {
+            padding: 8px 16px;
+            background: #E84D1A;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-drill:hover {
+            background: #d4410f;
+        }
+        
+        /* 增长机会卡片（类似诊断卡片，但用绿色） */
+        .growth-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+            border-left: 4px solid #16a34a;
+            transition: all 0.3s;
+        }
+        .growth-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(22,163,74,0.15);
+        }
+        .growth-rank {
+            background: #16a34a;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .growth-potential {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #d1fae5;
+            color: #065f46;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+    </style>
+
+
+    <style>
         /* GrowthOS 主导航样式 */
         .tabs .main-tab {
             font-size: 15px;
@@ -1551,7 +1746,44 @@
                 <div class="diagnosis-radar">
                     <h3>亏损雷达 - Top 5 拖累项</h3>
                     <div id="diagnosis-list" class="diagnosis-list">
-                        <p class="placeholder-text">正在分析账户数据...</p>
+
+                        <div class="diagnosis-card">
+                            <div class="diagnosis-header">
+                                <div class="diagnosis-title">
+                                    <span class="diagnosis-icon">⚠️</span>
+                                    <span>关键词"女装连衣裙"ROI持续下降</span>
+                                </div>
+                                <span class="diagnosis-rank">Top 1</span>
+                            </div>
+                            <div class="diagnosis-metrics">
+                                <div class="diagnosis-metric">
+                                    <div class="diagnosis-metric-label">ROI</div>
+                                    <div class="diagnosis-metric-value down">0.8 ↓</div>
+                                </div>
+                                <div class="diagnosis-metric">
+                                    <div class="diagnosis-metric-label">花费</div>
+                                    <div class="diagnosis-metric-value">¥1,250</div>
+                                </div>
+                                <div class="diagnosis-metric">
+                                    <div class="diagnosis-metric-label">影响</div>
+                                    <div class="diagnosis-metric-value down">-¥450</div>
+                                </div>
+                            </div>
+                            <div class="diagnosis-reason">
+                                <strong>问题归因：</strong>CTR 从 3.2% 降至 1.8%，主图点击率明显下降
+                            </div>
+                            <div class="diagnosis-chain">
+                                <span class="diagnosis-chain-item">CTR低</span>
+                                <span class="diagnosis-chain-arrow">→</span>
+                                <span class="diagnosis-chain-item">主图点击率差</span>
+                                <span class="diagnosis-chain-arrow">→</span>
+                                <span class="diagnosis-chain-item">建议更换素材</span>
+                            </div>
+                            <div class="diagnosis-actions">
+                                <button class="btn-drill" onclick="drillDownKeyword('女装连衣裙')">查看详情</button>
+                                <button class="btn-secondary btn-sm">生成优化方案</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1562,7 +1794,45 @@
                 <div class="growth-opportunities">
                     <h3>放量清单 - Top 5 可扩量项</h3>
                     <div id="growth-list" class="growth-list">
-                        <p class="placeholder-text">正在挖掘增长机会...</p>
+
+                        <div class="growth-card">
+                            <div class="diagnosis-header">
+                                <div class="diagnosis-title">
+                                    <span class="diagnosis-icon">🚀</span>
+                                    <span>关键词"夏季新款"可扩量</span>
+                                </div>
+                                <span class="growth-rank">Top 1</span>
+                            </div>
+                            <div class="diagnosis-metrics">
+                                <div class="diagnosis-metric">
+                                    <div class="diagnosis-metric-label">当前ROI</div>
+                                    <div class="diagnosis-metric-value up">3.5 ↑</div>
+                                </div>
+                                <div class="diagnosis-metric">
+                                    <div class="diagnosis-metric-label">预算利用率</div>
+                                    <div class="diagnosis-metric-value">45%</div>
+                                </div>
+                                <div class="diagnosis-metric">
+                                    <div class="diagnosis-metric-label">扩量潜力</div>
+                                    <div class="diagnosis-metric-value up">+¥800</div>
+                                </div>
+                            </div>
+                            <div class="diagnosis-reason">
+                                <strong>机会分析：</strong>ROI 稳定在 3.5，预算仅用 45%，有充足扩量空间
+                                <span class="growth-potential">高潜力</span>
+                            </div>
+                            <div class="diagnosis-chain">
+                                <span class="diagnosis-chain-item">高ROI</span>
+                                <span class="diagnosis-chain-arrow">→</span>
+                                <span class="diagnosis-chain-item">预算未满</span>
+                                <span class="diagnosis-chain-arrow">→</span>
+                                <span class="diagnosis-chain-item">建议提升预算</span>
+                            </div>
+                            <div class="diagnosis-actions">
+                                <button class="btn-drill" onclick="expandBudget('夏季新款')">立即扩量</button>
+                                <button class="btn-secondary btn-sm">查看详情</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -5093,6 +5363,17 @@ async function loadHotKeywords(category) {
         function openNotificationSettings() { alert('通知设置功能开发中'); }
         function openPlanSettings() { alert('套餐升级功能开发中'); }
         function openAutomationSettings() { window.location.href = '/static/automation.html'; }
+    
+        // 诊断卡片钻取
+        function drillDownKeyword(keyword) {
+            alert('查看关键词详情：' + keyword + '\n功能开发中...');
+        }
+        
+        // 增长机会扩量
+        function expandBudget(keyword) {
+            alert('为关键词"' + keyword + '"扩量\n功能开发中...');
+        }
+
     </script>
 
 </div><!-- content -->
