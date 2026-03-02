@@ -3,569 +3,575 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>多多AI优化师 - 拼多多商家的智能推广助手</title>
+    <title>PDD GrowthOS - 拼多多投放与运营一体的 AI 优化师</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            color: #425466; background: #fff; -webkit-font-smoothing: antialiased;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            color: #1a1a2e;
+            background: #fff;
+            line-height: 1.6;
+            font-size: 16px;
         }
         a { text-decoration: none; color: inherit; }
+        
+        /* 导航栏 */
         .nav {
-            position: fixed; top: 0; width: 100%; z-index: 100;
-            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(66,84,102,0.1);
-            padding: 0 40px; height: 64px;
-            display: flex; align-items: center; justify-content: space-between;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            padding: 0 40px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .nav-logo { font-size: 20px; font-weight: 700; color: #0A2540; }
-        .nav-logo span { color: #E84D1A; }
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a { font-size: 15px; color: #425466; transition: color 0.2s; }
-        .nav-links a:hover { color: #0A2540; }
-        .btn-nav {
-            background: #E84D1A; color: #fff; padding: 8px 20px;
-            border-radius: 8px; font-size: 14px; font-weight: 600; transition: background 0.2s;
+        .nav-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a2e;
         }
-        .btn-nav:hover { background: #d4410f; }
+        .nav-logo span {
+            color: #E84D1A;
+        }
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .nav-links a {
+            font-size: 15px;
+            color: #1a1a2e;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #E84D1A;
+        }
+        .btn-primary {
+            background: #E84D1A;
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            background: #d4410f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(232,77,26,0.3);
+        }
         
-        /* 动画效果 */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in-up { opacity: 0; animation: fadeInUp 0.8s ease forwards; }
-        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
-        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
-        
+        /* A1: Hero 区 */
         .hero {
-            padding: 160px 40px 100px;
-            background: linear-gradient(170deg, #0A2540 0%, #1a1a4e 100%);
+            padding: 140px 40px 100px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            text-align: center;
+            color: #fff;
+        }
+        .hero-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+        .hero-title .highlight {
+            color: #E84D1A;
+        }
+        .hero-subtitle {
+            font-size: 22px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+        }
+        .btn-hero {
+            padding: 16px 40px;
+            font-size: 18px;
+            border-radius: 10px;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        /* A2: 4大能力展示区 */
+        .capabilities {
+            padding: 100px 40px;
+            background: #f8f9fa;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 60px;
+            color: #1a1a2e;
+        }
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .capability-card {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
             text-align: center;
         }
-        .hero-tag {
-            display: inline-block; background: rgba(232,77,26,0.15); color: #E84D1A;
-            padding: 6px 16px; border-radius: 20px; font-size: 14px; font-weight: 600;
-            margin-bottom: 24px;
+        .capability-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
         }
-        .hero h1 {
-            font-size: 52px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 24px;
+        .capability-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
         }
-        .hero h1 span { color: #E84D1A; }
-        .hero p {
-            font-size: 20px; color: rgba(255,255,255,0.7);
-            max-width: 620px; margin: 0 auto 40px; line-height: 1.6;
+        .capability-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #1a1a2e;
         }
-        .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-        .btn-primary {
-            background: #E84D1A; color: #fff; padding: 14px 32px;
-            border-radius: 10px; font-size: 16px; font-weight: 600;
-            transition: all 0.2s; border: none; cursor: pointer; display: inline-block;
+        .capability-desc {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
         }
-        .btn-primary:hover { background: #d4410f; transform: translateY(-1px); }
-        .btn-secondary {
-            background: rgba(255,255,255,0.1); color: #fff; padding: 14px 32px;
-            border-radius: 10px; font-size: 16px; font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.2); transition: all 0.2s; cursor: pointer;
-        }
-        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
-        .stats {
-            display: flex; justify-content: center; gap: 60px;
-            padding: 60px 40px; background: #f6f9fc; flex-wrap: wrap;
-        }
-        .stat { text-align: center; }
-        .stat-num { font-size: 48px; font-weight: 800; color: #E84D1A; }
-        .stat-label { font-size: 16px; color: #425466; margin-top: 8px; }
+        
+        /* A3: 功能亮点区 */
         .features {
-            padding: 100px 40px; max-width: 1100px; margin: 0 auto;
+            padding: 100px 40px;
+            background: #fff;
         }
-        .features-title { text-align: center; margin-bottom: 60px; }
-        .features-title h2 { font-size: 36px; font-weight: 700; color: #0A2540; margin-bottom: 16px; }
-        .features-title p { font-size: 18px; color: #425466; }
-        .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
         .feature-card {
-            background: #fff; border: 1px solid #e3e8ee; border-radius: 12px; padding: 36px;
-            transition: all 0.2s;
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            border-left: 4px solid #E84D1A;
         }
-        .feature-card:hover {
-            border-color: #E84D1A; box-shadow: 0 4px 20px rgba(232,77,26,0.1); transform: translateY(-2px);
+        .feature-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1a1a2e;
         }
-        .feature-icon { font-size: 36px; margin-bottom: 16px; }
-        .feature-card h3 { font-size: 20px; font-weight: 700; color: #0A2540; margin-bottom: 12px; }
-        .feature-card p { font-size: 15px; line-height: 1.6; color: #425466; }
+        .feature-list {
+            list-style: none;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            color: #666;
+        }
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #E84D1A;
+            font-weight: 700;
+        }
         
-        /* 使用流程 */
-        .process {
-            padding: 100px 40px; background: #f6f9fc;
+        /* A4: AI 工作流展示 */
+        .workflow {
+            padding: 100px 40px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            color: #fff;
         }
-        .process-title { text-align: center; margin-bottom: 60px; }
-        .process-title h2 { font-size: 36px; font-weight: 700; color: #0A2540; margin-bottom: 16px; }
-        .process-title p { font-size: 18px; color: #425466; }
-        .process-steps {
-            display: flex; justify-content: center; align-items: flex-start;
-            max-width: 1000px; margin: 0 auto; gap: 40px; position: relative;
+        .workflow-steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
         }
-        .process-step {
-            flex: 1; text-align: center; position: relative;
+        .workflow-step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            border: 2px solid rgba(232,77,26,0.3);
         }
-        .process-step::after {
-            content: '→'; position: absolute; right: -30px; top: 50px;
-            font-size: 32px; color: #E84D1A; font-weight: 700;
+        .workflow-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background: #E84D1A;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
         }
-        .process-step:last-child::after { display: none; }
-        .process-icon {
-            width: 100px; height: 100px; margin: 0 auto 20px;
-            background: linear-gradient(135deg, #E84D1A 0%, #ff6b3d 100%);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 48px; box-shadow: 0 8px 20px rgba(232,77,26,0.2);
+        .workflow-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
-        .process-number {
-            position: absolute; top: -10px; right: -10px;
-            width: 32px; height: 32px; background: #0A2540; color: #fff;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; font-weight: 700;
+        .workflow-desc {
+            font-size: 14px;
+            color: rgba(255,255,255,0.8);
         }
-        .process-step h3 { font-size: 20px; font-weight: 700; color: #0A2540; margin-bottom: 12px; }
-        .process-step p { font-size: 15px; color: #425466; line-height: 1.6; }
+        .workflow-arrow {
+            font-size: 32px;
+            color: #E84D1A;
+        }
         
-        /* 用户评价 */
-        .testimonials {
-            padding: 100px 40px; max-width: 1100px; margin: 0 auto;
+        /* A5: 定价区 */
+        .pricing {
+            padding: 100px 40px;
+            background: #f8f9fa;
         }
-        .testimonials-title { text-align: center; margin-bottom: 60px; }
-        .testimonials-title h2 { font-size: 36px; font-weight: 700; color: #0A2540; margin-bottom: 16px; }
-        .testimonials-title p { font-size: 18px; color: #425466; }
-        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .testimonial-card {
-            background: #fff; border: 1px solid #e3e8ee; border-radius: 12px;
-            padding: 32px; transition: all 0.2s;
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
-        .testimonial-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
-        .testimonial-header {
-            display: flex; align-items: center; margin-bottom: 16px;
+        .pricing-card {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.3s;
         }
-        .testimonial-avatar {
-            width: 48px; height: 48px; border-radius: 50%;
-            background: linear-gradient(135deg, #E84D1A 0%, #ff6b3d 100%);
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 20px; font-weight: 700; margin-right: 12px;
+        .pricing-card.featured {
+            border: 3px solid #E84D1A;
+            transform: scale(1.05);
         }
-        .testimonial-info h4 { font-size: 16px; font-weight: 700; color: #0A2540; margin-bottom: 4px; }
-        .testimonial-info p { font-size: 13px; color: #425466; }
-        .testimonial-stars { color: #E84D1A; font-size: 16px; margin-bottom: 12px; }
-        .testimonial-text { font-size: 15px; line-height: 1.6; color: #425466; }
+        .pricing-card:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .pricing-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 800;
+            color: #E84D1A;
+            margin-bottom: 8px;
+        }
+        .pricing-price small {
+            font-size: 18px;
+            color: #666;
+        }
+        .pricing-features {
+            list-style: none;
+            margin: 24px 0;
+            text-align: left;
+        }
+        .pricing-features li {
+            padding: 10px 0;
+            color: #666;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .pricing-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+        }
         
-        /* FAQ */
-        .faq {
-            padding: 100px 40px; background: #f6f9fc;
+        /* A6: 底部 CTA */
+        .cta-bottom {
+            padding: 80px 40px;
+            background: linear-gradient(135deg, #E84D1A 0%, #d4410f 100%);
+            text-align: center;
+            color: #fff;
         }
-        .faq-title { text-align: center; margin-bottom: 60px; }
-        .faq-title h2 { font-size: 36px; font-weight: 700; color: #0A2540; margin-bottom: 16px; }
-        .faq-title p { font-size: 18px; color: #425466; }
-        .faq-list { max-width: 800px; margin: 0 auto; }
-        .faq-item {
-            background: #fff; border: 1px solid #e3e8ee; border-radius: 12px;
-            margin-bottom: 16px; overflow: hidden; transition: all 0.2s;
+        .cta-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
         }
-        .faq-item:hover { border-color: #E84D1A; }
-        .faq-question {
-            padding: 20px 24px; cursor: pointer; display: flex;
-            justify-content: space-between; align-items: center;
-            font-size: 16px; font-weight: 600; color: #0A2540;
+        .cta-subtitle {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.9;
         }
-        .faq-question::after {
-            content: '+'; font-size: 24px; color: #E84D1A;
-            transition: transform 0.3s;
+        .btn-cta-bottom {
+            background: #fff;
+            color: #E84D1A;
+            padding: 16px 48px;
+            font-size: 18px;
+            font-weight: 700;
         }
-        .faq-item.active .faq-question::after { transform: rotate(45deg); }
-        .faq-answer {
-            max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
-            padding: 0 24px;
+        .btn-cta-bottom:hover {
+            background: #f0f0f0;
         }
-        .faq-item.active .faq-answer { max-height: 300px; padding: 0 24px 20px; }
-        .faq-answer p { font-size: 15px; line-height: 1.6; color: #425466; }
         
-        /* 联系方式 */
-        .contact {
-            padding: 80px 40px; background: #0A2540; text-align: center;
+        /* Footer */
+        .footer {
+            padding: 40px;
+            background: #1a1a2e;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            font-size: 14px;
         }
-        .contact h2 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 16px; }
-        .contact p { font-size: 18px; color: rgba(255,255,255,0.7); margin-bottom: 40px; }
-        .contact-methods {
-            display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
-        }
-        .contact-method {
-            background: rgba(255,255,255,0.05); border-radius: 12px;
-            padding: 32px 40px; min-width: 200px;
-        }
-        .contact-icon { font-size: 48px; margin-bottom: 16px; }
-        .contact-method h3 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; }
-        .contact-method p { font-size: 16px; color: rgba(255,255,255,0.8); }
         
-        .pain { padding: 80px 40px; background: #0A2540; text-align: center; }
-        .pain h2 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 40px; }
-        .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 900px; margin: 0 auto; }
-        .pain-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 28px; }
-        .pain-card .emoji { font-size: 32px; margin-bottom: 12px; }
-        .pain-card h4 { color: #fff; font-size: 16px; margin-bottom: 8px; }
-        .pain-card p { color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.5; }
-        .pricing { padding: 100px 40px; background: #f6f9fc; }
-        .pricing-title { text-align: center; margin-bottom: 60px; }
-        .pricing-title h2 { font-size: 36px; font-weight: 700; color: #0A2540; margin-bottom: 16px; }
-        .pricing-title p { font-size: 18px; color: #425466; }
-        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 960px; margin: 0 auto; }
-        .price-card {
-            background: #fff; border: 1px solid #e3e8ee; border-radius: 12px;
-            padding: 40px 32px; text-align: center; transition: all 0.2s; position: relative;
-        }
-        .price-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
-        .price-card.featured { border: 2px solid #E84D1A; box-shadow: 0 8px 30px rgba(232,77,26,0.12); }
-        .price-badge {
-            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-            background: #E84D1A; color: #fff; padding: 4px 16px;
-            border-radius: 20px; font-size: 13px; font-weight: 600;
-        }
-        .price-card h3 { font-size: 20px; font-weight: 700; color: #0A2540; margin-bottom: 8px; }
-        .price-amount { font-size: 48px; font-weight: 800; color: #0A2540; margin: 16px 0 4px; }
-        .price-amount span { font-size: 16px; font-weight: 400; color: #425466; }
-        .price-period { font-size: 14px; color: #425466; margin-bottom: 24px; }
-        .price-features { list-style: none; text-align: left; margin-bottom: 32px; }
-        .price-features li { padding: 8px 0; font-size: 15px; color: #425466; border-bottom: 1px solid #f0f0f0; }
-        .price-features li::before { content: "✓ "; color: #E84D1A; font-weight: 700; }
-        .btn-price {
-            display: block; width: 100%; padding: 12px; border-radius: 8px;
-            font-size: 15px; font-weight: 600; border: 2px solid #E84D1A;
-            color: #E84D1A; background: #fff; cursor: pointer; transition: all 0.2s;
-        }
-        .btn-price:hover { background: #E84D1A; color: #fff; }
-        .price-card.featured .btn-price { background: #E84D1A; color: #fff; }
-        .price-card.featured .btn-price:hover { background: #d4410f; }
-        .cta { padding: 100px 40px; text-align: center; background: linear-gradient(170deg, #0A2540 0%, #1a1a4e 100%); }
-        .cta h2 { font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 16px; }
-        .cta p { font-size: 18px; color: rgba(255,255,255,0.7); margin-bottom: 32px; }
-        .footer { padding: 40px; text-align: center; background: #0A2540; color: rgba(255,255,255,0.5); font-size: 14px; }
-        
+        /* 移动端适配 */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 32px; }
-            .hero p { font-size: 16px; }
-            .features-grid, .pricing-grid, .pain-grid, .testimonials-grid { grid-template-columns: 1fr; }
-            .stats { gap: 30px; }
-            .stat-num { font-size: 36px; }
-            .nav { padding: 0 20px; }
-            .nav-links { gap: 16px; }
-            .hero, .features, .pricing, .cta, .pain, .process, .testimonials, .faq, .contact { padding-left: 20px; padding-right: 20px; }
-            .process-steps { flex-direction: column; gap: 40px; }
-            .process-step::after { content: '↓'; right: auto; top: auto; bottom: -30px; left: 50%; transform: translateX(-50%); }
-            .process-step:last-child::after { display: none; }
+            .nav {
+                padding: 0 20px;
+                height: 60px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero {
+                padding: 100px 20px 60px;
+            }
+            .hero-title {
+                font-size: 36px;
+            }
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            .hero-cta {
+                flex-direction: column;
+            }
+            .section-title {
+                font-size: 32px;
+            }
+            .capabilities, .features, .workflow, .pricing {
+                padding: 60px 20px;
+            }
+            .workflow-steps {
+                flex-direction: column;
+            }
+            .workflow-arrow {
+                transform: rotate(90deg);
+            }
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 28px;
+            }
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            .btn-hero {
+                padding: 12px 24px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav class="nav">
-        <div class="nav-logo">多多<span>AI</span>优化师</div>
+        <div class="nav-logo">
+            <span>PDD</span> GrowthOS
+        </div>
         <div class="nav-links">
-            <a href="#features">功能</a>
+            <a href="#capabilities">核心能力</a>
+            <a href="#features">功能亮点</a>
             <a href="#pricing">定价</a>
-            <a href="/static/tutorials.html">教程</a>
-            <a href="/static/login.html" class="btn-nav">登录</a>
+            <a href="/static/login.html" class="btn-primary">立即开始</a>
         </div>
     </nav>
+
+    <!-- A1: Hero 区 -->
     <section class="hero">
-        <div class="hero-tag fade-in-up" style="animation-delay: 0.1s;">🔥 专为拼多多商家打造</div>
-        <h1 class="fade-in-up" style="animation-delay: 0.2s;">你的拼多多<br><span>AI 推广优化师</span></h1>
-        <p class="fade-in-up" style="animation-delay: 0.3s;">拼多多推广费烧得快？每 100 元有 62 元是浪费的。把数据丢给 AI，10 秒告诉你哪些钱该砍、哪些词该加投、出价怎么调。</p>
-        <div class="hero-btns fade-in-up" style="animation-delay: 0.4s;">
-            <a href="/static/login.html" class="btn-primary">免费试用</a>
-            <a href="#features" class="btn-secondary">了解更多</a>
+        <h1 class="hero-title">
+            <span class="highlight">PDD GrowthOS</span><br>
+            拼多多投放与运营一体的 AI 优化师
+        </h1>
+        <p class="hero-subtitle">
+            不是报表工具，不是聊天机器人<br>
+            是"诊断→动作→执行→复盘"的闭环系统
+        </p>
+        <div class="hero-cta">
+            <a href="/static/login.html" class="btn-primary btn-hero">免费试用</a>
+            <a href="#features" class="btn-secondary btn-hero">了解更多</a>
         </div>
-    </section>
-    <section class="stats">
-        <div class="stat"><div class="stat-num">62%</div><div class="stat-label">的推广费被浪费<br><small style="font-size:13px;color:#888">行业平均数据</small></div></div>
-        <div class="stat"><div class="stat-num">¥5000+</div><div class="stat-label">新店首月推广费<br><small style="font-size:13px;color:#888">68% 商家超过此数</small></div></div>
-        <div class="stat"><div class="stat-num">10秒</div><div class="stat-label">AI 出优化方案<br><small style="font-size:13px;color:#888">替代 ¥5000/月 优化师</small></div></div>
     </section>
 
-    <section class="features" id="features">
-        <div class="features-title">
-            <h2>比你的优化师更懂数据</h2>
-            <p>上传推广数据，AI 5 分钟给你一套完整优化方案</p>
+    <!-- A2: 4大能力展示区 -->
+    <section id="capabilities" class="capabilities">
+        <h2 class="section-title">4大核心能力</h2>
+        <div class="capabilities-grid">
+            <div class="capability-card">
+                <div class="capability-icon">📊</div>
+                <h3 class="capability-title">数据统一</h3>
+                <p class="capability-desc">搜索推广、全站推广、场景推广统一指标口径，一个平台看清全局</p>
+            </div>
+            <div class="capability-card">
+                <div class="capability-icon">🔍</div>
+                <h3 class="capability-title">诊断系统</h3>
+                <p class="capability-desc">自动判断问题出在哪：流量、承接、价格、人群还是预算，精准定位</p>
+            </div>
+            <div class="capability-card">
+                <div class="capability-icon">🚀</div>
+                <h3 class="capability-title">动作系统</h3>
+                <p class="capability-desc">优化建议变成可执行的改动清单，不再是空洞的"建议优化"</p>
+            </div>
+            <div class="capability-card">
+                <div class="capability-icon">🔄</div>
+                <h3 class="capability-title">执行闭环</h3>
+                <p class="capability-desc">人审一键执行 → 跟踪效果 → 自动复盘，形成完整的优化闭环</p>
+            </div>
         </div>
+    </section>
+
+    <!-- A3: 功能亮点区 -->
+    <section id="features" class="features">
+        <h2 class="section-title">功能亮点</h2>
         <div class="features-grid">
-            <div class="feature-card animate-on-scroll">
-                <div class="feature-icon">🎯</div>
-                <h3>推广计划诊断</h3>
-                <p>粘贴你的推广报表，AI 逐个关键词分析 ROI 和转化率。哪些词在烧钱、哪些词该加投、出价调多少，全部给你算清楚。</p>
+            <div class="feature-card">
+                <h3 class="feature-title">🎯 搜索推广优化</h3>
+                <ul class="feature-list">
+                    <li>关键词智能出价调整</li>
+                    <li>低效词自动暂停</li>
+                    <li>投放时段优化</li>
+                    <li>人群定向优化</li>
+                    <li>ROI 实时监控</li>
+                </ul>
             </div>
-            <div class="feature-card animate-on-scroll">
-                <div class="feature-icon">💡</div>
-                <h3>出价优化建议</h3>
-                <p>热门类目点击单价 2-5 元，同行一竞价直接飙 3-5 倍。AI 根据你的品类和竞争度，推荐最优出价区间，别再当冤大头。</p>
+            <div class="feature-card">
+                <h3 class="feature-title">📈 全站/场景优化</h3>
+                <ul class="feature-list">
+                    <li>全站推广预算分配</li>
+                    <li>场景推广策略</li>
+                    <li>商品组合优化</li>
+                    <li>人群包管理</li>
+                    <li>创意素材测试</li>
+                </ul>
             </div>
-            <div class="feature-card animate-on-scroll">
-                <div class="feature-icon">📦</div>
-                <h3>智能选品</h3>
-                <p>不知道卖什么？AI 分析拼多多热销趋势，按你的预算和经验推荐高潜力品类，降低试错成本。</p>
-            </div>
-            <div class="feature-card animate-on-scroll">
-                <div class="feature-icon">📊</div>
-                <h3>投放报告</h3>
-                <p>一键生成推广效果报告，花费、ROI、转化率趋势一目了然。支持多维度对比，快速定位问题。</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="process">
-        <div class="process-title">
-            <h2>三步开始优化</h2>
-            <p>简单到不需要教程</p>
-        </div>
-        <div class="process-steps">
-            <div class="process-step animate-on-scroll">
-                <div class="process-icon">
-                    📤
-                    <div class="process-number">1</div>
-                </div>
-                <h3>上传数据</h3>
-                <p>从拼多多后台导出推广数据，复制粘贴到系统，支持 Excel 和 CSV 格式</p>
-            </div>
-            <div class="process-step animate-on-scroll">
-                <div class="process-icon">
-                    🤖
-                    <div class="process-number">2</div>
-                </div>
-                <h3>AI 分析</h3>
-                <p>AI 自动分析每个关键词的 ROI、转化率、点击成本，10 秒生成诊断报告</p>
-            </div>
-            <div class="process-step animate-on-scroll">
-                <div class="process-icon">
-                    ✅
-                    <div class="process-number">3</div>
-                </div>
-                <h3>获取方案</h3>
-                <p>获得详细优化建议：哪些词暂停、哪些词加投、出价调整幅度，直接执行即可</p>
+            <div class="feature-card">
+                <h3 class="feature-title">🤖 AI 运营策略</h3>
+                <ul class="feature-list">
+                    <li>动态定价建议</li>
+                    <li>A/B 测试框架</li>
+                    <li>竞品监控分析</li>
+                    <li>市场趋势预测</li>
+                    <li>每日智能报告</li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <section class="testimonials">
-        <div class="testimonials-title">
-            <h2>商家真实反馈</h2>
-            <p>他们已经省下了大笔推广费</p>
-        </div>
-        <div class="testimonials-grid">
-            <div class="testimonial-card animate-on-scroll">
-                <div class="testimonial-header">
-                    <div class="testimonial-avatar">张</div>
-                    <div class="testimonial-info">
-                        <h4>张老板</h4>
-                        <p>母婴用品店主</p>
-                    </div>
-                </div>
-                <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">之前每天烧 300 块推广费，ROI 只有 1.8，基本在亏钱。用了 AI 优化师后，砍掉了 40% 的无效关键词，ROI 提升到 3.2，现在每天能赚钱了。</p>
+    <!-- A4: AI 工作流展示 -->
+    <section class="workflow">
+        <h2 class="section-title">AI 工作流程</h2>
+        <div class="workflow-steps">
+            <div class="workflow-step">
+                <div class="workflow-number">1</div>
+                <h3 class="workflow-title">诊断师</h3>
+                <p class="workflow-desc">自动扫描账户，识别亏损点和增长机会</p>
             </div>
-            <div class="testimonial-card animate-on-scroll">
-                <div class="testimonial-header">
-                    <div class="testimonial-avatar">李</div>
-                    <div class="testimonial-info">
-                        <h4>李姐</h4>
-                        <p>服装店主</p>
-                    </div>
-                </div>
-                <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">新手不懂推广，之前请了个优化师 8000/月，效果还不如 AI。现在每月只花 49 块，推广效果反而更好，关键词出价建议特别准。</p>
+            <div class="workflow-arrow">→</div>
+            <div class="workflow-step">
+                <div class="workflow-number">2</div>
+                <h3 class="workflow-title">策略师</h3>
+                <p class="workflow-desc">生成可执行的优化动作清单</p>
             </div>
-            <div class="testimonial-card animate-on-scroll">
-                <div class="testimonial-header">
-                    <div class="testimonial-avatar">王</div>
-                    <div class="testimonial-info">
-                        <h4>王先生</h4>
-                        <p>数码配件店主</p>
-                    </div>
-                </div>
-                <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">最喜欢的是选品功能，AI 推荐的几个品类确实好卖，上架第二周就开始盈利。推广诊断也很实用，每周分析一次，ROI 稳定在 4 以上。</p>
+            <div class="workflow-arrow">→</div>
+            <div class="workflow-step">
+                <div class="workflow-number">3</div>
+                <h3 class="workflow-title">执行器</h3>
+                <p class="workflow-desc">一键执行并自动跟踪效果复盘</p>
             </div>
         </div>
     </section>
 
-    <section class="faq">
-        <div class="faq-title">
-            <h2>常见问题</h2>
-            <p>你可能想知道的</p>
-        </div>
-        <div class="faq-list">
-            <div class="faq-item">
-                <div class="faq-question">AI 分析准确吗？会不会误判？</div>
-                <div class="faq-answer">
-                    <p>AI 基于拼多多真实推广数据训练，分析逻辑参考行业 Top 优化师的经验。准确率在 85% 以上。建议结合自己的实际情况，逐步调整优化。</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">免费版和付费版有什么区别？</div>
-                <div class="faq-answer">
-                    <p>免费版每天 3 次分析，适合小规模测试。基础版（¥49/月）每天 30 次，支持深度诊断和关键词优化。专业版（¥129/月）无限次分析，还有竞品监控和专属方案。</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">数据安全吗？会不会泄露？</div>
-                <div class="faq-answer">
-                    <p>所有数据加密存储，仅用于 AI 分析，不会分享给第三方。你可以随时删除历史数据。我们通过了信息安全认证，请放心使用。</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">不会操作怎么办？</div>
-                <div class="faq-answer">
-                    <p>系统设计非常简单，复制粘贴数据即可。我们还提供详细的视频教程和文档。付费用户有专属客服，随时解答问题。</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">可以退款吗？</div>
-                <div class="faq-answer">
-                    <p>支持 7 天无理由退款。如果使用后觉得不满意，联系客服即可全额退款，无需理由。</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">支持哪些推广方式？</div>
-                <div class="faq-answer">
-                    <p>目前支持拼多多搜索推广、场景推广、全站推广的数据分析。后续会支持直通车、多多进宝等更多推广方式。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="pain">
-        <h2>拼多多商家的真实困境</h2>
-        <div class="pain-grid">
-            <div class="pain-card animate-on-scroll">
-                <div class="emoji">💸</div>
-                <h4>每 100 元推广费，62 元白烧</h4>
-                <p>80% 的商家推广存在"空烧"。全站推广 ROI 低于 3 就是亏的，但大多数人连自己的 ROI 都算不清。</p>
-            </div>
-            <div class="pain-card animate-on-scroll">
-                <div class="emoji">🤯</div>
-                <h4>越调出价越乱，越烧越多</h4>
-                <p>天天改出价，系统就要重新算排名、重新匹配人群。频繁调整 = 从头来过，钱白花了还不如不动。</p>
-            </div>
-            <div class="pain-card animate-on-scroll">
-                <div class="emoji">💰</div>
-                <h4>优化师月薪 5000 起，请不起</h4>
-                <p>专业优化师 5000-20000/月，还不一定靠谱。小商家只能自己摸索，靠感觉投放。</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="pricing" id="pricing">
-        <div class="pricing-title">
-            <h2>一天不到两块钱</h2>
-            <p>比请优化师便宜 99%，效果不打折</p>
-        </div>
+    <!-- A5: 定价区 -->
+    <section id="pricing" class="pricing">
+        <h2 class="section-title">选择适合你的套餐</h2>
         <div class="pricing-grid">
-            <div class="price-card animate-on-scroll">
-                <h3>免费版</h3>
-                <div class="price-amount">¥0<span>/月</span></div>
-                <div class="price-period">永久免费</div>
-                <ul class="price-features">
-                    <li>每日 3 次 AI 分析</li>
-                    <li>基础选品推荐</li>
-                    <li>定价计算器</li>
-                    <li>新手教程</li>
+            <div class="pricing-card">
+                <h3 class="pricing-name">免费版</h3>
+                <div class="pricing-price">¥0<small>/月</small></div>
+                <ul class="pricing-features">
+                    <li>✓ 基础数据看板</li>
+                    <li>✓ 每日 5 次 AI 分析</li>
+                    <li>✓ 手动执行优化</li>
+                    <li>✗ 自动化执行</li>
+                    <li>✗ 竞品监控</li>
                 </ul>
-                <a href="/static/login.html" class="btn-price">免费开始</a>
+                <a href="/static/login.html" class="btn-primary pricing-btn">免费开始</a>
             </div>
-            <div class="price-card featured animate-on-scroll">
-                <div class="price-badge">最受欢迎</div>
-                <h3>基础版</h3>
-                <div class="price-amount">¥49<span>/月</span></div>
-                <div class="price-period">年付 ¥499（省 ¥89）</div>
-                <ul class="price-features">
-                    <li>每日 30 次 AI 分析</li>
-                    <li>推广计划深度诊断</li>
-                    <li>关键词出价优化</li>
-                    <li>数据导出</li>
-                    <li>优先客服</li>
+            <div class="pricing-card featured">
+                <h3 class="pricing-name">基础版</h3>
+                <div class="pricing-price">¥49<small>/月</small></div>
+                <ul class="pricing-features">
+                    <li>✓ 完整数据看板</li>
+                    <li>✓ 每日 50 次 AI 分析</li>
+                    <li>✓ 自动化执行</li>
+                    <li>✓ 竞品监控（5个）</li>
+                    <li>✓ A/B 测试</li>
                 </ul>
-                <a href="/static/login.html" class="btn-price">立即订阅</a>
+                <a href="/static/login.html" class="btn-primary pricing-btn">立即购买</a>
             </div>
-            <div class="price-card animate-on-scroll">
-                <h3>专业版</h3>
-                <div class="price-amount">¥129<span>/月</span></div>
-                <div class="price-period">年付 ¥1299（省 ¥249）</div>
-                <ul class="price-features">
-                    <li>无限次 AI 分析</li>
-                    <li>全站推广优化</li>
-                    <li>批量计划分析</li>
-                    <li>竞品监控</li>
-                    <li>专属优化方案</li>
-                    <li>1对1 客服</li>
+            <div class="pricing-card">
+                <h3 class="pricing-name">专业版</h3>
+                <div class="pricing-price">¥129<small>/月</small></div>
+                <ul class="pricing-features">
+                    <li>✓ 所有基础版功能</li>
+                    <li>✓ 无限次 AI 分析</li>
+                    <li>✓ 竞品监控（无限）</li>
+                    <li>✓ 定制化策略</li>
+                    <li>✓ 专属客服支持</li>
                 </ul>
-                <a href="/static/login.html" class="btn-price">立即订阅</a>
+                <a href="/static/login.html" class="btn-primary pricing-btn">立即购买</a>
             </div>
         </div>
     </section>
 
-    <section class="contact">
-        <h2>需要帮助？联系我们</h2>
-        <p>专业客服团队随时为你服务</p>
-        <div class="contact-methods">
-            <div class="contact-method">
-                <div class="contact-icon">💬</div>
-                <h3>微信客服</h3>
-                <p>duoduoai2026</p>
-            </div>
-            <div class="contact-method">
-                <div class="contact-icon">📧</div>
-                <h3>邮箱支持</h3>
-                <p>support@duoduoai.com</p>
-            </div>
-            <div class="contact-method">
-                <div class="contact-icon">🕐</div>
-                <h3>服务时间</h3>
-                <p>工作日 9:00-21:00</p>
-            </div>
-        </div>
+    <!-- A6: 底部 CTA -->
+    <section class="cta-bottom">
+        <h2 class="cta-title">准备好提升你的拼多多业绩了吗？</h2>
+        <p class="cta-subtitle">立即开始免费试用，无需信用卡</p>
+        <a href="/static/login.html" class="btn-primary btn-cta-bottom">免费试用 GrowthOS</a>
     </section>
 
-    <section class="cta">
-        <h2>每天省下的推广费，比会员费多 100 倍</h2>
-        <p>免费版够用，付费版更强。注册不要钱，3 分钟上手。</p>
-        <a href="/static/login.html" class="btn-primary">免费开始使用</a>
-    </section>
-
+    <!-- Footer -->
     <footer class="footer">
-        <p>© 2026 多多AI优化师. All rights reserved.</p>
+        <p>&copy; 2026 PDD GrowthOS. All rights reserved.</p>
     </footer>
-
-    <script>
-        // 滚动动画
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-        
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
-        
-        // FAQ 折叠
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                const wasActive = item.classList.contains('active');
-                
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-                
-                if (!wasActive) {
-                    item.classList.add('active');
-                }
-            });
-        });
-    </script>
 </body>
 </html>
