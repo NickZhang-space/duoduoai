@@ -6758,15 +6758,9 @@ ${issue.recommendation}
                 title: title,
                 content: content,
                 author: '当前用户',
-                authorAvatar: '👤',
-                level: 'Lv.1',
                 category: category,
-                tags: [category],
-                time: '刚刚',
-                views: 0,
-                replies: [],
-                likes: 0,
-                isHot: false
+                date: new Date().toISOString().split('T')[0],
+                replies: []
             };
             
             tiebaPosts.unshift(newPost);
@@ -6874,11 +6868,8 @@ ${issue.recommendation}
             if (post) {
                 post.replies.push({
                     author: '当前用户',
-                    avatar: '👤',
-                    level: 'Lv.1',
                     content: content,
-                    time: '刚刚',
-                    likes: 0
+                    date: new Date().toISOString().split('T')[0]
                 });
                 
                 input.value = '';
