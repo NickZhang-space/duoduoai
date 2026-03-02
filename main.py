@@ -2842,9 +2842,11 @@ async def create_payment(request: dict):
         
         payment_orders[order_id] = order
         
-        # 生成二维码URL（这里使用模拟二维码）
-        # 生产环境应该调用微信/支付宝API生成真实支付二维码
-        qrcode_url = f'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ORDER:{order_id}'
+        # 使用真实收款码
+        if method == 'wechat':
+            qrcode_url = '/static/qrcodes/wechat.jpg'
+        else:
+            qrcode_url = '/static/qrcodes/alipay.jpg'  # 待上传支付宝二维码
         
         logger.info(f"创建支付订单: {order_id}, 套餐: {plan}, 金额: {amount}")
         
