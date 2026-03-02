@@ -2862,28 +2862,7 @@
                             </div>
                         </div>
                         
-                        <!-- 活跃吧友 -->
-                        <div class="tieba-card">
-                            <h3>👥 活跃吧友</h3>
-                            <div class="active-users">
-                                <div class="user-item">
-                                    <span class="user-avatar">🎯</span>
-                                    <span class="user-name">推广老司机</span>
-                                    <span class="user-level">Lv.8</span>
-                                </div>
-                                <div class="user-item">
-                                    <span class="user-avatar">💡</span>
-                                    <span class="user-name">关键词专家</span>
-                                    <span class="user-level">Lv.7</span>
-                                </div>
-                                <div class="user-item">
-                                    <span class="user-avatar">📊</span>
-                                    <span class="user-name">数据分析师</span>
-                                    <span class="user-level">Lv.6</span>
-                                </div>
-                            </div>
-                        </div>
-                        
+
                         <!-- 吧规 -->
                         <div class="tieba-card">
                             <h3>📋 吧规</h3>
@@ -7231,157 +7210,37 @@ ${issue.recommendation}
         // 贴吧数据
         let tiebaCurrentFilter = 'all';
         let tiebaPosts = [
-            {
-                id: 1,
-                title: '新手必看！拼多多推广从0到1完整攻略',
-                content: '我是去年10月开始做拼多多的，刚开始完全不懂推广，烧了不少冤枉钱。经过半年摸索，现在ROI稳定在2.5左右，分享一下我的经验...\n\n1. 选品很重要：不要盲目跟风，要选择自己熟悉的类目\n2. 关键词要精准：宁可少投几个词，也要保证转化\n3. 预算要合理：新手建议从50-100元/天开始\n4. 数据要盯紧：每天至少看3次数据，及时调整\n\n具体操作步骤：\n第一步：选择3-5个核心关键词\n第二步：设置合理的出价（建议从0.5元开始）\n第三步：每天查看数据，ROI低于1.5的词要暂停\n第四步：ROI高于2.0的词可以适当提高出价\n\n有问题欢迎在评论区问我！',
-                author: '新手上路',
-                authorAvatar: '🎓',
-                level: 'Lv.5',
-                category: '经验分享',
-                tags: ['精华', '经验分享'],
-                time: '2小时前',
-                views: 1328,
-                replies: [],
-                likes: 145,
-                isHot: true
-            },
-            {
-                id: 2,
-                title: '求助：ROI突然从2.0掉到1.2，怎么办？',
-                content: '各位大佬救命！我的店铺ROI这周突然暴跌，从之前稳定的2.0掉到现在的1.2，每天都在亏钱...\n\n情况：\n- 类目：女装\n- 日预算：300元\n- 主推关键词：夏季连衣裙、碎花裙\n- 点击率：3.5%（正常）\n- 转化率：从8%掉到4%\n\n我已经尝试：\n1. 降低了出价\n2. 暂停了几个低转化词\n3. 调整了投放时段\n\n但是效果不明显，求大佬指点！是不是竞争对手在搞我？还是季节原因？',
-                author: '焦虑的卖家',
-                authorAvatar: '😰',
-                level: 'Lv.3',
-                category: '问题求助',
-                tags: ['问题求助'],
-                time: '5小时前',
-                views: 856,
-                replies: [],
-                likes: 32,
-                isHot: true
-            },
-            {
-                id: 3,
-                title: '拼多多3月推广政策更新解读',
-                content: '拼多多官方刚发布了3月份的推广政策调整，主要涉及搜索推广出价规则和全站推广流量分配，对我们影响挺大的...\n\n主要变化：\n1. 搜索推广最低出价从0.1元提高到0.15元\n   影响：小卖家成本增加，要更精准选词\n\n2. 全站推广新增\'智能投放\'模式\n   影响：系统会自动优化投放，但可控性降低\n\n3. 场景推广增加了\'直播间\'场景\n   影响：做直播的商家有新流量入口\n\n4. 优质商家可以申请更高的日预算上限\n   影响：大卖家可以抢更多流量\n\n详细解读看官方文档，我把链接放评论里了。大家怎么看这次调整？',
-                author: '行业观察',
-                authorAvatar: '📰',
-                level: 'Lv.7',
-                category: '行业资讯',
-                tags: ['行业资讯'],
-                time: '1天前',
-                views: 2512,
-                replies: [],
-                likes: 178,
-                isHot: true
-            },
-            {
-                id: 4,
-                title: '分享一个关键词挖掘的小技巧',
-                content: '很多新手不知道怎么找关键词，我分享一个我常用的方法，亲测有效！\n\n方法一：拼多多APP下拉框\n1. 打开拼多多APP，搜索你的产品\n2. 看下拉框推荐的词，这些都是高搜索量的词\n3. 记录下来，这些词转化率通常不错\n\n方法二：搜索结果页底部\n1. 搜索你的产品\n2. 滑到页面底部看\'大家还在搜\'\n3. 这些是相关度高的长尾词\n\n方法三：竞品分析\n1. 找到你的竞品\n2. 看他们的标题用了什么词\n3. 这些词肯定是经过验证的\n\n方法四：生意参谋（如果有）\n1. 用关键词工具\n2. 看搜索量和竞争度\n3. 选择搜索量>1000、竞争度适中的词\n\n我一般会找20-30个词，然后测试一周，留下ROI>1.5的词继续投。',
-                author: '关键词专家',
-                authorAvatar: '💡',
-                level: 'Lv.6',
-                category: '经验分享',
-                tags: ['经验分享'],
-                time: '2天前',
-                views: 1234,
-                replies: [],
-                likes: 89,
-                isHot: false
-            },
-            {
-                id: 5,
-                title: '讨论：全站推广和搜索推广，哪个更适合新手？',
-                content: '最近看到很多人在讨论这个问题，我说说我的看法...\n\n搜索推广：\n优点：\n- 精准，转化率高\n- 可控性强，能精确控制每个词\n- ROI相对稳定\n\n缺点：\n- 需要选词，有一定门槛\n- 需要持续优化\n- 前期需要测试，可能会亏\n\n全站推广：\n优点：\n- 简单，系统自动投放\n- 不需要选词\n- 流量大\n\n缺点：\n- 不够精准\n- ROI可能不稳定\n- 可控性差\n\n我的建议：\n新手先从全站开始，熟悉了再做搜索。或者两个一起做，全站占30%预算，搜索占70%。\n\n大家怎么看？欢迎讨论！',
-                author: '老司机',
-                authorAvatar: '🚗',
-                level: 'Lv.8',
-                category: '讨论交流',
-                tags: ['讨论交流'],
-                time: '3天前',
-                views: 989,
-                replies: [],
-                likes: 67,
-                isHot: false
-            },
-            {
-                id: 6,
-                title: '血泪教训：千万不要盲目提高出价！',
-                content: '上周我犯了一个大错，看到某个词转化好，就把出价从0.8提到1.5，结果...\n\n后果：\n- 点击成本翻倍（从0.8涨到1.6）\n- ROI从2.5掉到1.3\n- 3天亏了2000多\n- 排名反而下降了（因为质量分降低）\n\n原因分析：\n1. 出价提太快，系统认为我在恶意竞价\n2. 点击成本上升，但转化率没变，ROI自然下降\n3. 其他竞争对手也跟着提价，形成恶性循环\n\n正确做法：\n1. 提价要循序渐进，每次最多提10-20%\n2. 提价后要密切观察数据，至少观察3天\n3. 如果ROI下降，立即降回去\n4. 不要和竞争对手硬拼价格\n\n希望大家不要重蹈我的覆辙！记住：稳定的ROI比高排名更重要！',
-                author: '吃过亏的人',
-                authorAvatar: '😭',
-                level: 'Lv.4',
-                category: '经验分享',
-                tags: ['精华', '经验分享'],
-                time: '4天前',
-                views: 1445,
-                replies: [],
-                likes: 123,
-                isHot: false
-            },
-            {
-                id: 7,
-                title: '求推荐：有没有好用的数据分析工具？',
-                content: '每天手动看数据太累了，想找个工具帮忙分析...\n\n需求：\n1. 能自动抓取拼多多后台数据\n2. 能生成报表和趋势图\n3. 最好能给优化建议\n4. 价格不要太贵（预算500以内/月）\n\n我看到市面上有这些工具：\n- 多多参谋\n- 拼多多助手\n- 数据魔方\n- 还有一些AI工具\n\n大家有用过的吗？效果怎么样？值得买吗？\n\n或者有没有免费的替代方案？',
-                author: '懒人卖家',
-                authorAvatar: '😴',
-                level: 'Lv.2',
-                category: '问题求助',
-                tags: ['问题求助'],
-                time: '5天前',
-                views: 567,
-                replies: [],
-                likes: 28,
-                isHot: false
-            },
-            {
-                id: 8,
-                title: '3月爆款预测：这些类目要火了！',
-                content: '根据往年数据和今年趋势，我预测3月这些类目会爆...\n\n1. 春装（连衣裙、T恤、薄外套）\n   理由：天气转暖，换季需求大\n   建议：提前备货，3月初开始推广\n\n2. 运动户外（跑步鞋、瑜伽服）\n   理由：春天是运动季，健身需求增加\n   建议：主打\'春季运动\' \'减肥\'等关键词\n\n3. 家居用品（收纳、清洁）\n   理由：春季大扫除，收纳需求旺盛\n   建议：组合销售，提高客单价\n\n4. 美妆护肤（防晒、美白）\n   理由：紫外线增强，防晒需求上升\n   建议：主打\'春季防晒\' \'美白\'\n\n5. 母婴用品（春装、玩具）\n   理由：儿童换季需求\n   建议：主打\'春季新款\' \'舒适透气\'\n\n建议提前布局，抢占先机！大家觉得还有哪些类目会火？',
-                author: '趋势分析师',
-                authorAvatar: '📊',
-                level: 'Lv.7',
-                category: '行业资讯',
-                tags: ['行业资讯'],
-                time: '6天前',
-                views: 1789,
-                replies: [],
-                likes: 156,
-                isHot: false
-            },
-            {
-                id: 9,
-                title: '如何判断一个关键词值不值得投？',
-                content: '很多人问我怎么选词，我的标准是...\n\n必须满足（缺一不可）：\n1. 搜索量>1000/天\n   太少的词没有投放价值\n\n2. 竞争度适中\n   太高：成本高，难做\n   太低：可能是冷门词，转化差\n\n3. 和产品相关度高\n   不相关的词转化率低，浪费钱\n\n加分项（有更好）：\n1. 转化率>5%\n   说明这个词购买意图强\n\n2. 点击成本<1元\n   成本可控\n\n3. 有购买意图\n   如\'购买\' \'正品\' \'旗舰店\'等\n\n测试方法：\n1. 先投7天\n2. 每天预算20-30元\n3. 看ROI是否>1.5\n4. 不行就换词\n\n注意：\n- 不要一次测试太多词（最多5个）\n- 给每个词足够的测试时间\n- 记录数据，方便对比\n\n这是我的经验，大家有更好的方法吗？',
-                author: '选词高手',
-                authorAvatar: '🎯',
-                level: 'Lv.6',
-                category: '经验分享',
-                tags: ['经验分享'],
-                time: '1周前',
-                views: 1098,
-                replies: [],
-                likes: 91,
-                isHot: false
-            },
-            {
-                id: 10,
-                title: '讨论：AI工具真的能提高ROI吗？',
-                content: '最近AI工具很火，有人用过吗？效果怎么样？\n\n我看到有些工具说能：\n- 自动优化出价\n- 自动选词\n- 自动调整预算\n- 自动暂停低效词\n\n听起来很厉害，但是我担心：\n\n1. 会不会不够精准？\n   AI能理解我的产品吗？\n\n2. 会不会乱花钱？\n   万一AI判断错误怎么办？\n\n3. 价格会不会很贵？\n   如果成本太高，还不如自己手动优化\n\n4. 数据安全吗？\n   会不会泄露我的店铺数据？\n\n用过的朋友来说说体验？值得买吗？\n\n或者有没有免费试用的？我想先试试效果。',
-                author: '观望中',
-                authorAvatar: '🤔',
-                level: 'Lv.3',
-                category: '讨论交流',
-                tags: ['讨论交流'],
-                time: '1周前',
-                views: 723,
-                replies: [],
-                likes: 45,
-                isHot: false
-            }
-        ];
+            {id:1,title:'有没有人遇到过点击率突然掉了的情况？',content:'我的点击率从4%掉到1.5%了，已经持续3天了\n\n关键词没动，出价也没动，图片也没换\n\n就是莫名其妙掉了\n\n有大佬知道是什么原因吗？',author:'小鱼干',authorAvatar:'🐟',level:'Lv.3',category:'问题求助',tags:['问题求助'],time:'15分钟前',views:23,replies:[],likes:2,isHot:false},
+            {id:2,title:'分享一下我这个月ROI从1.2做到2.8的经验',content:'先说结论：关键词真的很重要\n\n我之前投了30多个词，但是只有5个词在赚钱，其他都在亏\n\n后来我把亏钱的词全停了，只留赚钱的5个词，ROI直接起飞\n\n现在每天稳定2.5-2.8，虽然量少了点，但是至少不亏了\n\n建议大家定期清理低ROI的词，不要舍不得',author:'奋斗的蜗牛',authorAvatar:'🐌',level:'Lv.5',category:'经验分享',tags:['经验分享','精华'],time:'1小时前',views:156,replies:[],likes:34,isHot:true},
+            {id:3,title:'新手求问：日预算100够吗？',content:'刚开始做推广，不知道预算设多少合适\n\n我看有人说至少要300，但是我怕亏太多\n\n100够测试吗？',author:'菜鸟一枚',authorAvatar:'🐣',level:'Lv.1',category:'问题求助',tags:['问题求助'],time:'2小时前',views:89,replies:[],likes:8,isHot:false},
+            {id:4,title:'吐槽：拼多多的推广后台真的太难用了',content:'每次调整出价都要点好几下\n\n数据报表也不直观\n\n想看个ROI还要自己算\n\n有没有好用点的工具推荐？',author:'懒癌晚期',authorAvatar:'😴',level:'Lv.4',category:'讨论交流',tags:['讨论交流'],time:'3小时前',views:67,replies:[],likes:12,isHot:false},
+            {id:5,title:'今天ROI破3了！开心！',content:'做了两个月终于破3了\n\n虽然只是一天，但还是很开心\n\n继续加油💪',author:'向阳花',authorAvatar:'🌻',level:'Lv.3',category:'讨论交流',tags:['讨论交流'],time:'4小时前',views:45,replies:[],likes:18,isHot:false},
+            {id:6,title:'关于时段投放的一些心得',content:'我测试了一个月，发现晚上8-11点转化率最高\n\n所以我把50%的预算都放在这个时段\n\n效果确实好了不少，ROI从1.8提到2.3\n\n大家可以试试',author:'数据狂人',authorAvatar:'📊',level:'Lv.6',category:'经验分享',tags:['经验分享'],time:'5小时前',views:234,replies:[],likes:45,isHot:true},
+            {id:7,title:'求助：被同行恶意点击了怎么办？',content:'今天花费突然暴增，但是转化为0\n\n查了一下，发现有个IP点了我50多次\n\n明显是同行在搞我\n\n有什么办法吗？',author:'受伤的心',authorAvatar:'💔',level:'Lv.4',category:'问题求助',tags:['问题求助'],time:'6小时前',views:178,replies:[],likes:15,isHot:false},
+            {id:8,title:'女装类目现在还能做吗？',content:'想做女装推广，但是听说竞争很激烈\n\n点击成本都要2块以上\n\n还有机会吗？',author:'迷茫中',authorAvatar:'🤔',level:'Lv.2',category:'讨论交流',tags:['讨论交流'],time:'8小时前',views:123,replies:[],likes:9,isHot:false},
+            {id:9,title:'分享一个降低点击成本的方法',content:'我发现提高关键词质量分可以降低点击成本\n\n具体做法：\n1. 优化主图，提高点击率\n2. 优化详情页，提高转化率\n3. 保持稳定的投放\n\n我的点击成本从1.2降到0.8了',author:'省钱小能手',authorAvatar:'💰',level:'Lv.5',category:'经验分享',tags:['经验分享','精华'],time:'10小时前',views:456,replies:[],likes:89,isHot:true},
+            {id:10,title:'有人用过智能投放吗？效果怎么样？',content:'看到后台有个智能投放模式\n\n不知道靠不靠谱\n\n有人试过吗？',author:'好奇宝宝',authorAvatar:'👶',level:'Lv.2',category:'问题求助',tags:['问题求助'],time:'12小时前',views:67,replies:[],likes:5,isHot:false},
+            {id:11,title:'血泪教训：不要轻易改主图',content:'我昨天换了主图，结果点击率从3%掉到1%\n\n现在后悔死了\n\n大家千万不要随便改主图，除非你确定新图更好',author:'后悔莫及',authorAvatar:'😭',level:'Lv.3',category:'经验分享',tags:['经验分享'],time:'1天前',views:234,replies:[],likes:56,isHot:false},
+            {id:12,title:'请问大家都是怎么选关键词的？',content:'我现在选词完全靠感觉\n\n不知道有没有什么科学的方法\n\n求指教',author:'小白一个',authorAvatar:'🐑',level:'Lv.1',category:'问题求助',tags:['问题求助'],time:'1天前',views:145,replies:[],likes:12,isHot:false},
+            {id:13,title:'3月份哪些类目会火？',content:'马上3月了，想提前布局\n\n大家觉得哪些类目会火？\n\n我觉得春装应该不错',author:'先知',authorAvatar:'🔮',level:'Lv.6',category:'讨论交流',tags:['讨论交流'],time:'1天前',views:289,replies:[],likes:34,isHot:false},
+            {id:14,title:'终于盈利了！感谢这个吧的各位大佬',content:'做了3个月，终于开始盈利了\n\n感谢吧里各位大佬的分享\n\n学到了很多东西\n\n现在ROI稳定在2.0左右',author:'感恩的心',authorAvatar:'🙏',level:'Lv.4',category:'讨论交流',tags:['讨论交流'],time:'1天前',views:178,replies:[],likes:67,isHot:false},
+            {id:15,title:'关于长尾词的一些看法',content:'我发现长尾词虽然量少，但是转化率高\n\n而且竞争小，点击成本低\n\n建议新手多投长尾词',author:'长尾理论',authorAvatar:'📈',level:'Lv.5',category:'经验分享',tags:['经验分享'],time:'2天前',views:345,replies:[],likes:78,isHot:true},
+            {id:16,title:'求问：转化率多少算正常？',content:'我的转化率只有2%\n\n不知道算不算低\n\n大家的转化率都是多少？',author:'数据小白',authorAvatar:'📉',level:'Lv.2',category:'问题求助',tags:['问题求助'],time:'2天前',views:234,replies:[],likes:23,isHot:false},
+            {id:17,title:'分享一个快速测词的方法',content:'我一般是这样测词的：\n\n1. 每个词给20元预算\n2. 跑3天\n3. ROI>1.5的留下，其他删掉\n\n这样可以快速筛选出好词',author:'测词达人',authorAvatar:'🎯',level:'Lv.6',category:'经验分享',tags:['经验分享','精华'],time:'2天前',views:567,replies:[],likes:123,isHot:true},
+            {id:18,title:'有没有人做过全站推广？',content:'想试试全站推广\n\n但是不知道效果怎么样\n\n有经验的朋友说说呗',author:'探索者',authorAvatar:'🧭',level:'Lv.3',category:'问题求助',tags:['问题求助'],time:'2天前',views:156,replies:[],likes:14,isHot:false},
+            {id:19,title:'吐槽：为什么我的广告总是审核不通过',content:'已经被拒了5次了\n\n每次都说违规，但是不告诉我哪里违规\n\n太难了',author:'崩溃边缘',authorAvatar:'😤',level:'Lv.2',category:'讨论交流',tags:['讨论交流'],time:'3天前',views:89,replies:[],likes:8,isHot:false},
+            {id:20,title:'关于出价策略的一些思考',content:'我发现出价不是越高越好\n\n关键是要找到一个平衡点\n\n既能保证排名，又不会太贵\n\n我一般是从低价开始，慢慢往上加',author:'策略大师',authorAvatar:'♟️',level:'Lv.7',category:'经验分享',tags:['经验分享'],time:'3天前',views:456,replies:[],likes:89,isHot:false},
+            {id:21,title:'新手问：什么是质量分？',content:'经常看到大家说质量分\n\n但是我不知道这是什么\n\n有人能解释一下吗？',author:'萌新求教',authorAvatar:'🌱',level:'Lv.1',category:'问题求助',tags:['问题求助'],time:'3天前',views:123,replies:[],likes:15,isHot:false},
+            {id:22,title:'分享一下我的推广日常',content:'每天早上9点：查看昨天数据\n每天中午12点：调整出价\n每天晚上8点：再看一次数据\n\n坚持了2个月，ROI从1.5提到2.5\n\n推广就是要勤快',author:'勤劳的小蜜蜂',authorAvatar:'🐝',level:'Lv.5',category:'经验分享',tags:['经验分享'],time:'4天前',views:345,replies:[],likes:67,isHot:false},
+            {id:23,title:'有人遇到过账户被限制的情况吗？',content:'我的账户突然被限制了\n\n说是违规，但是我什么都没做\n\n有人知道怎么申诉吗？',author:'无辜的羔羊',authorAvatar:'🐏',level:'Lv.3',category:'问题求助',tags:['问题求助'],time:'4天前',views:234,replies:[],likes:28,isHot:false},
+            {id:24,title:'讨论：现在做推广还能赚钱吗？',content:'感觉竞争越来越激烈了\n\n点击成本越来越高\n\n还有机会吗？',author:'迷茫的人',authorAvatar:'😕',level:'Lv.4',category:'讨论交流',tags:['讨论交流'],time:'4天前',views:456,replies:[],likes:45,isHot:false},
+            {id:25,title:'分享一个提高转化率的小技巧',content:'我发现优化详情页可以提高转化率\n\n特别是前3屏，一定要突出卖点\n\n我的转化率从3%提到5%了',author:'转化专家',authorAvatar:'💯',level:'Lv.6',category:'经验分享',tags:['经验分享','精华'],time:'5天前',views:678,replies:[],likes:134,isHot:true},
+            {id:26,title:'求助：预算花不完怎么办？',content:'我设了200的预算，但是每天只花50\n\n是不是出价太低了？\n\n还是关键词太少？',author:'花不完',authorAvatar:'💸',level:'Lv.2',category:'问题求助',tags:['问题求助'],time:'5天前',views:167,replies:[],likes:19,isHot:false},
+            {id:27,title:'关于季节性产品的推广建议',content:'我做的是季节性产品\n\n发现提前1个月开始推广效果最好\n\n等到旺季再推就晚了',author:'季节达人',authorAvatar:'🍂',level:'Lv.5',category:'经验分享',tags:['经验分享'],time:'5天前',views:289,replies:[],likes:56,isHot:false},
+            {id:28,title:'新手问：什么时候该暂停关键词？',content:'我有个词花了100块，但是一单都没成交\n\n是不是该暂停了？\n\n还是再等等？',author:'纠结症',authorAvatar:'😰',level:'Lv.1',category:'问题求助',tags:['问题求助'],time:'6天前',views:145,replies:[],likes:23,isHot:false},
+            {id:29,title:'分享一下我的选品经验',content:'选品比推广更重要\n\n我之前推广技术再好，产品不行也白搭\n\n现在换了个好产品，ROI直接翻倍',author:'选品高手',authorAvatar:'🎁',level:'Lv.7',category:'经验分享',tags:['经验分享','精华'],time:'6天前',views:789,replies:[],likes:156,isHot:true},
+            {id:30,title:'有人做过场景推广吗？',content:'想试试场景推广\n\n但是不知道和搜索推广有什么区别\n\n求科普',author:'求知若渴',authorAvatar:'📚',level:'Lv.3',category:'问题求助',tags:['问题求助'],time:'1周前',views:234,replies:[],likes:34,isHot:false}
+        ]
         
         // 加载贴吧帖子列表
         function loadTiebaPosts() {
