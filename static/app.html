@@ -1228,6 +1228,53 @@
     </style>
 
     <style>
+        /* 数据导入提示 */
+        .data-import-notice {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(135deg, #fff9f7 0%, #fff0eb 100%);
+            border: 2px solid #E84D1A;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .notice-icon {
+            font-size: 48px;
+            flex-shrink: 0;
+        }
+        .notice-content {
+            flex: 1;
+        }
+        .notice-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+        .notice-desc {
+            font-size: 14px;
+            color: #666;
+        }
+        .data-import-notice .btn-primary {
+            flex-shrink: 0;
+        }
+        
+        /* 示例标识 */
+        .example-badge {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .example-tag {
+            color: #92400e;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+    </style>
+
+
+    <style>
         /* 文件上传区域 */
         .upload-area {
             border: 2px dashed #E84D1A;
@@ -1717,7 +1764,7 @@
             color: #16a34a;
         }
         
-        /* 诊断中心和增长机会 */
+        /* AI诊断中心和增长机会 */
         .diagnosis-radar h3,
         .growth-opportunities h3 {
             font-size: 20px;
@@ -1893,7 +1940,7 @@
         <!-- 标签页 -->
         <div class="tabs">
             <button class="tab main-tab active" onclick="switchMainTab('overview')">📊 数据总览</button>
-            <button class="tab main-tab" onclick="switchMainTab('diagnosis')">🔍 诊断中心</button>
+            <button class="tab main-tab" onclick="switchMainTab('diagnosis')">🔍 AIAI诊断中心</button>
             <button class="tab main-tab" onclick="switchMainTab('growth')">🚀 增长机会</button>
             <button class="tab main-tab" onclick="switchMainTab('ai-suggestions')">🤖 AI 建议</button>
             <button class="tab main-tab" onclick="switchMainTab('settings')">⚙️ 设置</button>
@@ -1945,9 +1992,9 @@
                 </div>
             </section>
 
-            <!-- 2. 诊断中心 -->
+            <!-- 2. AI诊断中心 -->
             <section id="diagnosis-main" class="main-section">
-                <h2 class="section-title">🔍 诊断中心</h2>
+                <h2 class="section-title">🔍 AIAI诊断中心</h2>
                 <div class="diagnosis-radar">
                     <h3>亏损雷达 - Top 5 拖累项</h3>
                     <div id="diagnosis-list" class="diagnosis-list">
@@ -1956,7 +2003,7 @@
                             <div class="diagnosis-header">
                                 <div class="diagnosis-title">
                                     <span class="diagnosis-icon">⚠️</span>
-                                    <span>关键词"女装连衣裙"ROI持续下降</span>
+                                    <span>关键词"女装连衣裙"ROI持续下降 <span class="example-tag">(示例)</span></span>
                                 </div>
                                 <span class="diagnosis-rank">Top 1</span>
                             </div>
