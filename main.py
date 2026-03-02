@@ -1912,7 +1912,7 @@ async def simulate_pricing(request: dict):
 async def configure_automation(request: dict):
     """配置自动化设置"""
     try:
-        from intelligence.auto_optimizer import AutoOptimizer
+        from intelligence.auto_optimizer_ai import AutoOptimizerAI as AutoOptimizer
         global auto_optimizer
         if "auto_optimizer" not in globals():
             auto_optimizer = AutoOptimizer()
@@ -1938,7 +1938,7 @@ async def configure_automation(request: dict):
 async def get_automation_settings(user_id: str):
     """获取自动化设置"""
     try:
-        from intelligence.auto_optimizer import AutoOptimizer
+        from intelligence.auto_optimizer_ai import AutoOptimizerAI as AutoOptimizer
         global auto_optimizer
         if "auto_optimizer" not in globals():
             auto_optimizer = AutoOptimizer()
@@ -1961,7 +1961,7 @@ async def get_automation_settings(user_id: str):
 async def run_automation(request: dict):
     """手动触发一轮自动优化"""
     try:
-        from intelligence.auto_optimizer import AutoOptimizer
+        from intelligence.auto_optimizer_ai import AutoOptimizerAI as AutoOptimizer
         global auto_optimizer
         if "auto_optimizer" not in globals():
             auto_optimizer = AutoOptimizer()
@@ -1985,7 +1985,7 @@ async def run_automation(request: dict):
 async def get_automation_logs(user_id: str, limit: int = 50):
     """获取自动化操作日志"""
     try:
-        from intelligence.auto_optimizer import AutoOptimizer
+        from intelligence.auto_optimizer_ai import AutoOptimizerAI as AutoOptimizer
         global auto_optimizer
         if "auto_optimizer" not in globals():
             auto_optimizer = AutoOptimizer()
@@ -2008,7 +2008,7 @@ async def get_automation_logs(user_id: str, limit: int = 50):
 async def pause_automation(request: dict):
     """暂停自动化"""
     try:
-        from intelligence.auto_optimizer import AutoOptimizer
+        from intelligence.auto_optimizer_ai import AutoOptimizerAI as AutoOptimizer
         global auto_optimizer
         if "auto_optimizer" not in globals():
             auto_optimizer = AutoOptimizer()
