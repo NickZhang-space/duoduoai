@@ -5808,7 +5808,23 @@ async function loadHotKeywords(category) {
                 'allsite': '全站推广数据模板.xlsx',
                 'product': '商品数据模板.xlsx'
             };
-            alert('正在下载：' + templates[type] + '\n\n模板包含字段：\n- 日期\n- 关键词/商品名称\n- 花费\n- 点击\n- 转化\n- ROI\n等');
+            
+            const filename = templates[type];
+            const url = '/static/templates/' + encodeURIComponent(filename);
+            
+            // 创建隐藏的 a 标签触发下载
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // 显示提示
+            setTimeout(() => {
+                alert('模板下载已开始！\n文件名：' + filename);
+            }, 100);
         }
         function saveNotificationSettings() {
             alert('通知设置已保存！');
