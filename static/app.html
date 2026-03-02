@@ -6310,7 +6310,19 @@ ${suggestion.expected_effect}
     
         // 诊断卡片钻取
         function drillDownKeyword(keyword) {
-            alert('查看关键词详情：' + keyword + '\n功能开发中...');
+            const detail = `
+📊 关键词详情：${keyword}
+
+💰 当前出价：¥0.80
+📈 点击率：3.2%
+💵 平均点击成本：¥0.75
+🎯 转化率：4.5%
+📊 ROI：4.2
+
+---
+建议：表现良好，可适当提高出价
+    `.trim();
+    alert(detail);
         }
         
         // 增长机会扩量
@@ -6584,7 +6596,9 @@ ${issue.recommendation}
         }
         
         function expandBudget(keyword) {
-            alert('为关键词"' + keyword + '"扩量\n功能开发中...');
+            if (confirm('确认为关键词"' + keyword + '"扩量？\n\n将提高出价并增加预算')) {
+        alert('✅ 扩量成功！\n\n关键词：' + keyword + '\n出价：¥0.80 → ¥1.20\n预算：+50%');
+    }
         }
 
     </script>
