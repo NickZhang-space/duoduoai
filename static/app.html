@@ -1304,6 +1304,503 @@
             color: #E84D1A;
         }
 
+
+        /* ========== 贴吧风格样式 ========== */
+        
+        /* 贴吧容器 */
+        .tieba-container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .tieba-left {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .tieba-right {
+            width: 280px;
+            flex-shrink: 0;
+        }
+        
+        /* 顶部导航 */
+        .tieba-nav {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .tieba-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #E84D1A;
+        }
+        
+        .tieba-title h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #1a1a2e;
+        }
+        
+        .tieba-stats {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .tieba-stats strong {
+            color: #E84D1A;
+        }
+        
+        .tieba-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .tieba-tab {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .tieba-tab:hover {
+            border-color: #E84D1A;
+            color: #E84D1A;
+        }
+        
+        .tieba-tab.active {
+            background: #E84D1A;
+            color: white;
+            border-color: #E84D1A;
+        }
+        
+        /* 发帖按钮 */
+        .tieba-post-btn-area {
+            margin-bottom: 16px;
+        }
+        
+        /* 帖子列表 */
+        .tieba-posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .tieba-post-item {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            gap: 16px;
+        }
+        
+        .tieba-post-item:hover {
+            box-shadow: 0 4px 12px rgba(232, 77, 26, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .tieba-post-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #E84D1A, #FF6B35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .tieba-post-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .tieba-post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .tieba-post-author {
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+        
+        .tieba-post-level {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        
+        .tieba-post-tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .tieba-post-tag.hot {
+            background: #FFF3E0;
+            color: #FF6B35;
+        }
+        
+        .tieba-post-tag.jinghua {
+            background: #E8F5E9;
+            color: #4CAF50;
+        }
+        
+        .tieba-post-tag.share {
+            background: #E3F2FD;
+            color: #2196F3;
+        }
+        
+        .tieba-post-tag.help {
+            background: #FCE4EC;
+            color: #E91E63;
+        }
+        
+        .tieba-post-tag.discuss {
+            background: #F3E5F5;
+            color: #9C27B0;
+        }
+        
+        .tieba-post-tag.news {
+            background: #FFF9C4;
+            color: #F57C00;
+        }
+        
+        .tieba-post-time {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .tieba-post-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .tieba-post-preview {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            margin-bottom: 12px;
+        }
+        
+        .tieba-post-footer {
+            display: flex;
+            gap: 20px;
+            color: #999;
+            font-size: 13px;
+        }
+        
+        .tieba-post-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .tieba-post-stat:hover {
+            color: #E84D1A;
+        }
+        
+        /* 右侧卡片 */
+        .tieba-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .tieba-card h3 {
+            margin: 0 0 12px 0;
+            font-size: 16px;
+            color: #1a1a2e;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #E84D1A;
+        }
+        
+        .hot-topics {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .hot-topic {
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .hot-topic:hover {
+            background: #FFF3E0;
+            color: #E84D1A;
+        }
+        
+        .active-users {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .user-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #E84D1A, #FF6B35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .user-name {
+            flex: 1;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .user-level {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 11px;
+        }
+        
+        .tieba-rules {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .tieba-rules p {
+            margin: 4px 0;
+        }
+        
+        /* 发帖编辑器 */
+        .post-editor-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .tieba-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .tieba-select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .tieba-textarea {
+            width: 100%;
+            height: 200px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+        }
+        
+        .post-editor-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        /* 帖子详情 */
+        .tieba-detail-content {
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .tieba-detail-header {
+            padding: 24px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tieba-detail-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 16px;
+        }
+        
+        .tieba-detail-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .tieba-detail-body {
+            padding: 24px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-wrap;
+        }
+        
+        .tieba-detail-actions {
+            padding: 16px 24px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+        }
+        
+        .tieba-replies {
+            padding: 24px;
+        }
+        
+        .tieba-replies-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #1a1a2e;
+        }
+        
+        .tieba-reply-input {
+            margin-bottom: 24px;
+        }
+        
+        .tieba-reply-input textarea {
+            width: 100%;
+            height: 80px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .tieba-reply-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .tieba-reply-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .tieba-reply-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #E84D1A, #FF6B35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .tieba-reply-content {
+            flex: 1;
+        }
+        
+        .tieba-reply-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .tieba-reply-author {
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+        
+        .tieba-reply-time {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .tieba-reply-text {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .tieba-reply-actions {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .tieba-reply-action {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .tieba-reply-action:hover {
+            color: #E84D1A;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .tieba-container {
+                flex-direction: column;
+            }
+            
+            .tieba-right {
+                width: 100%;
+            }
+        }
+
     </style>
 
     <style>
@@ -2323,56 +2820,115 @@
 
             <!-- 5. 社区交流 -->
             <section id="community-main" class="main-section">
-                <h2 class="section-title">💬 社区交流</h2>
-                
-                <!-- 发布话题 -->
-                <div class="post-editor">
-                    <h3>发布话题</h3>
-                    <input type="text" id="post-title" placeholder="标题" style="width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 8px;">
-                    <textarea id="post-content" placeholder="分享你的经验、问题或想法..." style="width: 100%; height: 120px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px;"></textarea>
-                    <div style="display: flex; gap: 12px; align-items: center;">
-                        <select id="post-category" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px;">
-                            <option value="经验分享">经验分享</option>
-                            <option value="问题求助">问题求助</option>
-                            <option value="讨论交流">讨论交流</option>
-                            <option value="行业资讯">行业资讯</option>
-                        </select>
-                        <button class="btn-primary" onclick="publishPost()">发布</button>
+                <div class="tieba-container">
+                    <!-- 左侧：帖子列表 -->
+                    <div class="tieba-left">
+                        <!-- 顶部导航 -->
+                        <div class="tieba-nav">
+                            <div class="tieba-title">
+                                <h2>💬 多多优化吧</h2>
+                                <span class="tieba-stats">本吧共有 <strong>2,847</strong> 位吧友</span>
+                            </div>
+                            <div class="tieba-tabs">
+                                <button class="tieba-tab active" onclick="filterTiebaPosts('all')">全部</button>
+                                <button class="tieba-tab" onclick="filterTiebaPosts('hot')">🔥 热门</button>
+                                <button class="tieba-tab" onclick="filterTiebaPosts('精华')">⭐ 精华</button>
+                                <button class="tieba-tab" onclick="filterTiebaPosts('经验分享')">📚 经验</button>
+                                <button class="tieba-tab" onclick="filterTiebaPosts('问题求助')">🆘 求助</button>
+                                <button class="tieba-tab" onclick="filterTiebaPosts('讨论交流')">💬 讨论</button>
+                            </div>
+                        </div>
+                        
+                        <!-- 发帖按钮 -->
+                        <div class="tieba-post-btn-area">
+                            <button class="btn-primary" onclick="showPostEditor()">📝 发表新帖</button>
+                        </div>
+                        
+                        <!-- 帖子列表 -->
+                        <div id="tieba-posts-list" class="tieba-posts-list">
+                            <!-- 帖子会动态加载 -->
+                        </div>
                     </div>
-                </div>
-                
-                <!-- 话题分类筛选 -->
-                <div style="margin: 24px 0; display: flex; gap: 12px;">
-                    <button class="btn-secondary" onclick="filterPosts('all')">全部</button>
-                    <button class="btn-secondary" onclick="filterPosts('经验分享')">经验分享</button>
-                    <button class="btn-secondary" onclick="filterPosts('问题求助')">问题求助</button>
-                    <button class="btn-secondary" onclick="filterPosts('讨论交流')">讨论交流</button>
-                    <button class="btn-secondary" onclick="filterPosts('行业资讯')">行业资讯</button>
-                </div>
-                
-                <!-- 话题列表 -->
-                <div id="posts-list" class="posts-list">
-                    <!-- 帖子会动态加载 -->
+                    
+                    <!-- 右侧：侧边栏 -->
+                    <div class="tieba-right">
+                        <!-- 吧主推荐 -->
+                        <div class="tieba-card">
+                            <h3>🎯 本周热议</h3>
+                            <div class="hot-topics">
+                                <div class="hot-topic">1. ROI突然暴跌怎么办？</div>
+                                <div class="hot-topic">2. 3月爆款预测</div>
+                                <div class="hot-topic">3. 新手推广攻略</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 活跃吧友 -->
+                        <div class="tieba-card">
+                            <h3>👥 活跃吧友</h3>
+                            <div class="active-users">
+                                <div class="user-item">
+                                    <span class="user-avatar">🎯</span>
+                                    <span class="user-name">推广老司机</span>
+                                    <span class="user-level">Lv.8</span>
+                                </div>
+                                <div class="user-item">
+                                    <span class="user-avatar">💡</span>
+                                    <span class="user-name">关键词专家</span>
+                                    <span class="user-level">Lv.7</span>
+                                </div>
+                                <div class="user-item">
+                                    <span class="user-avatar">📊</span>
+                                    <span class="user-name">数据分析师</span>
+                                    <span class="user-level">Lv.6</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 吧规 -->
+                        <div class="tieba-card">
+                            <h3>📋 吧规</h3>
+                            <div class="tieba-rules">
+                                <p>1. 禁止发布广告</p>
+                                <p>2. 禁止恶意灌水</p>
+                                <p>3. 尊重他人，文明交流</p>
+                                <p>4. 分享真实经验</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
             
+            <!-- 发帖编辑器模态框 -->
+            <div id="post-editor-modal" class="modal" style="display: none;">
+                <div class="modal-content" style="max-width: 800px;">
+                    <span class="close" onclick="closePostEditor()">&times;</span>
+                    <h2>📝 发表新帖</h2>
+                    <div class="post-editor-form">
+                        <input type="text" id="new-post-title" placeholder="请输入标题（5-50字）" class="tieba-input">
+                        <select id="new-post-category" class="tieba-select">
+                            <option value="经验分享">📚 经验分享</option>
+                            <option value="问题求助">🆘 问题求助</option>
+                            <option value="讨论交流">💬 讨论交流</option>
+                            <option value="行业资讯">📰 行业资讯</option>
+                        </select>
+                        <textarea id="new-post-content" placeholder="请输入内容..." class="tieba-textarea"></textarea>
+                        <div class="post-editor-actions">
+                            <button class="btn-secondary" onclick="closePostEditor()">取消</button>
+                            <button class="btn-primary" onclick="submitNewPost()">发布</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <!-- 帖子详情模态框 -->
-            <div id="post-detail-modal" class="modal" style="display: none;">
-                <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
-                    <span class="close" onclick="closePostDetail()">&times;</span>
-                    <div id="post-detail-content">
+            <div id="tieba-detail-modal" class="modal" style="display: none;">
+                <div class="modal-content tieba-detail-content">
+                    <span class="close" onclick="closeTiebaDetail()">&times;</span>
+                    <div id="tieba-detail-body">
                         <!-- 详情内容 -->
                     </div>
                 </div>
             </div>
-
-
-                        <!-- 6. 设置 -->
-            <section id="settings-main" class="main-section">
-                <h2 class="section-title">⚙️ 设置</h2>
-                <div class="settings-menu">
-                    <div class="setting-item" onclick="openShopSettings()">
-                        <div class="setting-icon">🏪</div>
                         <div class="setting-info">
                             <div class="setting-name">店铺管理</div>
                             <div class="setting-desc">配置店铺信息和授权</div>
@@ -6668,212 +7224,338 @@ ${issue.recommendation}
         }
 
 
-        // ========== 社区交流功能 ==========
+
+
+        // ========== 贴吧风格社区功能 ==========
         
-        // 社区数据
-        let communityPosts = [
+        // 贴吧数据
+        let tiebaCurrentFilter = 'all';
+        let tiebaPosts = [
             {
                 id: 1,
                 title: '新手必看！拼多多推广从0到1完整攻略',
-                content: '我是去年10月开始做拼多多的，刚开始完全不懂推广，烧了不少冤枉钱。经过半年摸索，现在ROI稳定在2.5左右，分享一下我的经验...\n\n1. 选品很重要：不要盲目跟风，要选择自己熟悉的类目\n2. 关键词要精准：宁可少投几个词，也要保证转化\n3. 预算要合理：新手建议从50-100元/天开始\n4. 数据要盯紧：每天至少看3次数据，及时调整\n\n具体操作步骤我写在评论里了，有问题可以问我！',
+                content: '我是去年10月开始做拼多多的，刚开始完全不懂推广，烧了不少冤枉钱。经过半年摸索，现在ROI稳定在2.5左右，分享一下我的经验...\n\n1. 选品很重要：不要盲目跟风，要选择自己熟悉的类目\n2. 关键词要精准：宁可少投几个词，也要保证转化\n3. 预算要合理：新手建议从50-100元/天开始\n4. 数据要盯紧：每天至少看3次数据，及时调整\n\n具体操作步骤：\n第一步：选择3-5个核心关键词\n第二步：设置合理的出价（建议从0.5元开始）\n第三步：每天查看数据，ROI低于1.5的词要暂停\n第四步：ROI高于2.0的词可以适当提高出价\n\n有问题欢迎在评论区问我！',
                 author: '新手上路',
+                authorAvatar: '🎓',
+                level: 'Lv.5',
                 category: '经验分享',
+                tags: ['精华', '经验分享'],
                 time: '2小时前',
-                views: 328,
-                comments: [],
-                likes: 45
+                views: 1328,
+                replies: [],
+                likes: 145,
+                isHot: true
             },
             {
                 id: 2,
                 title: '求助：ROI突然从2.0掉到1.2，怎么办？',
-                content: '各位大佬救命！我的店铺ROI这周突然暴跌，从之前稳定的2.0掉到现在的1.2，每天都在亏钱...\n\n情况：\n- 类目：女装\n- 日预算：300元\n- 主推关键词：夏季连衣裙、碎花裙\n- 点击率：3.5%（正常）\n- 转化率：从8%掉到4%\n\n我已经尝试：\n1. 降低了出价\n2. 暂停了几个低转化词\n3. 调整了投放时段\n\n但是效果不明显，求大佬指点！',
+                content: '各位大佬救命！我的店铺ROI这周突然暴跌，从之前稳定的2.0掉到现在的1.2，每天都在亏钱...\n\n情况：\n- 类目：女装\n- 日预算：300元\n- 主推关键词：夏季连衣裙、碎花裙\n- 点击率：3.5%（正常）\n- 转化率：从8%掉到4%\n\n我已经尝试：\n1. 降低了出价\n2. 暂停了几个低转化词\n3. 调整了投放时段\n\n但是效果不明显，求大佬指点！是不是竞争对手在搞我？还是季节原因？',
                 author: '焦虑的卖家',
+                authorAvatar: '😰',
+                level: 'Lv.3',
                 category: '问题求助',
+                tags: ['问题求助'],
                 time: '5小时前',
-                views: 156,
-                comments: [],
-                likes: 12
+                views: 856,
+                replies: [],
+                likes: 32,
+                isHot: true
             },
             {
                 id: 3,
                 title: '拼多多3月推广政策更新解读',
-                content: '拼多多官方刚发布了3月份的推广政策调整，主要涉及搜索推广出价规则和全站推广流量分配，对我们影响挺大的...\n\n主要变化：\n1. 搜索推广最低出价从0.1元提高到0.15元\n2. 全站推广新增\'智能投放\'模式\n3. 场景推广增加了\'直播间\'场景\n4. 优质商家可以申请更高的日预算上限\n\n详细解读看官方文档，链接我放评论里了。',
+                content: '拼多多官方刚发布了3月份的推广政策调整，主要涉及搜索推广出价规则和全站推广流量分配，对我们影响挺大的...\n\n主要变化：\n1. 搜索推广最低出价从0.1元提高到0.15元\n   影响：小卖家成本增加，要更精准选词\n\n2. 全站推广新增\'智能投放\'模式\n   影响：系统会自动优化投放，但可控性降低\n\n3. 场景推广增加了\'直播间\'场景\n   影响：做直播的商家有新流量入口\n\n4. 优质商家可以申请更高的日预算上限\n   影响：大卖家可以抢更多流量\n\n详细解读看官方文档，我把链接放评论里了。大家怎么看这次调整？',
                 author: '行业观察',
+                authorAvatar: '📰',
+                level: 'Lv.7',
                 category: '行业资讯',
+                tags: ['行业资讯'],
                 time: '1天前',
-                views: 512,
-                comments: [],
-                likes: 78
+                views: 2512,
+                replies: [],
+                likes: 178,
+                isHot: true
             },
             {
                 id: 4,
                 title: '分享一个关键词挖掘的小技巧',
-                content: '很多新手不知道怎么找关键词，我分享一个我常用的方法...\n\n1. 打开拼多多APP，搜索你的产品\n2. 看下拉框推荐的词，这些都是高搜索量的词\n3. 看搜索结果页底部的\'大家还在搜\'\n4. 用生意参谋的关键词工具（如果有）\n5. 看竞品在投什么词\n\n我一般会找20-30个词，然后测试一周，留下ROI>1.5的词继续投。',
+                content: '很多新手不知道怎么找关键词，我分享一个我常用的方法，亲测有效！\n\n方法一：拼多多APP下拉框\n1. 打开拼多多APP，搜索你的产品\n2. 看下拉框推荐的词，这些都是高搜索量的词\n3. 记录下来，这些词转化率通常不错\n\n方法二：搜索结果页底部\n1. 搜索你的产品\n2. 滑到页面底部看\'大家还在搜\'\n3. 这些是相关度高的长尾词\n\n方法三：竞品分析\n1. 找到你的竞品\n2. 看他们的标题用了什么词\n3. 这些词肯定是经过验证的\n\n方法四：生意参谋（如果有）\n1. 用关键词工具\n2. 看搜索量和竞争度\n3. 选择搜索量>1000、竞争度适中的词\n\n我一般会找20-30个词，然后测试一周，留下ROI>1.5的词继续投。',
                 author: '关键词专家',
+                authorAvatar: '💡',
+                level: 'Lv.6',
                 category: '经验分享',
+                tags: ['经验分享'],
                 time: '2天前',
-                views: 234,
-                comments: [],
-                likes: 34
+                views: 1234,
+                replies: [],
+                likes: 89,
+                isHot: false
             },
             {
                 id: 5,
                 title: '讨论：全站推广和搜索推广，哪个更适合新手？',
-                content: '最近看到很多人在讨论这个问题，我说说我的看法...\n\n搜索推广：\n优点：精准，转化率高\n缺点：需要选词，需要优化，门槛高\n\n全站推广：\n优点：简单，系统自动投放\n缺点：不够精准，ROI可能不稳定\n\n我的建议：新手先从全站开始，熟悉了再做搜索。大家怎么看？',
+                content: '最近看到很多人在讨论这个问题，我说说我的看法...\n\n搜索推广：\n优点：\n- 精准，转化率高\n- 可控性强，能精确控制每个词\n- ROI相对稳定\n\n缺点：\n- 需要选词，有一定门槛\n- 需要持续优化\n- 前期需要测试，可能会亏\n\n全站推广：\n优点：\n- 简单，系统自动投放\n- 不需要选词\n- 流量大\n\n缺点：\n- 不够精准\n- ROI可能不稳定\n- 可控性差\n\n我的建议：\n新手先从全站开始，熟悉了再做搜索。或者两个一起做，全站占30%预算，搜索占70%。\n\n大家怎么看？欢迎讨论！',
                 author: '老司机',
+                authorAvatar: '🚗',
+                level: 'Lv.8',
                 category: '讨论交流',
+                tags: ['讨论交流'],
                 time: '3天前',
-                views: 189,
-                comments: [],
-                likes: 23
+                views: 989,
+                replies: [],
+                likes: 67,
+                isHot: false
             },
             {
                 id: 6,
                 title: '血泪教训：千万不要盲目提高出价！',
-                content: '上周我犯了一个大错，看到某个词转化好，就把出价从0.8提到1.5，结果...\n\n后果：\n- 点击成本翻倍\n- ROI从2.5掉到1.3\n- 3天亏了2000多\n\n教训：\n1. 提价要循序渐进，每次最多提10-20%\n2. 提价后要密切观察数据\n3. 如果ROI下降，立即降回去\n\n希望大家不要重蹈我的覆辙！',
+                content: '上周我犯了一个大错，看到某个词转化好，就把出价从0.8提到1.5，结果...\n\n后果：\n- 点击成本翻倍（从0.8涨到1.6）\n- ROI从2.5掉到1.3\n- 3天亏了2000多\n- 排名反而下降了（因为质量分降低）\n\n原因分析：\n1. 出价提太快，系统认为我在恶意竞价\n2. 点击成本上升，但转化率没变，ROI自然下降\n3. 其他竞争对手也跟着提价，形成恶性循环\n\n正确做法：\n1. 提价要循序渐进，每次最多提10-20%\n2. 提价后要密切观察数据，至少观察3天\n3. 如果ROI下降，立即降回去\n4. 不要和竞争对手硬拼价格\n\n希望大家不要重蹈我的覆辙！记住：稳定的ROI比高排名更重要！',
                 author: '吃过亏的人',
+                authorAvatar: '😭',
+                level: 'Lv.4',
                 category: '经验分享',
+                tags: ['精华', '经验分享'],
                 time: '4天前',
-                views: 445,
-                comments: [],
-                likes: 67
+                views: 1445,
+                replies: [],
+                likes: 123,
+                isHot: false
             },
             {
                 id: 7,
                 title: '求推荐：有没有好用的数据分析工具？',
-                content: '每天手动看数据太累了，想找个工具帮忙分析...\n\n需求：\n1. 能自动抓取拼多多后台数据\n2. 能生成报表和趋势图\n3. 最好能给优化建议\n4. 价格不要太贵\n\n大家有推荐的吗？',
+                content: '每天手动看数据太累了，想找个工具帮忙分析...\n\n需求：\n1. 能自动抓取拼多多后台数据\n2. 能生成报表和趋势图\n3. 最好能给优化建议\n4. 价格不要太贵（预算500以内/月）\n\n我看到市面上有这些工具：\n- 多多参谋\n- 拼多多助手\n- 数据魔方\n- 还有一些AI工具\n\n大家有用过的吗？效果怎么样？值得买吗？\n\n或者有没有免费的替代方案？',
                 author: '懒人卖家',
+                authorAvatar: '😴',
+                level: 'Lv.2',
                 category: '问题求助',
+                tags: ['问题求助'],
                 time: '5天前',
-                views: 267,
-                comments: [],
-                likes: 18
+                views: 567,
+                replies: [],
+                likes: 28,
+                isHot: false
             },
             {
                 id: 8,
                 title: '3月爆款预测：这些类目要火了！',
-                content: '根据往年数据和今年趋势，我预测3月这些类目会爆...\n\n1. 春装（连衣裙、T恤、薄外套）\n2. 运动户外（跑步鞋、瑜伽服）\n3. 家居用品（收纳、清洁）\n4. 美妆护肤（防晒、美白）\n\n建议提前布局，抢占先机！',
+                content: '根据往年数据和今年趋势，我预测3月这些类目会爆...\n\n1. 春装（连衣裙、T恤、薄外套）\n   理由：天气转暖，换季需求大\n   建议：提前备货，3月初开始推广\n\n2. 运动户外（跑步鞋、瑜伽服）\n   理由：春天是运动季，健身需求增加\n   建议：主打\'春季运动\' \'减肥\'等关键词\n\n3. 家居用品（收纳、清洁）\n   理由：春季大扫除，收纳需求旺盛\n   建议：组合销售，提高客单价\n\n4. 美妆护肤（防晒、美白）\n   理由：紫外线增强，防晒需求上升\n   建议：主打\'春季防晒\' \'美白\'\n\n5. 母婴用品（春装、玩具）\n   理由：儿童换季需求\n   建议：主打\'春季新款\' \'舒适透气\'\n\n建议提前布局，抢占先机！大家觉得还有哪些类目会火？',
                 author: '趋势分析师',
+                authorAvatar: '📊',
+                level: 'Lv.7',
                 category: '行业资讯',
+                tags: ['行业资讯'],
                 time: '6天前',
-                views: 389,
-                comments: [],
-                likes: 56
+                views: 1789,
+                replies: [],
+                likes: 156,
+                isHot: false
             },
             {
                 id: 9,
                 title: '如何判断一个关键词值不值得投？',
-                content: '很多人问我怎么选词，我的标准是...\n\n必须满足：\n1. 搜索量>1000/天\n2. 竞争度适中（不要太高也不要太低）\n3. 和产品相关度高\n\n加分项：\n1. 转化率>5%\n2. 点击成本<1元\n3. 有购买意图（如\'购买\'、\'正品\'等）\n\n测试方法：\n1. 先投7天\n2. 看ROI是否>1.5\n3. 不行就换词',
+                content: '很多人问我怎么选词，我的标准是...\n\n必须满足（缺一不可）：\n1. 搜索量>1000/天\n   太少的词没有投放价值\n\n2. 竞争度适中\n   太高：成本高，难做\n   太低：可能是冷门词，转化差\n\n3. 和产品相关度高\n   不相关的词转化率低，浪费钱\n\n加分项（有更好）：\n1. 转化率>5%\n   说明这个词购买意图强\n\n2. 点击成本<1元\n   成本可控\n\n3. 有购买意图\n   如\'购买\' \'正品\' \'旗舰店\'等\n\n测试方法：\n1. 先投7天\n2. 每天预算20-30元\n3. 看ROI是否>1.5\n4. 不行就换词\n\n注意：\n- 不要一次测试太多词（最多5个）\n- 给每个词足够的测试时间\n- 记录数据，方便对比\n\n这是我的经验，大家有更好的方法吗？',
                 author: '选词高手',
+                authorAvatar: '🎯',
+                level: 'Lv.6',
                 category: '经验分享',
+                tags: ['经验分享'],
                 time: '1周前',
-                views: 298,
-                comments: [],
-                likes: 41
+                views: 1098,
+                replies: [],
+                likes: 91,
+                isHot: false
             },
             {
                 id: 10,
                 title: '讨论：AI工具真的能提高ROI吗？',
-                content: '最近AI工具很火，有人用过吗？效果怎么样？\n\n我看到有些工具说能自动优化出价、自动选词，听起来很厉害...\n\n但是我担心：\n1. 会不会不够精准？\n2. 会不会乱花钱？\n3. 价格会不会很贵？\n\n用过的朋友来说说体验？',
+                content: '最近AI工具很火，有人用过吗？效果怎么样？\n\n我看到有些工具说能：\n- 自动优化出价\n- 自动选词\n- 自动调整预算\n- 自动暂停低效词\n\n听起来很厉害，但是我担心：\n\n1. 会不会不够精准？\n   AI能理解我的产品吗？\n\n2. 会不会乱花钱？\n   万一AI判断错误怎么办？\n\n3. 价格会不会很贵？\n   如果成本太高，还不如自己手动优化\n\n4. 数据安全吗？\n   会不会泄露我的店铺数据？\n\n用过的朋友来说说体验？值得买吗？\n\n或者有没有免费试用的？我想先试试效果。',
                 author: '观望中',
+                authorAvatar: '🤔',
+                level: 'Lv.3',
                 category: '讨论交流',
+                tags: ['讨论交流'],
                 time: '1周前',
-                views: 223,
-                comments: [],
-                likes: 15
+                views: 723,
+                replies: [],
+                likes: 45,
+                isHot: false
             }
         ];
         
-        let currentFilter = 'all';
-        
-        // 加载帖子列表
-        function loadPosts() {
-            const container = document.getElementById('posts-list');
+        // 加载贴吧帖子列表
+        function loadTiebaPosts() {
+            const container = document.getElementById('tieba-posts-list');
             if (!container) return;
             
-            let filteredPosts = communityPosts;
-            if (currentFilter !== 'all') {
-                filteredPosts = communityPosts.filter(p => p.category === currentFilter);
+            let filteredPosts = tiebaPosts;
+            
+            // 筛选
+            if (tiebaCurrentFilter === 'hot') {
+                filteredPosts = tiebaPosts.filter(p => p.isHot);
+            } else if (tiebaCurrentFilter === '精华') {
+                filteredPosts = tiebaPosts.filter(p => p.tags.includes('精华'));
+            } else if (tiebaCurrentFilter !== 'all') {
+                filteredPosts = tiebaPosts.filter(p => p.category === tiebaCurrentFilter);
             }
             
-            container.innerHTML = filteredPosts.map(post => `
-                <div class="post-card">
-                    <div class="post-header">
-                        <span class="post-category ${post.category === '经验分享' ? 'share' : post.category === '问题求助' ? 'help' : post.category === '讨论交流' ? 'discuss' : 'news'}">${post.category}</span>
-                        <span class="post-author">@${post.author}</span>
-                        <span class="post-time">${post.time}</span>
+            container.innerHTML = filteredPosts.map(post => {
+                const tagClass = post.category === '经验分享' ? 'share' : 
+                               post.category === '问题求助' ? 'help' : 
+                               post.category === '讨论交流' ? 'discuss' : 'news';
+                
+                return `
+                    <div class="tieba-post-item" onclick="viewTiebaDetail(${post.id})">
+                        <div class="tieba-post-avatar">${post.authorAvatar}</div>
+                        <div class="tieba-post-content">
+                            <div class="tieba-post-header">
+                                <span class="tieba-post-author">${post.author}</span>
+                                <span class="tieba-post-level">${post.level}</span>
+                                ${post.tags.map(tag => {
+                                    const tClass = tag === '精华' ? 'jinghua' : tag === '热门' ? 'hot' : tagClass;
+                                    return `<span class="tieba-post-tag ${tClass}">${tag}</span>`;
+                                }).join('')}
+                                <span class="tieba-post-time">${post.time}</span>
+                            </div>
+                            <div class="tieba-post-title">${post.title}</div>
+                            <div class="tieba-post-preview">${post.content.substring(0, 100)}...</div>
+                            <div class="tieba-post-footer">
+                                <span class="tieba-post-stat">👁️ ${post.views}</span>
+                                <span class="tieba-post-stat">💬 ${post.replies.length}</span>
+                                <span class="tieba-post-stat">👍 ${post.likes}</span>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="post-title" onclick="viewPostDetail(${post.id})" style="cursor: pointer;">${post.title}</h3>
-                    <p class="post-preview">${post.content.substring(0, 100)}...</p>
-                    <div class="post-footer">
-                        <span class="post-stat">👁️ ${post.views}</span>
-                        <span class="post-stat">💬 ${post.comments.length}</span>
-                        <span class="post-stat" onclick="likePost(${post.id})" style="cursor: pointer;">👍 ${post.likes}</span>
-                        <button class="btn-secondary btn-sm" onclick="viewPostDetail(${post.id})">查看详情</button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
         
         // 筛选帖子
-        function filterPosts(category) {
-            currentFilter = category;
-            loadPosts();
+        function filterTiebaPosts(filter) {
+            tiebaCurrentFilter = filter;
+            
+            // 更新标签样式
+            document.querySelectorAll('.tieba-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadTiebaPosts();
+        }
+        
+        // 显示发帖编辑器
+        function showPostEditor() {
+            document.getElementById('post-editor-modal').style.display = 'block';
+        }
+        
+        // 关闭发帖编辑器
+        function closePostEditor() {
+            document.getElementById('post-editor-modal').style.display = 'none';
+            document.getElementById('new-post-title').value = '';
+            document.getElementById('new-post-content').value = '';
+        }
+        
+        // 提交新帖
+        function submitNewPost() {
+            const title = document.getElementById('new-post-title').value.trim();
+            const content = document.getElementById('new-post-content').value.trim();
+            const category = document.getElementById('new-post-category').value;
+            
+            if (!title || title.length < 5) {
+                alert('标题至少5个字');
+                return;
+            }
+            
+            if (!content || content.length < 10) {
+                alert('内容至少10个字');
+                return;
+            }
+            
+            const newPost = {
+                id: tiebaPosts.length + 1,
+                title: title,
+                content: content,
+                author: '当前用户',
+                authorAvatar: '👤',
+                level: 'Lv.1',
+                category: category,
+                tags: [category],
+                time: '刚刚',
+                views: 0,
+                replies: [],
+                likes: 0,
+                isHot: false
+            };
+            
+            tiebaPosts.unshift(newPost);
+            closePostEditor();
+            loadTiebaPosts();
+            alert('发帖成功！');
         }
         
         // 查看帖子详情
-        function viewPostDetail(postId) {
-            const post = communityPosts.find(p => p.id === postId);
+        function viewTiebaDetail(postId) {
+            const post = tiebaPosts.find(p => p.id === postId);
             if (!post) return;
             
             // 增加浏览量
             post.views++;
             
-            const modal = document.getElementById('post-detail-modal');
-            const content = document.getElementById('post-detail-content');
+            const modal = document.getElementById('tieba-detail-modal');
+            const body = document.getElementById('tieba-detail-body');
             
-            content.innerHTML = `
-                <div class="post-detail">
-                    <div class="post-detail-header">
-                        <span class="post-category ${post.category === '经验分享' ? 'share' : post.category === '问题求助' ? 'help' : post.category === '讨论交流' ? 'discuss' : 'news'}">${post.category}</span>
-                        <h2>${post.title}</h2>
-                        <div class="post-meta">
-                            <span>@${post.author}</span>
-                            <span>${post.time}</span>
-                            <span>👁️ ${post.views}</span>
-                        </div>
+            const tagClass = post.category === '经验分享' ? 'share' : 
+                           post.category === '问题求助' ? 'help' : 
+                           post.category === '讨论交流' ? 'discuss' : 'news';
+            
+            body.innerHTML = `
+                <div class="tieba-detail-header">
+                    <div class="tieba-detail-title">${post.title}</div>
+                    <div class="tieba-detail-meta">
+                        <span>${post.authorAvatar} <strong>${post.author}</strong></span>
+                        <span>${post.level}</span>
+                        ${post.tags.map(tag => {
+                            const tClass = tag === '精华' ? 'jinghua' : tag === '热门' ? 'hot' : tagClass;
+                            return `<span class="tieba-post-tag ${tClass}">${tag}</span>`;
+                        }).join('')}
+                        <span>${post.time}</span>
+                        <span>👁️ ${post.views}</span>
+                    </div>
+                </div>
+                
+                <div class="tieba-detail-body">${post.content}</div>
+                
+                <div class="tieba-detail-actions">
+                    <button class="btn-secondary" onclick="likeTiebaPost(${post.id})">👍 点赞 (${post.likes})</button>
+                    <button class="btn-secondary" onclick="document.getElementById('tieba-reply-input-${post.id}').focus()">💬 回复</button>
+                </div>
+                
+                <div class="tieba-replies">
+                    <div class="tieba-replies-title">回复 (${post.replies.length})</div>
+                    
+                    <div class="tieba-reply-input">
+                        <textarea id="tieba-reply-input-${post.id}" placeholder="写下你的回复..."></textarea>
+                        <button class="btn-primary" onclick="addTiebaReply(${post.id})">发表回复</button>
                     </div>
                     
-                    <div class="post-detail-body">
-                        <p style="white-space: pre-wrap; line-height: 1.8;">${post.content}</p>
-                    </div>
-                    
-                    <div class="post-actions">
-                        <button class="btn-secondary" onclick="likePost(${post.id})">👍 点赞 (${post.likes})</button>
-                        <button class="btn-secondary" onclick="document.getElementById('comment-input-${post.id}').focus()">💬 评论 (${post.comments.length})</button>
-                    </div>
-                    
-                    <div class="comments-section">
-                        <h3>评论 (${post.comments.length})</h3>
-                        <div class="comment-input-box">
-                            <textarea id="comment-input-${post.id}" placeholder="写下你的评论..." style="width: 100%; height: 80px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 12px;"></textarea>
-                            <button class="btn-primary" onclick="addComment(${post.id})">发表评论</button>
-                        </div>
-                        <div id="comments-list-${post.id}" class="comments-list">
-                            ${post.comments.map((comment, index) => `
-                                <div class="comment-item">
-                                    <div class="comment-header">
-                                        <strong>@${comment.author}</strong>
-                                        <span>${comment.time}</span>
+                    <div class="tieba-reply-list">
+                        ${post.replies.map((reply, index) => `
+                            <div class="tieba-reply-item">
+                                <div class="tieba-reply-avatar">${reply.avatar}</div>
+                                <div class="tieba-reply-content">
+                                    <div class="tieba-reply-header">
+                                        <span class="tieba-reply-author">${reply.author}</span>
+                                        <span class="tieba-post-level">${reply.level}</span>
+                                        <span class="tieba-reply-time">${reply.time}</span>
                                     </div>
-                                    <div class="comment-content">${comment.content}</div>
-                                    <div class="comment-actions">
-                                        <span onclick="likeComment(${post.id}, ${index})" style="cursor: pointer;">👍 ${comment.likes}</span>
-                                        <span onclick="replyComment(${post.id}, '${comment.author}')" style="cursor: pointer;">回复</span>
+                                    <div class="tieba-reply-text">${reply.content}</div>
+                                    <div class="tieba-reply-actions">
+                                        <span class="tieba-reply-action" onclick="likeTiebaReply(${post.id}, ${index})">👍 ${reply.likes}</span>
+                                        <span class="tieba-reply-action" onclick="replyToUser(${post.id}, '${reply.author}')">回复</span>
                                     </div>
                                 </div>
-                            `).join('')}
-                        </div>
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             `;
@@ -6882,97 +7564,68 @@ ${issue.recommendation}
         }
         
         // 关闭帖子详情
-        function closePostDetail() {
-            document.getElementById('post-detail-modal').style.display = 'none';
-            loadPosts();
+        function closeTiebaDetail() {
+            document.getElementById('tieba-detail-modal').style.display = 'none';
+            loadTiebaPosts();
         }
         
         // 点赞帖子
-        function likePost(postId) {
-            const post = communityPosts.find(p => p.id === postId);
+        function likeTiebaPost(postId) {
+            const post = tiebaPosts.find(p => p.id === postId);
             if (post) {
                 post.likes++;
-                loadPosts();
-                if (document.getElementById('post-detail-modal').style.display === 'block') {
-                    viewPostDetail(postId);
-                }
+                viewTiebaDetail(postId);
             }
         }
         
-        // 添加评论
-        function addComment(postId) {
-            const input = document.getElementById(`comment-input-${postId}`);
+        // 添加回复
+        function addTiebaReply(postId) {
+            const input = document.getElementById(`tieba-reply-input-${postId}`);
             const content = input.value.trim();
             
             if (!content) {
-                alert('请输入评论内容');
+                alert('请输入回复内容');
                 return;
             }
             
-            const post = communityPosts.find(p => p.id === postId);
+            const post = tiebaPosts.find(p => p.id === postId);
             if (post) {
-                post.comments.push({
+                post.replies.push({
                     author: '当前用户',
+                    avatar: '👤',
+                    level: 'Lv.1',
                     content: content,
                     time: '刚刚',
                     likes: 0
                 });
                 
                 input.value = '';
-                viewPostDetail(postId);
-                alert('评论发表成功！');
+                viewTiebaDetail(postId);
             }
         }
         
-        // 点赞评论
-        function likeComment(postId, commentIndex) {
-            const post = communityPosts.find(p => p.id === postId);
-            if (post && post.comments[commentIndex]) {
-                post.comments[commentIndex].likes++;
-                viewPostDetail(postId);
+        // 点赞回复
+        function likeTiebaReply(postId, replyIndex) {
+            const post = tiebaPosts.find(p => p.id === postId);
+            if (post && post.replies[replyIndex]) {
+                post.replies[replyIndex].likes++;
+                viewTiebaDetail(postId);
             }
         }
         
-        // 回复评论
-        function replyComment(postId, authorName) {
-            const input = document.getElementById(`comment-input-${postId}`);
-            input.value = `@${authorName} `;
+        // 回复用户
+        function replyToUser(postId, username) {
+            const input = document.getElementById(`tieba-reply-input-${postId}`);
+            input.value = `@${username} `;
             input.focus();
         }
         
-        // 发布新帖子
-        function publishPost() {
-            const title = document.getElementById('post-title').value.trim();
-            const content = document.getElementById('post-content').value.trim();
-            const category = document.getElementById('post-category').value;
-            
-            if (!title || !content) {
-                alert('请填写标题和内容');
-                return;
-            }
-            
-            const newPost = {
-                id: communityPosts.length + 1,
-                title: title,
-                content: content,
-                author: '当前用户',
-                category: category,
-                time: '刚刚',
-                views: 0,
-                comments: [],
-                likes: 0
-            };
-            
-            communityPosts.unshift(newPost);
-            
-            document.getElementById('post-title').value = '';
-            document.getElementById('post-content').value = '';
-            
-            loadPosts();
-            alert('发布成功！');
+        // 页面加载时初始化贴吧
+        if (document.getElementById('tieba-posts-list')) {
+            loadTiebaPosts();
         }
         
-        // ========== 社区交流功能结束 ==========
+        // ========== 贴吧风格社区功能结束 ==========
 
     </script>
 
