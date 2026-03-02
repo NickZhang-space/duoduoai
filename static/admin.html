@@ -469,7 +469,7 @@
         // 加载用户列表
         async function loadUsers() {
             try {
-                const response = await fetch('/api/admin/users');
+                const response = await fetch('/api/admin/panel/users');
                 const result = await response.json();
                 
                 if (result.success) {
@@ -560,7 +560,7 @@
             }
             
             try {
-                const response = await fetch('/api/admin/adjust-quota', {
+                const response = await fetch('/api/admin/panel/adjust-quota', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
@@ -609,7 +609,7 @@
             if (!confirm('确认封禁此用户？')) return;
             
             try {
-                const response = await fetch('/api/admin/ban-user', {
+                const response = await fetch('/api/admin/panel/ban-user', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
@@ -639,7 +639,7 @@
             if (!confirm('确认解封此用户？')) return;
             
             try {
-                const response = await fetch('/api/admin/unban-user', {
+                const response = await fetch('/api/admin/panel/unban-user', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ user_id: userId })
@@ -662,7 +662,7 @@
         // 加载操作日志
         async function loadLogs() {
             try {
-                const response = await fetch('/api/admin/logs');
+                const response = await fetch('/api/admin/panel/logs');
                 const result = await response.json();
                 
                 if (result.success) {
@@ -692,7 +692,7 @@
             const basicQuota = document.getElementById('basic-quota').value;
             
             try {
-                const response = await fetch('/api/admin/system-settings', {
+                const response = await fetch('/api/admin/panel/system-settings', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({

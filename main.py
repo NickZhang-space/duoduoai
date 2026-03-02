@@ -2866,7 +2866,7 @@ admin_users = [
 # 操作日志
 admin_logs = []
 
-@app.get("/api/admin/users")
+@app.get("/api/admin/panel/users")
 async def get_admin_users():
     """获取用户列表"""
     try:
@@ -2881,7 +2881,7 @@ async def get_admin_users():
             "error": str(e)
         }
 
-@app.post("/api/admin/adjust-quota")
+@app.post("/api/admin/panel/adjust-quota")
 async def adjust_user_quota(request: dict):
     """调整用户 AI 额度"""
     try:
@@ -2931,7 +2931,7 @@ async def adjust_user_quota(request: dict):
             "error": str(e)
         }
 
-@app.post("/api/admin/ban-user")
+@app.post("/api/admin/panel/ban-user")
 async def ban_user(request: dict):
     """封禁用户"""
     try:
@@ -2981,7 +2981,7 @@ async def ban_user(request: dict):
             "error": str(e)
         }
 
-@app.post("/api/admin/unban-user")
+@app.post("/api/admin/panel/unban-user")
 async def unban_user(request: dict):
     """解封用户"""
     try:
@@ -3028,7 +3028,7 @@ async def unban_user(request: dict):
             "error": str(e)
         }
 
-@app.get("/api/admin/logs")
+@app.get("/api/admin/panel/logs")
 async def get_admin_logs():
     """获取操作日志"""
     try:
@@ -3043,7 +3043,7 @@ async def get_admin_logs():
             "error": str(e)
         }
 
-@app.post("/api/admin/system-settings")
+@app.post("/api/admin/panel/system-settings")
 async def save_system_settings(request: dict):
     """保存系统设置"""
     try:
