@@ -304,7 +304,24 @@
             color: #666;
             font-size: 13px;
         }
-    </style>
+    
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        </style>
 </head>
 <body>
     <!-- 顶部导航 -->
@@ -345,6 +362,7 @@
         <!-- 标签页 -->
         <div class="tabs">
             <button class="tab active" onclick="switchTab('users')">👥 用户管理</button>
+            <button class="tab" onclick="switchTab('community')">💬 社区管理</button>
             <button class="tab" onclick="switchTab('logs')">📋 操作日志</button>
             <button class="tab" onclick="switchTab('settings')">⚙️ 系统设置</button>
         </div>
@@ -795,6 +813,97 @@
                 loadUsers();
             }
         };
-    </script>
+    
+        
+        // 社区管理功能
+        async function loadCommunityPosts() {
+            const container = document.getElementById('community-posts-container');
+            container.innerHTML = '<p style="color: #666;">加载中...</p>';
+            
+            try {
+                // 从主应用获取帖子数据（实际应该从API获取）
+                const response = await fetch('/static/app.html');
+                const html = await response.text();
+                
+                // 提取帖子数据
+                const match = html.match(/let tiebaPosts = \[(.*?)\];/s);
+                if (!match) {
+                    container.innerHTML = '<p style="color: #999;">未找到帖子数据</p>';
+                    return;
+                }
+                
+                // 解析帖子（简单处理）
+                const postsStr = '[' + match[1] + ']';
+                const posts = eval(postsStr);
+                
+                // 显示帖子列表
+                container.innerHTML = `
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: #f8f9fa; border-bottom: 2px solid #e3e8ee;">
+                                <th style="padding: 12px; text-align: left;">ID</th>
+                                <th style="padding: 12px; text-align: left;">标题</th>
+                                <th style="padding: 12px; text-align: left;">作者</th>
+                                <th style="padding: 12px; text-align: left;">分类</th>
+                                <th style="padding: 12px; text-align: left;">日期</th>
+                                <th style="padding: 12px; text-align: left;">回复数</th>
+                                <th style="padding: 12px; text-align: center;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${posts.map(post => `
+                                <tr style="border-bottom: 1px solid #e3e8ee;">
+                                    <td style="padding: 12px;">${post.id}</td>
+                                    <td style="padding: 12px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${post.title}</td>
+                                    <td style="padding: 12px;">${post.author}</td>
+                                    <td style="padding: 12px;">${post.category}</td>
+                                    <td style="padding: 12px;">${post.date}</td>
+                                    <td style="padding: 12px;">${post.replies ? post.replies.length : 0}</td>
+                                    <td style="padding: 12px; text-align: center;">
+                                        <button class="btn-secondary" style="padding: 6px 12px; font-size: 13px; margin-right: 5px;" onclick="viewPostDetail(${post.id})">查看</button>
+                                        <button class="btn-danger" style="padding: 6px 12px; font-size: 13px; background: #ef4444;" onclick="deletePost(${post.id})">删除</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (error) {
+                console.error('加载帖子失败:', error);
+                container.innerHTML = '<p style="color: #ef4444;">加载失败，请重试</p>';
+            }
+        }
+        
+        function viewPostDetail(postId) {
+            alert('查看帖子 #' + postId + ' 的详情\n\n（此功能可以跳转到主应用查看）');
+        }
+        
+        async function deletePost(postId) {
+            if (!confirm('确定要删除这个帖子吗？\n\n注意：删除后无法恢复！')) {
+                return;
+            }
+            
+            try {
+                // 实际应该调用API删除
+                // 这里只是演示，实际需要后端支持
+                alert('删除功能需要后端API支持\n\n当前为演示模式，实际部署时需要：\n1. 添加 DELETE /api/community/posts/:id 接口\n2. 从数据库删除帖子\n3. 记录操作日志');
+                
+                // 刷新列表
+                loadCommunityPosts();
+            } catch (error) {
+                console.error('删除失败:', error);
+                alert('删除失败，请重试');
+            }
+        }
+        
+        // 页面加载时自动加载社区帖子（如果在社区标签）
+        document.addEventListener('DOMContentLoaded', function() {
+            // 如果URL包含community参数，自动切换到社区管理
+            if (window.location.hash === '#community') {
+                switchTab('community');
+                loadCommunityPosts();
+            }
+        });
+</script>
 </body>
 </html>
