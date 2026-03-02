@@ -17,6 +17,9 @@
             color: white;
             padding: 20px 40px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .admin-header h1 {
             font-size: 24px;
@@ -306,8 +309,11 @@
 <body>
     <!-- 顶部导航 -->
     <div class="admin-header">
-        <h1>🛡️ 管理员后台</h1>
-        <div class="subtitle">PDD GrowthOS 系统管理</div>
+        <div>
+            <h1>🛡️ 管理员后台</h1>
+            <div class="subtitle">PDD GrowthOS 系统管理</div>
+        </div>
+        <button onclick="logout()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">退出登录</button>
     </div>
     
     <!-- 主容器 -->
@@ -732,8 +738,60 @@
         }
         
         // 页面加载时初始化
-        window.onload = function() {
-            loadUsers();
+        
+        // 验证登录状态
+        async function checkAuth() {
+            const token = localStorage.getItem('admin_token');
+            
+            if (!token) {
+                window.location.href = '/static/admin_login.html';
+                return false;
+            }
+            
+            try {
+                const response = await fetch('/api/admin/panel/verify?token=' + token);
+                const result = await response.json();
+                
+                if (!result.success) {
+                    localStorage.removeItem('admin_token');
+                    window.location.href = '/static/admin_login.html';
+                    return false;
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('验证失败:', error);
+                window.location.href = '/static/admin_login.html';
+                return false;
+            }
+        }
+        
+        // 登出
+        async function logout() {
+            if (!confirm('确认退出登录？')) return;
+            
+            const token = localStorage.getItem('admin_token');
+            
+            try {
+                await fetch('/api/admin/panel/logout', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ token })
+                });
+            } catch (error) {
+                console.error('登出失败:', error);
+            }
+            
+            localStorage.removeItem('admin_token');
+            window.location.href = '/static/admin_login.html';
+        }
+        
+
+        window.onload = async function() {
+            const isAuth = await checkAuth();
+            if (isAuth) {
+                loadUsers();
+            }
         };
     </script>
 </body>

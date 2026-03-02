@@ -2866,6 +2866,114 @@ admin_users = [
 # 操作日志
 admin_logs = []
 
+
+# 管理员账户（生产环境应使用数据库+密码加密）
+ADMIN_ACCOUNTS = {
+    'admin': {
+        'password': 'Admin@2026',  # 强密码
+        'name': 'Nick',
+        'role': 'super_admin'
+    }
+}
+
+# 简单的token存储（生产环境应使用Redis+JWT）
+admin_tokens = {}
+
+@app.post("/api/admin/panel/login")
+async def admin_login(request: dict):
+    """管理员登录"""
+    try:
+        import secrets
+        from datetime import datetime, timedelta
+        
+        username = request.get('username', '')
+        password = request.get('password', '')
+        
+        # 验证账号密码
+        if username not in ADMIN_ACCOUNTS:
+            return {
+                "success": False,
+                "message": "账号或密码错误"
+            }
+        
+        account = ADMIN_ACCOUNTS[username]
+        if account['password'] != password:
+            return {
+                "success": False,
+                "message": "账号或密码错误"
+            }
+        
+        # 生成token
+        token = secrets.token_urlsafe(32)
+        admin_tokens[token] = {
+            'username': username,
+            'name': account['name'],
+            'role': account['role'],
+            'login_time': datetime.now().isoformat()
+        }
+        
+        logger.info(f"管理员登录成功: {username}")
+        
+        return {
+            "success": True,
+            "token": token,
+            "admin": {
+                'username': username,
+                'name': account['name'],
+                'role': account['role']
+            }
+        }
+        
+    except Exception as e:
+        logger.error(f"管理员登录失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/admin/panel/logout")
+async def admin_logout(request: dict):
+    """管理员登出"""
+    try:
+        token = request.get('token', '')
+        if token in admin_tokens:
+            del admin_tokens[token]
+        
+        return {
+            "success": True,
+            "message": "已登出"
+        }
+        
+    except Exception as e:
+        logger.error(f"登出失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.get("/api/admin/panel/verify")
+async def verify_admin_token(token: str):
+    """验证管理员token"""
+    try:
+        if token in admin_tokens:
+            return {
+                "success": True,
+                "admin": admin_tokens[token]
+            }
+        else:
+            return {
+                "success": False,
+                "message": "未登录或登录已过期"
+            }
+        
+    except Exception as e:
+        logger.error(f"验证token失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
 @app.get("/api/admin/panel/users")
 async def get_admin_users():
     """获取用户列表"""
