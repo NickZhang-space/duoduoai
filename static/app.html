@@ -5958,7 +5958,7 @@ async function loadHotKeywords(category) {
         // 生成 AI 建议
         function generateAISuggestions() {
             const list = document.getElementById('ai-actions-list');
-            list.innerHTML = '<p class="placeholder-text">正在调用 DeepSeek AI 分析...</p>';
+            list.innerHTML = '<p class="placeholder-text">正在生成 AI 分析...</p>';
             
             // 调用后端 API
             fetch('/api/ai/analyze', {
@@ -6039,7 +6039,7 @@ async function loadHotKeywords(category) {
             // 保存标题和按钮
             const titleHtml = section.querySelector('div[style*="display: flex"]').outerHTML;
             
-            section.innerHTML = titleHtml + '<p class="placeholder-text">正在调用 DeepSeek AI 诊断...</p>';
+            section.innerHTML = titleHtml + '<p class="placeholder-text">正在生成 AI 诊断...</p>';
             
             fetch('/api/ai/analyze', {
                 method: 'POST',
@@ -6101,7 +6101,7 @@ async function loadHotKeywords(category) {
             // 保存标题和按钮
             const titleHtml = section.querySelector('div[style*="display: flex"]').outerHTML;
             
-            section.innerHTML = titleHtml + '<p class="placeholder-text">正在调用 DeepSeek AI 分析...</p>';
+            section.innerHTML = titleHtml + '<p class="placeholder-text">正在生成 AI 分析...</p>';
             
             fetch('/api/ai/analyze', {
                 method: 'POST',
