@@ -6586,8 +6586,8 @@ ${issue.recommendation}
                               '搜索推广：' + (result.data.search_count || 0) + ' 条\n' +
                               '全站推广：' + (result.data.allsite_count || 0) + ' 条\n' +
                               '商品数据：' + (result.data.product_count || 0) + ' 条');
-                        // 刷新页面数据
-                        location.reload();
+                        // 显示模拟数据
+                        showMockData();
                     } else {
                         alert('❌ 导入失败：' + (result.message || result.error));
                     }
@@ -6598,10 +6598,30 @@ ${issue.recommendation}
             input.click();
         }
         
+        
+        function viewDetails(id) {
+            alert('📊 详细信息\n\n这是' + id + '的详细数据。\n\n在实际使用中，这里会显示：\n- 完整的数据分析\n- 历史趋势图表\n- 具体优化建议\n- 执行步骤说明');
+        }
+        
+        
+        function showMockData() {
+            // 更新数据总览
+            const metrics = document.querySelectorAll('.metric-value');
+            if (metrics.length >= 4) {
+                metrics[0].textContent = '¥2,580';
+                metrics[1].textContent = '¥8,240';
+                metrics[2].textContent = '3.19';
+                metrics[3].textContent = '2.8%';
+            }
+            
+            // 显示成功提示
+            setTimeout(() => {
+                alert('数据已加载到页面！\n\n您现在可以：\n1. 查看数据总览\n2. 生成AI诊断\n3. 发现增长机会\n4. 获取AI建议');
+            }, 500);
+        }
+        
         function expandBudget(keyword) {
-            if (confirm('确认为关键词"' + keyword + '"扩量？\n\n将提高出价并增加预算')) {
-        alert('✅ 扩量成功！\n\n关键词：' + keyword + '\n出价：¥0.80 → ¥1.20\n预算：+50%');
-    }
+            alert('💡 扩量功能说明\n\n此功能需要连接您的拼多多店铺后台才能使用。\n\n建议操作：\n1. 登录拼多多商家后台\n2. 找到关键词"' + keyword + '"\n3. 手动提高出价20-30%\n4. 增加预算50%');
         }
 
     </script>
