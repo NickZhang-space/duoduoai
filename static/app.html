@@ -1228,6 +1228,135 @@
     </style>
 
     <style>
+        /* 社区交流样式 */
+        .post-editor {
+            background: #fff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e3e8ee;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s;
+        }
+        .form-textarea:focus {
+            outline: none;
+            border-color: #E84D1A;
+        }
+        
+        .community-filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e3e8ee;
+            background: #fff;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .filter-btn:hover {
+            border-color: #E84D1A;
+            color: #E84D1A;
+        }
+        .filter-btn.active {
+            background: #E84D1A;
+            color: #fff;
+            border-color: #E84D1A;
+        }
+        
+        .posts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .post-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        .post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+        .post-category {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .post-category.experience {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .post-category.question {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .post-category.discussion {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .post-category.news {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+        .post-author {
+            color: #666;
+            font-weight: 600;
+        }
+        .post-time {
+            color: #999;
+            margin-left: auto;
+        }
+        .post-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        .post-preview {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .post-footer {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .post-stat {
+            color: #999;
+            font-size: 14px;
+        }
+        .post-footer .btn-sm {
+            margin-left: auto;
+        }
+    </style>
+
+
+    <style>
         /* 数据导入提示 */
         .data-import-notice {
             display: flex;
@@ -1940,9 +2069,10 @@
         <!-- 标签页 -->
         <div class="tabs">
             <button class="tab main-tab active" onclick="switchMainTab('overview')">📊 数据总览</button>
-            <button class="tab main-tab" onclick="switchMainTab('diagnosis')">🔍 AIAI诊断中心</button>
+            <button class="tab main-tab" onclick="switchMainTab('diagnosis')">🔍 AI诊断中心</button>
             <button class="tab main-tab" onclick="switchMainTab('growth')">🚀 增长机会</button>
             <button class="tab main-tab" onclick="switchMainTab('ai-suggestions')">🤖 AI 建议</button>
+            <button class="tab main-tab" onclick="switchMainTab('community')">💬 社区交流</button>
             <button class="tab main-tab" onclick="switchMainTab('settings')">⚙️ 设置</button>
         </div>
 
@@ -2109,7 +2239,89 @@
                 </div>
             </section>
 
-            <!-- 5. 设置 -->
+            <!-- 5. 社区交流 -->
+            <section id="community-tab" class="main-tab-content">
+                <h2 class="section-title">💬 社区交流</h2>
+                
+                <!-- 发帖区域 -->
+                <div class="post-editor">
+                    <h3 style="margin-bottom: 16px;">发布话题</h3>
+                    <input type="text" id="post-title" placeholder="输入话题标题..." class="form-input" style="margin-bottom: 12px;">
+                    <textarea id="post-content" placeholder="分享你的经验、问题或想法..." class="form-textarea" rows="4"></textarea>
+                    <div style="display: flex; gap: 12px; margin-top: 12px;">
+                        <select id="post-category" class="form-input" style="width: 150px;">
+                            <option value="experience">经验分享</option>
+                            <option value="question">问题求助</option>
+                            <option value="discussion">讨论交流</option>
+                            <option value="news">行业资讯</option>
+                        </select>
+                        <button class="btn-primary" onclick="publishPost()">发布话题</button>
+                    </div>
+                </div>
+                
+                <!-- 话题分类 -->
+                <div class="community-filters">
+                    <button class="filter-btn active" onclick="filterPosts('all')">全部</button>
+                    <button class="filter-btn" onclick="filterPosts('experience')">经验分享</button>
+                    <button class="filter-btn" onclick="filterPosts('question')">问题求助</button>
+                    <button class="filter-btn" onclick="filterPosts('discussion')">讨论交流</button>
+                    <button class="filter-btn" onclick="filterPosts('news')">行业资讯</button>
+                </div>
+                
+                <!-- 话题列表 -->
+                <div id="posts-list" class="posts-list">
+                    <!-- 示例话题 -->
+                    <div class="post-card">
+                        <div class="post-header">
+                            <span class="post-category experience">经验分享</span>
+                            <span class="post-author">@优化师小王</span>
+                            <span class="post-time">2小时前</span>
+                        </div>
+                        <h3 class="post-title">搜索推广ROI从3提升到5的实战经验</h3>
+                        <p class="post-preview">分享一下我最近优化搜索推广的经验，通过调整关键词出价策略和优化创意，ROI从3.2提升到了5.1...</p>
+                        <div class="post-footer">
+                            <span class="post-stat">👁️ 128</span>
+                            <span class="post-stat">💬 15</span>
+                            <span class="post-stat">👍 23</span>
+                            <button class="btn-secondary btn-sm" onclick="viewPost(1)">查看详情</button>
+                        </div>
+                    </div>
+                    
+                    <div class="post-card">
+                        <div class="post-header">
+                            <span class="post-category question">问题求助</span>
+                            <span class="post-author">@新手卖家</span>
+                            <span class="post-time">5小时前</span>
+                        </div>
+                        <h3 class="post-title">全站推广点击率很低怎么办？</h3>
+                        <p class="post-preview">我的全站推广点击率只有1.5%，花费很高但转化很少，请问大家有什么优化建议吗...</p>
+                        <div class="post-footer">
+                            <span class="post-stat">👁️ 89</span>
+                            <span class="post-stat">💬 8</span>
+                            <span class="post-stat">👍 12</span>
+                            <button class="btn-secondary btn-sm" onclick="viewPost(2)">查看详情</button>
+                        </div>
+                    </div>
+                    
+                    <div class="post-card">
+                        <div class="post-header">
+                            <span class="post-category news">行业资讯</span>
+                            <span class="post-author">@行业观察</span>
+                            <span class="post-time">1天前</span>
+                        </div>
+                        <h3 class="post-title">拼多多3月推广政策更新解读</h3>
+                        <p class="post-preview">拼多多官方发布了3月份的推广政策调整，主要涉及搜索推广出价规则和全站推广流量分配...</p>
+                        <div class="post-footer">
+                            <span class="post-stat">👁️ 256</span>
+                            <span class="post-stat">💬 32</span>
+                            <span class="post-stat">👍 45</span>
+                            <button class="btn-secondary btn-sm" onclick="viewPost(3)">查看详情</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+                        <!-- 6. 设置 -->
             <section id="settings-main" class="main-section">
                 <h2 class="section-title">⚙️ 设置</h2>
                 <div class="settings-menu">
@@ -6036,6 +6248,54 @@ async function loadHotKeywords(category) {
         }
         
         // 增长机会扩量
+        
+        // 发布话题
+        function publishPost() {
+            const title = document.getElementById('post-title').value;
+            const content = document.getElementById('post-content').value;
+            const category = document.getElementById('post-category').value;
+            
+            if (!title || !content) {
+                alert('请填写标题和内容');
+                return;
+            }
+            
+            alert('话题发布成功！\n\n标题：' + title + '\n分类：' + category + '\n\n（实际功能需要后端支持）');
+            
+            // 清空表单
+            document.getElementById('post-title').value = '';
+            document.getElementById('post-content').value = '';
+        }
+        
+        // 筛选话题
+        function filterPosts(category) {
+            // 更新按钮状态
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 筛选逻辑（示例）
+            const posts = document.querySelectorAll('.post-card');
+            posts.forEach(post => {
+                if (category === 'all') {
+                    post.style.display = 'block';
+                } else {
+                    const postCategory = post.querySelector('.post-category').classList;
+                    if (postCategory.contains(category)) {
+                        post.style.display = 'block';
+                    } else {
+                        post.style.display = 'none';
+                    }
+                }
+            });
+        }
+        
+        // 查看话题详情
+        function viewPost(postId) {
+            alert('查看话题详情功能开发中\n话题ID: ' + postId);
+        }
+        
         function expandBudget(keyword) {
             alert('为关键词"' + keyword + '"扩量\n功能开发中...');
         }
