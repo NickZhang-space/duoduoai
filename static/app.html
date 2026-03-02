@@ -6820,35 +6820,22 @@ ${issue.recommendation}
             const post = tiebaPosts.find(p => p.id === postId);
             if (!post) return;
             
-            // 增加浏览量
-            post.views++;
-            
             const modal = document.getElementById('tieba-detail-modal');
             const body = document.getElementById('tieba-detail-body');
-            
-            const tagClass = post.category === '经验分享' ? 'share' : 
-                           post.category === '问题求助' ? 'help' : 
-                           post.category === '讨论交流' ? 'discuss' : 'news';
             
             body.innerHTML = `
                 <div class="tieba-detail-header">
                     <div class="tieba-detail-title">${post.title}</div>
                     <div class="tieba-detail-meta">
                         <span><strong>${post.author}</strong></span>
-                        <span>${post.level}</span>
-                        ${post.tags.map(tag => {
-                            const tClass = tag === '精华' ? 'jinghua' : tag === '热门' ? 'hot' : tagClass;
-                            return `<span class="tieba-post-tag ${tClass}">${tag}</span>`;
-                        }).join('')}
-                        <span>${post.time}</span>
-                        <span>👁️ ${post.views}</span>
+                        <span>${post.date}</span>
+                        <span class="tieba-category">${post.category}</span>
                     </div>
                 </div>
                 
-                <div class="tieba-detail-body">${post.content}</div>
+                <div class="tieba-detail-body">${post.content.replace(/\n/g, '<br>')}</div>
                 
                 <div class="tieba-detail-actions">
-                    <button class="btn-secondary" onclick="likeTiebaPost(${post.id})">👍 点赞 (${post.likes})</button>
                     <button class="btn-secondary" onclick="document.getElementById('tieba-reply-input-${post.id}').focus()">💬 回复</button>
                 </div>
                 
@@ -6863,18 +6850,12 @@ ${issue.recommendation}
                     <div class="tieba-reply-list">
                         ${post.replies.map((reply, index) => `
                             <div class="tieba-reply-item">
-                                
                                 <div class="tieba-reply-content">
                                     <div class="tieba-reply-header">
                                         <span class="tieba-reply-author">${reply.author}</span>
-                                        <span class="tieba-post-level">${reply.level}</span>
-                                        <span class="tieba-reply-time">${reply.time}</span>
+                                        <span class="tieba-reply-time">${reply.date}</span>
                                     </div>
-                                    <div class="tieba-reply-text">${reply.content}</div>
-                                    <div class="tieba-reply-actions">
-                                        <span class="tieba-reply-action" onclick="likeTiebaReply(${post.id}, ${index})">👍 ${reply.likes}</span>
-                                        <span class="tieba-reply-action" onclick="replyToUser(${post.id}, '${reply.author}')">回复</span>
-                                    </div>
+                                    <div class="tieba-reply-text">${reply.content.replace(/\n/g, '<br>')}</div>
                                 </div>
                             </div>
                         `).join('')}
