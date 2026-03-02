@@ -6005,8 +6005,8 @@ async function loadHotKeywords(category) {
                                 <div class="action-footer">
                                     <span class="observation-window">观察窗口：${s.observation_days}天</span>
                                     <div class="action-buttons">
-                                        <button class="btn-secondary btn-sm" onclick="alert('查看详情功能开发中')">查看详情</button>
-                                        <button class="btn-primary btn-sm" onclick="alert('一键执行功能开发中')">一键执行</button>
+                                        <button class="btn-secondary btn-sm" onclick="viewSuggestionDetail(s)">查看详情</button>
+                                        <button class="btn-primary btn-sm" onclick="executeAISuggestion(s)">一键执行</button>
                                     </div>
                                 </div>
                             </div>
@@ -6071,7 +6071,7 @@ async function loadHotKeywords(category) {
                                 <div class="diagnosis-problem">⚠️ ${issue.problem}</div>
                                 <div class="diagnosis-cause">🔍 根因：${issue.root_cause}</div>
                                 <div class="diagnosis-recommendation">💡 建议：${issue.recommendation}</div>
-                                <button class="btn-drill" onclick="alert('钻取详情功能开发中')">钻取详情</button>
+                                <button class="btn-drill" onclick="drillDiagnosis(issue)">钻取详情</button>
                             </div>
                         `).join('');
                     } else {
@@ -6133,7 +6133,7 @@ async function loadHotKeywords(category) {
                                 <div class="growth-potential">增长潜力：${opp.growth_potential}</div>
                                 <div class="growth-action">建议动作：${opp.recommended_action}</div>
                                 <div class="growth-budget">建议预算：${opp.budget_suggestion}</div>
-                                <button class="btn-drill" onclick="alert('立即扩量功能开发中')">立即扩量</button>
+                                <button class="btn-drill" onclick="expandOpportunity(opp)">立即扩量</button>
                             </div>
                         `).join('');
                     } else {
@@ -6147,6 +6147,72 @@ async function loadHotKeywords(category) {
                 console.error('API 调用失败:', error);
                 section.innerHTML = titleHtml + '<p class="placeholder-text" style="color: #dc2626;">网络错误，请稍后重试</p>';
             });
+        }
+        
+        
+        // 一键执行 AI 建议
+        async function executeAISuggestion(suggestion) {
+            if (!confirm('确认执行此优化建议？\n\n' + suggestion.suggestion)) {
+                return;
+            }
+            
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = '执行中...';
+            
+            try {
+                // 调用自动化 API 执行建议
+                const response = await fetch('/api/ai/execute', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        suggestion: suggestion,
+                        user_id: '1'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                btn.disabled = false;
+                btn.textContent = '一键执行';
+                
+                if (result.success) {
+                    alert('✅ 执行成功！\n\n' + (result.message || '优化操作已完成'));
+                    // 刷新建议列表
+                    generateAISuggestions();
+                } else {
+                    alert('❌ 执行失败：' + (result.message || result.error));
+                }
+            } catch (error) {
+                btn.disabled = false;
+                btn.textContent = '一键执行';
+                alert('❌ 执行失败：' + error.message);
+            }
+        }
+        
+        // 查看建议详情
+        function viewSuggestionDetail(suggestion) {
+            const detail = `
+📊 优化建议详情
+
+🔍 问题诊断：
+${suggestion.problem}
+
+💡 优化建议：
+${suggestion.suggestion}
+
+📈 预期效果：
+${suggestion.expected_effect}
+
+⚠️ 风险等级：${suggestion.risk_level}
+
+📅 观察窗口：${suggestion.observation_days}天
+
+---
+建议类型：${suggestion.type}
+            `.trim();
+            
+            alert(detail);
         }
         
         function getActionIcon(type) {
@@ -6294,6 +6360,94 @@ async function loadHotKeywords(category) {
         // 查看话题详情
         function viewPost(postId) {
             alert('查看话题详情功能开发中\n话题ID: ' + postId);
+        }
+        
+        
+        // 立即扩量
+        async function expandOpportunity(opportunity) {
+            if (!confirm('确认立即扩量？\n\n' + opportunity.item + '\n建议预算：' + opportunity.budget_suggestion)) {
+                return;
+            }
+            
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = '扩量中...';
+            
+            try {
+                const response = await fetch('/api/growth/expand', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        opportunity: opportunity,
+                        user_id: '1'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                btn.disabled = false;
+                btn.textContent = '立即扩量';
+                
+                if (result.success) {
+                    alert('✅ 扩量成功！\n\n' + (result.message || '已增加预算并提高出价'));
+                    generateGrowth();
+                } else {
+                    alert('❌ 扩量失败：' + (result.message || result.error));
+                }
+            } catch (error) {
+                btn.disabled = false;
+                btn.textContent = '立即扩量';
+                alert('❌ 扩量失败：' + error.message);
+            }
+        }
+        
+        
+        // 钻取详情
+        async function drillDiagnosis(issue) {
+            const detail = `
+🔍 诊断详情
+
+📊 问题项目：${issue.item}
+
+⚠️ 问题描述：
+${issue.problem}
+
+🔎 根本原因：
+${issue.root_cause}
+
+💡 优化建议：
+${issue.recommendation}
+
+📈 影响等级：${issue.impact}
+
+---
+建议立即采取行动以改善表现
+            `.trim();
+            
+            if (confirm(detail + '\n\n是否立即执行优化？')) {
+                // 调用自动化执行
+                try {
+                    const response = await fetch('/api/diagnosis/fix', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            issue: issue,
+                            user_id: '1'
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert('✅ 优化已执行！');
+                        generateDiagnosis();
+                    } else {
+                        alert('❌ 执行失败：' + (result.message || result.error));
+                    }
+                } catch (error) {
+                    alert('❌ 执行失败：' + error.message);
+                }
+            }
         }
         
         function expandBudget(keyword) {

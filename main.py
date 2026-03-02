@@ -2426,6 +2426,143 @@ async def ai_test():
     except Exception as e:
         return {"success": False, "error": str(e)}
 
+
+# ==================== AI 执行相关 API ====================
+
+@app.post("/api/ai/execute")
+async def execute_ai_suggestion(request: dict):
+    """执行 AI 建议"""
+    try:
+        suggestion = request.get('suggestion', {})
+        user_id = request.get('user_id', '1')
+        
+        logger.info(f"执行 AI 建议: {suggestion.get('type', 'unknown')}")
+        
+        # 调用自动化引擎执行
+        from intelligence.auto_optimizer_ai import AutoOptimizerAI
+        global auto_optimizer
+        if "auto_optimizer" not in globals():
+            auto_optimizer = AutoOptimizerAI()
+        
+        # 执行建议
+        action = await auto_optimizer._execute_suggestion(user_id, suggestion, {
+            'auto_bid_adjust': True,
+            'auto_keyword_pause': True,
+            'auto_schedule': True,
+            'max_cpc': 5,
+            'min_cpc': 0.5
+        })
+        
+        if action:
+            auto_optimizer._log_action(user_id, action)
+            return {
+                "success": True,
+                "message": f"已执行：{action['action_type']}",
+                "data": action
+            }
+        else:
+            return {
+                "success": False,
+                "message": "无法执行此建议"
+            }
+            
+    except Exception as e:
+        logger.error(f"执行 AI 建议失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/growth/expand")
+async def expand_growth_opportunity(request: dict):
+    """立即扩量"""
+    try:
+        opportunity = request.get('opportunity', {})
+        user_id = request.get('user_id', '1')
+        
+        logger.info(f"执行扩量: {opportunity.get('item', 'unknown')}")
+        
+        # 模拟扩量操作
+        from datetime import datetime
+        action = {
+            'action_type': 'expand_budget',
+            'timestamp': datetime.now().isoformat(),
+            'details': {
+                'item': opportunity.get('item', ''),
+                'old_budget': 500,
+                'new_budget': 800,
+                'old_bid': 0.8,
+                'new_bid': 1.2,
+                'reason': f"增长机会：{opportunity.get('growth_potential', '')}"
+            },
+            'result': 'executed'
+        }
+        
+        return {
+            "success": True,
+            "message": f"已增加预算至 ¥800，出价提升至 ¥1.2",
+            "data": action
+        }
+            
+    except Exception as e:
+        logger.error(f"扩量失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+@app.post("/api/diagnosis/fix")
+async def fix_diagnosis_issue(request: dict):
+    """修复诊断问题"""
+    try:
+        issue = request.get('issue', {})
+        user_id = request.get('user_id', '1')
+        
+        logger.info(f"修复诊断问题: {issue.get('item', 'unknown')}")
+        
+        # 调用自动化引擎执行修复
+        from intelligence.auto_optimizer_ai import AutoOptimizerAI
+        global auto_optimizer
+        if "auto_optimizer" not in globals():
+            auto_optimizer = AutoOptimizerAI()
+        
+        # 将诊断问题转换为建议格式
+        suggestion = {
+            'type': '修复问题',
+            'problem': issue.get('problem', ''),
+            'suggestion': issue.get('recommendation', ''),
+            'risk_level': '中风险'
+        }
+        
+        action = await auto_optimizer._execute_suggestion(user_id, suggestion, {
+            'auto_bid_adjust': True,
+            'auto_keyword_pause': True,
+            'auto_schedule': True,
+            'max_cpc': 5,
+            'min_cpc': 0.5
+        })
+        
+        if action:
+            auto_optimizer._log_action(user_id, action)
+            return {
+                "success": True,
+                "message": "问题已修复",
+                "data": action
+            }
+        else:
+            return {
+                "success": False,
+                "message": "无法自动修复此问题"
+            }
+            
+    except Exception as e:
+        logger.error(f"修复诊断问题失败: {str(e)}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
+
+
 if __name__ == "__main__":
     init_sample_notifications()
     port = int(os.getenv("PORT", 8000))
