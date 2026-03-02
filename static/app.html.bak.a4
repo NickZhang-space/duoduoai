@@ -1175,6 +1175,32 @@
             }
         }
 
+    
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .loading-spinner .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #E84D1A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        .loading-spinner p {
+            margin-top: 15px;
+            color: #999;
+            font-size: 0.9em;
+        }
     </style>
     <script src="/static/js/notifications.js"></script>
     <script src="/static/js/report.js"></script>
@@ -1290,6 +1316,32 @@
             </div>
             <!-- AI选品 -->
             <div id="product-section" class="section">
+                <!-- 欢迎横幅 -->
+                <div style="background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%); border-radius: 12px; padding: 25px 30px; margin-bottom: 30px; color: white; box-shadow: 0 4px 12px rgba(232, 77, 26, 0.2);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                        <div style="flex: 1; min-width: 250px;">
+                            <h2 style="margin: 0 0 8px 0; font-size: 1.5em;">👋 欢迎回来，<span id="welcome-username">用户</span>！</h2>
+                            <p style="margin: 0; opacity: 0.9; font-size: 0.9em;">
+                                <span id="welcome-plan">免费版</span> · 今日已分析 <strong id="welcome-count">0</strong> 次
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button onclick="switchTab('product')" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: all 0.3s;">
+                                🎯 AI选品
+                            </button>
+                            <button onclick="switchTab('ad')" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: all 0.3s;">
+                                📊 投流优化
+                            </button>
+                            <button onclick="switchTab('competitor')" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: all 0.3s;">
+                                🎯 竞品追踪
+                            </button>
+                            <button onclick="switchTab('smart-center')" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9em; transition: all 0.3s;">
+                                ✨ AI中心
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
                 <h2 style="margin-bottom: 15px; color: #333;">🎯 AI选品助手</h2>
                 <p style="color: #666; margin-bottom: 25px; line-height: 1.8;">不知道卖什么？告诉 AI 你的预算和经验，帮你从拼多多热销数据里<strong>筛出高潜力品类</strong>，少走弯路。</p>
 
@@ -3221,9 +3273,13 @@ async function generateReport(historyId) {
             if (competitors.length === 0) {
                 list.innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #999;">
-                        <div style="font-size: 3em; margin-bottom: 20px;">📦</div>
-                        <div style="font-size: 1.2em; margin-bottom: 10px;">还没有添加竞品</div>
-                        <div style="font-size: 0.9em;">点击"添加竞品"按钮开始跟踪竞争对手</div>
+                        <div style="font-size: 3em; margin-bottom: 20px;">🎯</div>
+                        <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 10px; color: #333;">还没有添加竞品</div>
+                        <div style="font-size: 0.9em; margin-bottom: 25px;">添加第一个竞品，开始监控价格变动</div>
+                        <button onclick="document.getElementById('competitor-modal').style.display='flex'" 
+                                style="background: linear-gradient(135deg, #E84D1A 0%, #FF6B35 100%); color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-size: 1em; font-weight: 500;">
+                            ➕ 添加竞品
+                        </button>
                     </div>
                 `;
                 return;
@@ -3549,7 +3605,7 @@ async function generateReport(historyId) {
 
             try {
                 document.getElementById('analysis-modal').style.display = 'flex';
-                document.getElementById('analysis-result').innerHTML = '<div style="text-align: center; padding: 40px;"><span class="loading"></span><br><br>AI 正在分析中，请稍候...</div>';
+                document.getElementById('analysis-result').innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>AI 正在分析中，请稍候...</p></div>';
 
                 const response = await fetch('/api/competitors/analyze', {
                     method: 'POST',
@@ -4589,6 +4645,40 @@ async function loadHotKeywords(category) {
         console.error('加载热门关键词失败:', error);
     }
 }
-</script>
+
+        // 加载欢迎横幅数据
+        async function loadWelcomeBanner() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return;
+                
+                // 获取用户信息
+                const userResponse = await fetch('/api/user/profile', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (userResponse.ok) {
+                    const userData = await userResponse.json();
+                    document.getElementById('welcome-username').textContent = userData.name || '用户';
+                    document.getElementById('welcome-plan').textContent = userData.plan || '免费版';
+                }
+                
+                // 获取今日分析次数
+                const statsResponse = await fetch('/api/dashboard-stats', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (statsResponse.ok) {
+                    const statsData = await statsResponse.json();
+                    document.getElementById('welcome-count').textContent = statsData.week_count || 0;
+                }
+            } catch (error) {
+                console.error('加载欢迎横幅失败:', error);
+            }
+        }
+    
+    </script>
+</div>
+</div>
 </body>
 </html>
