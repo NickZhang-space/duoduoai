@@ -1228,6 +1228,38 @@
     </style>
 
     <style>
+        /* 文件上传区域 */
+        .upload-area {
+            border: 2px dashed #E84D1A;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fff9f7;
+        }
+        .upload-area:hover {
+            background: #fff0eb;
+            border-color: #d4410f;
+        }
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        .upload-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        .upload-hint {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+
+
+    <style>
         /* 设置表单样式 */
         .settings-form {
             max-width: 600px;
@@ -2072,10 +2104,24 @@
                             <input type="text" id="shop-id" placeholder="请输入店铺ID" class="form-input">
                         </div>
                         <div class="form-group">
-                            <label>API授权状态</label>
-                            <div class="auth-status">
-                                <span class="status-badge unauthorized">未授权</span>
-                                <button class="btn-primary" style="margin-left: 10px;">立即授权</button>
+                            <label>数据导入</label>
+                            <div class="upload-area" onclick="document.getElementById('data-file').click()">
+                                <div class="upload-icon">📊</div>
+                                <div class="upload-text">点击上传数据表格</div>
+                                <div class="upload-hint">支持 Excel (.xlsx, .xls) 或 CSV 格式</div>
+                                <input type="file" id="data-file" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload(event)">
+                            </div>
+                            <div id="upload-status" style="margin-top: 10px; display: none;">
+                                <span class="status-badge authorized">✓ 已导入数据</span>
+                                <span id="upload-info" style="margin-left: 10px; color: #666; font-size: 14px;"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>数据模板下载</label>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn-secondary" onclick="downloadTemplate('search')">搜索推广模板</button>
+                                <button class="btn-secondary" onclick="downloadTemplate('allsite')">全站推广模板</button>
+                                <button class="btn-secondary" onclick="downloadTemplate('product')">商品数据模板</button>
                             </div>
                         </div>
                         <div class="form-group">
@@ -5693,6 +5739,29 @@ async function loadHotKeywords(category) {
         }
         function saveShopSettings() {
             alert('店铺设置已保存！');
+        }
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const fileName = file.name;
+                const fileSize = (file.size / 1024).toFixed(2) + ' KB';
+                document.getElementById('upload-status').style.display = 'block';
+                document.getElementById('upload-info').textContent = fileName + ' (' + fileSize + ')';
+                
+                // 这里可以添加实际的文件上传逻辑
+                // 暂时只显示文件信息
+                setTimeout(() => {
+                    alert('数据导入成功！\n文件：' + fileName + '\n大小：' + fileSize);
+                }, 500);
+            }
+        }
+        function downloadTemplate(type) {
+            const templates = {
+                'search': '搜索推广数据模板.xlsx',
+                'allsite': '全站推广数据模板.xlsx',
+                'product': '商品数据模板.xlsx'
+            };
+            alert('正在下载：' + templates[type] + '\n\n模板包含字段：\n- 日期\n- 关键词/商品名称\n- 花费\n- 点击\n- 转化\n- ROI\n等');
         }
         function saveNotificationSettings() {
             alert('通知设置已保存！');
