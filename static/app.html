@@ -2250,6 +2250,285 @@
             color: #1a1a2e;
             margin-bottom: 16px;
         }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 16px;
+            }
+            
+            .navbar-content {
+                height: 60px;
+            }
+            
+            .logo {
+                font-size: 1.1em;
+            }
+            
+            .user-badge {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+            
+            .btn-logout {
+                font-size: 0.85em;
+                padding: 8px 16px;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 0 16px;
+            }
+            
+            .tab {
+                font-size: 0.9em;
+                padding: 10px 16px;
+                white-space: nowrap;
+            }
+            
+            .container {
+                padding: 16px;
+            }
+            
+            .section-title {
+                font-size: 1.3em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .metric-card {
+                padding: 16px;
+            }
+            
+            .metric-label {
+                font-size: 0.85em;
+            }
+            
+            .metric-value {
+                font-size: 1.3em;
+            }
+            
+            .upload-zone {
+                padding: 30px 20px;
+            }
+            
+            .upload-icon {
+                font-size: 2.5em;
+            }
+            
+            .upload-text {
+                font-size: 1em;
+            }
+            
+            .comparison-box {
+                flex-direction: column;
+                padding: 16px;
+            }
+            
+            .comparison-stats {
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+            }
+            
+            .comparison-arrow {
+                transform: rotate(90deg);
+                font-size: 1.5em;
+            }
+            
+            .diagnosis-card, .growth-card {
+                padding: 16px;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .action-step {
+                padding: 12px;
+            }
+            
+            .onboarding-content {
+                padding: 24px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.5em;
+            }
+            
+            .onboarding-step {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-content {
+                height: 56px;
+            }
+            
+            .logo {
+                font-size: 1em;
+            }
+            
+            .user-menu {
+                gap: 12px;
+            }
+            
+            .user-badge {
+                font-size: 0.8em;
+                padding: 4px 10px;
+            }
+            
+            .btn-logout {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+            
+            .tab {
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+            
+            .container {
+                padding: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-card {
+                padding: 12px;
+            }
+            
+            .comparison-title {
+                font-size: 1em;
+            }
+            
+            .comparison-value {
+                font-size: 1.2em;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-step-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.9em;
+            }
+            
+            .onboarding-content {
+                padding: 20px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.3em;
+            }
+            
+            .onboarding-step-icon {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Skeleton Screen 加载状态 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .skeleton-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-title {
+            height: 24px;
+            width: 60%;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-text {
+            height: 16px;
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .skeleton-text.short {
+            width: 70%;
+        }
+        
+        .skeleton-text.medium {
+            width: 85%;
+        }
+        
+        .skeleton-button {
+            height: 40px;
+            width: 120px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #E84D1A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 16px;
+            color: #666;
+            font-size: 1em;
+        }
     </style>
 
 
@@ -2596,6 +2875,285 @@
             color: #1a1a2e;
             margin-bottom: 16px;
         }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 16px;
+            }
+            
+            .navbar-content {
+                height: 60px;
+            }
+            
+            .logo {
+                font-size: 1.1em;
+            }
+            
+            .user-badge {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+            
+            .btn-logout {
+                font-size: 0.85em;
+                padding: 8px 16px;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 0 16px;
+            }
+            
+            .tab {
+                font-size: 0.9em;
+                padding: 10px 16px;
+                white-space: nowrap;
+            }
+            
+            .container {
+                padding: 16px;
+            }
+            
+            .section-title {
+                font-size: 1.3em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .metric-card {
+                padding: 16px;
+            }
+            
+            .metric-label {
+                font-size: 0.85em;
+            }
+            
+            .metric-value {
+                font-size: 1.3em;
+            }
+            
+            .upload-zone {
+                padding: 30px 20px;
+            }
+            
+            .upload-icon {
+                font-size: 2.5em;
+            }
+            
+            .upload-text {
+                font-size: 1em;
+            }
+            
+            .comparison-box {
+                flex-direction: column;
+                padding: 16px;
+            }
+            
+            .comparison-stats {
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+            }
+            
+            .comparison-arrow {
+                transform: rotate(90deg);
+                font-size: 1.5em;
+            }
+            
+            .diagnosis-card, .growth-card {
+                padding: 16px;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .action-step {
+                padding: 12px;
+            }
+            
+            .onboarding-content {
+                padding: 24px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.5em;
+            }
+            
+            .onboarding-step {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-content {
+                height: 56px;
+            }
+            
+            .logo {
+                font-size: 1em;
+            }
+            
+            .user-menu {
+                gap: 12px;
+            }
+            
+            .user-badge {
+                font-size: 0.8em;
+                padding: 4px 10px;
+            }
+            
+            .btn-logout {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+            
+            .tab {
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+            
+            .container {
+                padding: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-card {
+                padding: 12px;
+            }
+            
+            .comparison-title {
+                font-size: 1em;
+            }
+            
+            .comparison-value {
+                font-size: 1.2em;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-step-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.9em;
+            }
+            
+            .onboarding-content {
+                padding: 20px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.3em;
+            }
+            
+            .onboarding-step-icon {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Skeleton Screen 加载状态 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .skeleton-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-title {
+            height: 24px;
+            width: 60%;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-text {
+            height: 16px;
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .skeleton-text.short {
+            width: 70%;
+        }
+        
+        .skeleton-text.medium {
+            width: 85%;
+        }
+        
+        .skeleton-button {
+            height: 40px;
+            width: 120px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #E84D1A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 16px;
+            color: #666;
+            font-size: 1em;
+        }
     </style>
 
 
@@ -2926,6 +3484,285 @@
             font-weight: bold;
             color: #1a1a2e;
             margin-bottom: 16px;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 16px;
+            }
+            
+            .navbar-content {
+                height: 60px;
+            }
+            
+            .logo {
+                font-size: 1.1em;
+            }
+            
+            .user-badge {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+            
+            .btn-logout {
+                font-size: 0.85em;
+                padding: 8px 16px;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 0 16px;
+            }
+            
+            .tab {
+                font-size: 0.9em;
+                padding: 10px 16px;
+                white-space: nowrap;
+            }
+            
+            .container {
+                padding: 16px;
+            }
+            
+            .section-title {
+                font-size: 1.3em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .metric-card {
+                padding: 16px;
+            }
+            
+            .metric-label {
+                font-size: 0.85em;
+            }
+            
+            .metric-value {
+                font-size: 1.3em;
+            }
+            
+            .upload-zone {
+                padding: 30px 20px;
+            }
+            
+            .upload-icon {
+                font-size: 2.5em;
+            }
+            
+            .upload-text {
+                font-size: 1em;
+            }
+            
+            .comparison-box {
+                flex-direction: column;
+                padding: 16px;
+            }
+            
+            .comparison-stats {
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+            }
+            
+            .comparison-arrow {
+                transform: rotate(90deg);
+                font-size: 1.5em;
+            }
+            
+            .diagnosis-card, .growth-card {
+                padding: 16px;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .action-step {
+                padding: 12px;
+            }
+            
+            .onboarding-content {
+                padding: 24px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.5em;
+            }
+            
+            .onboarding-step {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-content {
+                height: 56px;
+            }
+            
+            .logo {
+                font-size: 1em;
+            }
+            
+            .user-menu {
+                gap: 12px;
+            }
+            
+            .user-badge {
+                font-size: 0.8em;
+                padding: 4px 10px;
+            }
+            
+            .btn-logout {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+            
+            .tab {
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+            
+            .container {
+                padding: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-card {
+                padding: 12px;
+            }
+            
+            .comparison-title {
+                font-size: 1em;
+            }
+            
+            .comparison-value {
+                font-size: 1.2em;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-step-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.9em;
+            }
+            
+            .onboarding-content {
+                padding: 20px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.3em;
+            }
+            
+            .onboarding-step-icon {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Skeleton Screen 加载状态 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .skeleton-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-title {
+            height: 24px;
+            width: 60%;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-text {
+            height: 16px;
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .skeleton-text.short {
+            width: 70%;
+        }
+        
+        .skeleton-text.medium {
+            width: 85%;
+        }
+        
+        .skeleton-button {
+            height: 40px;
+            width: 120px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #E84D1A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 16px;
+            color: #666;
+            font-size: 1em;
         }
     </style>
 
@@ -3398,6 +4235,285 @@
             font-weight: bold;
             color: #1a1a2e;
             margin-bottom: 16px;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 16px;
+            }
+            
+            .navbar-content {
+                height: 60px;
+            }
+            
+            .logo {
+                font-size: 1.1em;
+            }
+            
+            .user-badge {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+            
+            .btn-logout {
+                font-size: 0.85em;
+                padding: 8px 16px;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 0 16px;
+            }
+            
+            .tab {
+                font-size: 0.9em;
+                padding: 10px 16px;
+                white-space: nowrap;
+            }
+            
+            .container {
+                padding: 16px;
+            }
+            
+            .section-title {
+                font-size: 1.3em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .metric-card {
+                padding: 16px;
+            }
+            
+            .metric-label {
+                font-size: 0.85em;
+            }
+            
+            .metric-value {
+                font-size: 1.3em;
+            }
+            
+            .upload-zone {
+                padding: 30px 20px;
+            }
+            
+            .upload-icon {
+                font-size: 2.5em;
+            }
+            
+            .upload-text {
+                font-size: 1em;
+            }
+            
+            .comparison-box {
+                flex-direction: column;
+                padding: 16px;
+            }
+            
+            .comparison-stats {
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+            }
+            
+            .comparison-arrow {
+                transform: rotate(90deg);
+                font-size: 1.5em;
+            }
+            
+            .diagnosis-card, .growth-card {
+                padding: 16px;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .action-step {
+                padding: 12px;
+            }
+            
+            .onboarding-content {
+                padding: 24px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.5em;
+            }
+            
+            .onboarding-step {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-content {
+                height: 56px;
+            }
+            
+            .logo {
+                font-size: 1em;
+            }
+            
+            .user-menu {
+                gap: 12px;
+            }
+            
+            .user-badge {
+                font-size: 0.8em;
+                padding: 4px 10px;
+            }
+            
+            .btn-logout {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+            
+            .tab {
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+            
+            .container {
+                padding: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-card {
+                padding: 12px;
+            }
+            
+            .comparison-title {
+                font-size: 1em;
+            }
+            
+            .comparison-value {
+                font-size: 1.2em;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-step-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.9em;
+            }
+            
+            .onboarding-content {
+                padding: 20px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.3em;
+            }
+            
+            .onboarding-step-icon {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Skeleton Screen 加载状态 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .skeleton-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-title {
+            height: 24px;
+            width: 60%;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-text {
+            height: 16px;
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .skeleton-text.short {
+            width: 70%;
+        }
+        
+        .skeleton-text.medium {
+            width: 85%;
+        }
+        
+        .skeleton-button {
+            height: 40px;
+            width: 120px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #E84D1A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 16px;
+            color: #666;
+            font-size: 1em;
         }
     </style>
 
@@ -3892,6 +5008,285 @@
             font-weight: bold;
             color: #1a1a2e;
             margin-bottom: 16px;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 16px;
+            }
+            
+            .navbar-content {
+                height: 60px;
+            }
+            
+            .logo {
+                font-size: 1.1em;
+            }
+            
+            .user-badge {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+            
+            .btn-logout {
+                font-size: 0.85em;
+                padding: 8px 16px;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 0 16px;
+            }
+            
+            .tab {
+                font-size: 0.9em;
+                padding: 10px 16px;
+                white-space: nowrap;
+            }
+            
+            .container {
+                padding: 16px;
+            }
+            
+            .section-title {
+                font-size: 1.3em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .metric-card {
+                padding: 16px;
+            }
+            
+            .metric-label {
+                font-size: 0.85em;
+            }
+            
+            .metric-value {
+                font-size: 1.3em;
+            }
+            
+            .upload-zone {
+                padding: 30px 20px;
+            }
+            
+            .upload-icon {
+                font-size: 2.5em;
+            }
+            
+            .upload-text {
+                font-size: 1em;
+            }
+            
+            .comparison-box {
+                flex-direction: column;
+                padding: 16px;
+            }
+            
+            .comparison-stats {
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+            }
+            
+            .comparison-arrow {
+                transform: rotate(90deg);
+                font-size: 1.5em;
+            }
+            
+            .diagnosis-card, .growth-card {
+                padding: 16px;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .action-step {
+                padding: 12px;
+            }
+            
+            .onboarding-content {
+                padding: 24px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.5em;
+            }
+            
+            .onboarding-step {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-content {
+                height: 56px;
+            }
+            
+            .logo {
+                font-size: 1em;
+            }
+            
+            .user-menu {
+                gap: 12px;
+            }
+            
+            .user-badge {
+                font-size: 0.8em;
+                padding: 4px 10px;
+            }
+            
+            .btn-logout {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+            
+            .tab {
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+            
+            .container {
+                padding: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-card {
+                padding: 12px;
+            }
+            
+            .comparison-title {
+                font-size: 1em;
+            }
+            
+            .comparison-value {
+                font-size: 1.2em;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-step-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.9em;
+            }
+            
+            .onboarding-content {
+                padding: 20px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.3em;
+            }
+            
+            .onboarding-step-icon {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Skeleton Screen 加载状态 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .skeleton-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-title {
+            height: 24px;
+            width: 60%;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-text {
+            height: 16px;
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .skeleton-text.short {
+            width: 70%;
+        }
+        
+        .skeleton-text.medium {
+            width: 85%;
+        }
+        
+        .skeleton-button {
+            height: 40px;
+            width: 120px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #E84D1A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 16px;
+            color: #666;
+            font-size: 1em;
         }
     </style>
 
@@ -4428,6 +5823,285 @@
             font-weight: bold;
             color: #1a1a2e;
             margin-bottom: 16px;
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 16px;
+            }
+            
+            .navbar-content {
+                height: 60px;
+            }
+            
+            .logo {
+                font-size: 1.1em;
+            }
+            
+            .user-badge {
+                font-size: 0.85em;
+                padding: 6px 12px;
+            }
+            
+            .btn-logout {
+                font-size: 0.85em;
+                padding: 8px 16px;
+            }
+            
+            .tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 0 16px;
+            }
+            
+            .tab {
+                font-size: 0.9em;
+                padding: 10px 16px;
+                white-space: nowrap;
+            }
+            
+            .container {
+                padding: 16px;
+            }
+            
+            .section-title {
+                font-size: 1.3em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .metric-card {
+                padding: 16px;
+            }
+            
+            .metric-label {
+                font-size: 0.85em;
+            }
+            
+            .metric-value {
+                font-size: 1.3em;
+            }
+            
+            .upload-zone {
+                padding: 30px 20px;
+            }
+            
+            .upload-icon {
+                font-size: 2.5em;
+            }
+            
+            .upload-text {
+                font-size: 1em;
+            }
+            
+            .comparison-box {
+                flex-direction: column;
+                padding: 16px;
+            }
+            
+            .comparison-stats {
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+            }
+            
+            .comparison-arrow {
+                transform: rotate(90deg);
+                font-size: 1.5em;
+            }
+            
+            .diagnosis-card, .growth-card {
+                padding: 16px;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .action-step {
+                padding: 12px;
+            }
+            
+            .onboarding-content {
+                padding: 24px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.5em;
+            }
+            
+            .onboarding-step {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-content {
+                height: 56px;
+            }
+            
+            .logo {
+                font-size: 1em;
+            }
+            
+            .user-menu {
+                gap: 12px;
+            }
+            
+            .user-badge {
+                font-size: 0.8em;
+                padding: 4px 10px;
+            }
+            
+            .btn-logout {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+            
+            .tab {
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+            
+            .container {
+                padding: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-card {
+                padding: 12px;
+            }
+            
+            .comparison-title {
+                font-size: 1em;
+            }
+            
+            .comparison-value {
+                font-size: 1.2em;
+            }
+            
+            .diagnosis-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-step-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.9em;
+            }
+            
+            .onboarding-content {
+                padding: 20px;
+            }
+            
+            .onboarding-title {
+                font-size: 1.3em;
+            }
+            
+            .onboarding-step-icon {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Skeleton Screen 加载状态 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        
+        .skeleton-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-title {
+            height: 24px;
+            width: 60%;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .skeleton-text {
+            height: 16px;
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .skeleton-text.short {
+            width: 70%;
+        }
+        
+        .skeleton-text.medium {
+            width: 85%;
+        }
+        
+        .skeleton-button {
+            height: 40px;
+            width: 120px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-overlay.show {
+            display: flex;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #E84D1A;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            margin-top: 16px;
+            color: #666;
+            font-size: 1em;
         }
     </style>
 
@@ -8888,6 +10562,77 @@ ${issue.recommendation}
         function closeCreateExperimentModal() {
             // 关闭模态框逻辑
         }
+
+
+        // 全局错误处理
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            // 不显示给用户，只记录到控制台
+        });
+        
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Unhandled promise rejection:', e.reason);
+        });
+        
+        // 显示加载状态
+        function showLoading(text = '加载中...') {
+            const overlay = document.getElementById('loading-overlay');
+            const loadingText = document.getElementById('loading-text');
+            if (overlay) {
+                overlay.classList.add('show');
+                if (loadingText) {
+                    loadingText.textContent = text;
+                }
+            }
+        }
+        
+        // 隐藏加载状态
+        function hideLoading() {
+            const overlay = document.getElementById('loading-overlay');
+            if (overlay) {
+                overlay.classList.remove('show');
+            }
+        }
+        
+        // 安全的 fetch 封装
+        async function safeFetch(url, options = {}) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    throw new Error('HTTP error! status: ' + response.status);
+                }
+                return await response.json();
+            } catch (error) {
+                console.error('Fetch error:', error);
+                throw error;
+            }
+        }
+        
+        // 图片懒加载
+        function lazyLoadImages() {
+            const images = document.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            images.forEach(img => imageObserver.observe(img));
+        }
+        
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            lazyLoadImages();
+            // 隐藏初始加载状态
+            setTimeout(() => {
+                hideLoading();
+            }, 500);
+        });
 
 </script>
 
