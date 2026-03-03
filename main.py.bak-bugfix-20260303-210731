@@ -39,8 +39,7 @@ from database import (
     Shop, Competitor, CompetitorSnapshot,
     get_db, User, Order, UsageLog, AnalysisHistory,
     verify_password, get_password_hash, create_access_token, decode_access_token,
-    PLANS, get_plan_info, check_usage_limit, increment_usage,
-    SessionLocal
+    PLANS, get_plan_info, check_usage_limit, increment_usage
 )
 from sqlalchemy.orm import Session
 from sqlalchemy import func as sa_func
@@ -469,7 +468,7 @@ async def upload_promotion_data(
             for _, row in df.iterrows():
                 # 提取通用字段
                 data = {
-                    "user_id": current_user.id,
+                    "user_id": current_user["id"],
                     "data_type": data_type,
                 }
                 
@@ -546,80 +545,6 @@ async def upload_promotion_data(
             "message": f"数据导入失败: {str(e)}"
         }
 
-@app.post("/api/upload-data-json")
-async def upload_promotion_data_json(
-    request: dict,
-    current_user: dict = Depends(get_current_user)
-):
-    """上传推广数据 CSV (JSON格式)"""
-    try:
-        from database import UserPromotionData
-        
-        csv_content = request.get('csv_content', '')
-        data_type = request.get('data_type', 'search')
-        
-        if not csv_content:
-            raise HTTPException(status_code=400, detail="CSV内容不能为空")
-        
-        import io
-        import pandas as pd
-        
-        df = pd.read_csv(io.StringIO(csv_content))
-        
-        db = SessionLocal()
-        imported_count = 0
-        
-        try:
-            for _, row in df.iterrows():
-                data = {
-                    "user_id": current_user.id,
-                    "data_type": data_type,
-                }
-                
-                column_mapping = {
-                    "关键词": "keyword", "keyword": "keyword",
-                    "商品名称": "product_name", "product_name": "product_name", "产品名称": "product_name",
-                    "花费": "spend", "spend": "spend", "消耗": "spend",
-                    "销售额": "sales", "sales": "sales", "成交额": "sales",
-                    "ROI": "roi", "roi": "roi",
-                    "点击量": "clicks", "clicks": "clicks",
-                    "展现量": "impressions", "impressions": "impressions", "曝光量": "impressions",
-                    "点击率": "ctr", "ctr": "ctr",
-                    "转化率": "conversion_rate", "conversion_rate": "conversion_rate",
-                    "平均点击单价": "cpc", "cpc": "cpc", "点击单价": "cpc",
-                }
-                
-                for col_name, field_name in column_mapping.items():
-                    if col_name in row.index and pd.notna(row[col_name]):
-                        value = row[col_name]
-                        if isinstance(value, str):
-                            value = value.replace('¥', '').replace(',', '').replace('%', '')
-                        try:
-                            data[field_name] = float(value)
-                        except:
-                            data[field_name] = value
-                
-                promotion_data = UserPromotionData(**data)
-                db.add(promotion_data)
-                imported_count += 1
-            
-            db.commit()
-            
-            return {
-                "success": True,
-                "message": f"成功导入 {imported_count} 条数据",
-                "count": imported_count
-            }
-            
-        except Exception as e:
-            db.rollback()
-            raise HTTPException(status_code=500, detail=f"数据导入失败: {str(e)}")
-        finally:
-            db.close()
-            
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"上传失败: {str(e)}")
-
 @app.get("/api/user-data")
 async def get_user_promotion_data(
     data_type: str = Query(None),  # search, allsite, scene
@@ -633,7 +558,7 @@ async def get_user_promotion_data(
         from sqlalchemy import desc
         
         query = db.query(UserPromotionData).filter(
-            UserPromotionData.user_id == current_user.id
+            UserPromotionData.user_id == current_user["id"]
         )
         
         if data_type:
@@ -642,11 +567,11 @@ async def get_user_promotion_data(
         data = query.order_by(desc(UserPromotionData.created_at)).limit(limit).all()
         
         # 计算汇总数据
-        # 计算汇总数据
-        total_spend = sum(d.spend or 0 for d in data)
-        total_sales = sum(d.sales or 0 for d in data)
+        total_spend = sum(d.spend for d in data)
+        total_sales = sum(d.sales for d in data)
         avg_roi = total_sales / total_spend if total_spend > 0 else 0
         profit = total_sales - total_spend
+        
         return {
             "success": True,
             "data": [
@@ -1975,17 +1900,6 @@ async def analyze_competitors(
 async def root():
     return FileResponse("static/index.html")
 
-
-@app.get("/robots.txt")
-async def robots():
-    """返回 robots.txt"""
-    return FileResponse("static/robots.txt", media_type="text/plain")
-
-@app.get("/sitemap.xml")
-async def sitemap():
-    """返回 sitemap.xml"""
-    return FileResponse("static/sitemap.xml", media_type="application/xml")
-
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # ==================== 手动支付提交 ====================
@@ -2685,7 +2599,7 @@ async def ai_analyze(request: Request, current_user: dict = Depends(get_current_
             
             # 获取用户最近的推广数据
             user_data = db.query(UserPromotionData).filter(
-                UserPromotionData.user_id == current_user.id,
+                UserPromotionData.user_id == current_user["id"],
                 UserPromotionData.data_type == data_type
             ).order_by(desc(UserPromotionData.created_at)).limit(100).all()
             
@@ -3685,7 +3599,7 @@ async def get_notifications(
         from sqlalchemy import desc
         
         query = db.query(Notification).filter(
-            Notification.user_id == current_user.id
+            Notification.user_id == current_user["id"]
         )
         
         if unread_only:
@@ -3720,11 +3634,11 @@ async def update_notification_settings(
         from database import NotificationSettings
         
         settings = db.query(NotificationSettings).filter(
-            NotificationSettings.user_id == current_user.id
+            NotificationSettings.user_id == current_user["id"]
         ).first()
         
         if not settings:
-            settings = NotificationSettings(user_id=current_user.id)
+            settings = NotificationSettings(user_id=current_user["id"])
             db.add(settings)
         
         if "notify_risks" in request:
@@ -3753,7 +3667,7 @@ async def get_ab_tests(current_user: dict = Depends(get_current_user)):
         from sqlalchemy import desc
         
         tests = db.query(ABTest).filter(
-            ABTest.user_id == current_user.id
+            ABTest.user_id == current_user["id"]
         ).order_by(desc(ABTest.created_at)).all()
         
         return {
@@ -3791,7 +3705,7 @@ async def create_ab_test(request: dict, current_user: dict = Depends(get_current
         from database import ABTest
         
         test = ABTest(
-            user_id=current_user.id,
+            user_id=current_user["id"],
             name=request.get("name", "新实验"),
             description=request.get("description", ""),
             variant_a_name=request.get("variant_a_name", "对照组"),
@@ -3822,7 +3736,7 @@ async def update_ab_test_data(
         
         test = db.query(ABTest).filter(
             ABTest.id == test_id,
-            ABTest.user_id == current_user.id
+            ABTest.user_id == current_user["id"]
         ).first()
         
         if not test:
@@ -3850,6 +3764,4 @@ if __name__ == "__main__":
     init_sample_notifications()
     port = int(os.getenv("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
-
-
 
