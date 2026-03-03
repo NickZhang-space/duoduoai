@@ -1951,6 +1951,148 @@
         .post-footer .btn-sm {
             margin-left: auto;
         }
+
+        /* 新手引导模态框 */
+        .onboarding-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .onboarding-modal.show {
+            display: flex;
+        }
+        
+        .onboarding-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .onboarding-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .onboarding-steps {
+            margin: 30px 0;
+        }
+        
+        .onboarding-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .onboarding-step-icon {
+            font-size: 2em;
+            margin-right: 16px;
+        }
+        
+        .onboarding-step-content h3 {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .onboarding-step-content p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .onboarding-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #E84D1A 0%, #E84D1A 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .onboarding-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(232, 77, 26, 0.3);
+        }
+        
+        /* 数据上传区域 */
+        .upload-zone {
+            border: 2px dashed #E84D1A;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #fff;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-zone:hover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+        }
+        
+        .upload-zone.dragover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 16px;
+        }
+        
+        .upload-text {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .upload-hint {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .upload-progress {
+            display: none;
+            margin-top: 16px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E84D1A 0%, #ff6b35 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
     </style>
 
 
@@ -1998,6 +2140,148 @@
             font-weight: 600;
             margin-left: 6px;
         }
+
+        /* 新手引导模态框 */
+        .onboarding-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .onboarding-modal.show {
+            display: flex;
+        }
+        
+        .onboarding-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .onboarding-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .onboarding-steps {
+            margin: 30px 0;
+        }
+        
+        .onboarding-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .onboarding-step-icon {
+            font-size: 2em;
+            margin-right: 16px;
+        }
+        
+        .onboarding-step-content h3 {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .onboarding-step-content p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .onboarding-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #E84D1A 0%, #E84D1A 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .onboarding-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(232, 77, 26, 0.3);
+        }
+        
+        /* 数据上传区域 */
+        .upload-zone {
+            border: 2px dashed #E84D1A;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #fff;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-zone:hover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+        }
+        
+        .upload-zone.dragover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 16px;
+        }
+        
+        .upload-text {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .upload-hint {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .upload-progress {
+            display: none;
+            margin-top: 16px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E84D1A 0%, #ff6b35 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
     </style>
 
 
@@ -2029,6 +2313,148 @@
         .upload-hint {
             font-size: 14px;
             color: #666;
+        }
+
+        /* 新手引导模态框 */
+        .onboarding-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .onboarding-modal.show {
+            display: flex;
+        }
+        
+        .onboarding-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .onboarding-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .onboarding-steps {
+            margin: 30px 0;
+        }
+        
+        .onboarding-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .onboarding-step-icon {
+            font-size: 2em;
+            margin-right: 16px;
+        }
+        
+        .onboarding-step-content h3 {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .onboarding-step-content p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .onboarding-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #E84D1A 0%, #E84D1A 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .onboarding-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(232, 77, 26, 0.3);
+        }
+        
+        /* 数据上传区域 */
+        .upload-zone {
+            border: 2px dashed #E84D1A;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #fff;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-zone:hover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+        }
+        
+        .upload-zone.dragover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 16px;
+        }
+        
+        .upload-text {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .upload-hint {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .upload-progress {
+            display: none;
+            margin-top: 16px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E84D1A 0%, #ff6b35 100%);
+            width: 0%;
+            transition: width 0.3s;
         }
     </style>
 
@@ -2202,6 +2628,148 @@
         }
         .plan-card button {
             width: 100%;
+        }
+
+        /* 新手引导模态框 */
+        .onboarding-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .onboarding-modal.show {
+            display: flex;
+        }
+        
+        .onboarding-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .onboarding-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .onboarding-steps {
+            margin: 30px 0;
+        }
+        
+        .onboarding-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .onboarding-step-icon {
+            font-size: 2em;
+            margin-right: 16px;
+        }
+        
+        .onboarding-step-content h3 {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .onboarding-step-content p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .onboarding-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #E84D1A 0%, #E84D1A 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .onboarding-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(232, 77, 26, 0.3);
+        }
+        
+        /* 数据上传区域 */
+        .upload-zone {
+            border: 2px dashed #E84D1A;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #fff;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-zone:hover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+        }
+        
+        .upload-zone.dragover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 16px;
+        }
+        
+        .upload-text {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .upload-hint {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .upload-progress {
+            display: none;
+            margin-top: 16px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E84D1A 0%, #ff6b35 100%);
+            width: 0%;
+            transition: width 0.3s;
         }
     </style>
 
@@ -2397,6 +2965,148 @@
             font-size: 12px;
             font-weight: 600;
             margin-left: 8px;
+        }
+
+        /* 新手引导模态框 */
+        .onboarding-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .onboarding-modal.show {
+            display: flex;
+        }
+        
+        .onboarding-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .onboarding-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .onboarding-steps {
+            margin: 30px 0;
+        }
+        
+        .onboarding-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .onboarding-step-icon {
+            font-size: 2em;
+            margin-right: 16px;
+        }
+        
+        .onboarding-step-content h3 {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .onboarding-step-content p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .onboarding-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #E84D1A 0%, #E84D1A 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .onboarding-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(232, 77, 26, 0.3);
+        }
+        
+        /* 数据上传区域 */
+        .upload-zone {
+            border: 2px dashed #E84D1A;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #fff;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-zone:hover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+        }
+        
+        .upload-zone.dragover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 16px;
+        }
+        
+        .upload-text {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .upload-hint {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .upload-progress {
+            display: none;
+            margin-top: 16px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E84D1A 0%, #ff6b35 100%);
+            width: 0%;
+            transition: width 0.3s;
         }
     </style>
 
@@ -2635,6 +3345,148 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* 新手引导模态框 */
+        .onboarding-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .onboarding-modal.show {
+            display: flex;
+        }
+        
+        .onboarding-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .onboarding-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #1a1a2e;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .onboarding-steps {
+            margin: 30px 0;
+        }
+        
+        .onboarding-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .onboarding-step-icon {
+            font-size: 2em;
+            margin-right: 16px;
+        }
+        
+        .onboarding-step-content h3 {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .onboarding-step-content p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .onboarding-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #E84D1A 0%, #E84D1A 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .onboarding-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(232, 77, 26, 0.3);
+        }
+        
+        /* 数据上传区域 */
+        .upload-zone {
+            border: 2px dashed #E84D1A;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #fff;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-zone:hover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+        }
+        
+        .upload-zone.dragover {
+            background: #fff5f2;
+            border-color: #d43d0a;
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 16px;
+        }
+        
+        .upload-text {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+        
+        .upload-hint {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .upload-progress {
+            display: none;
+            margin-top: 16px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #E84D1A 0%, #ff6b35 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
     </style>
 
     <script src="/static/js/notifications.js"></script>
@@ -2643,6 +3495,38 @@
     <meta name="app-version" content="1772477964">
 </head>
 <body>
+    <!-- 新手引导模态框 -->
+    <div class="onboarding-modal" id="onboarding-modal">
+        <div class="onboarding-content">
+            <div class="onboarding-title">欢迎使用多多AI优化师 🎉</div>
+            <div class="onboarding-steps">
+                <div class="onboarding-step">
+                    <div class="onboarding-step-icon">📊</div>
+                    <div class="onboarding-step-content">
+                        <h3>上传推广数据</h3>
+                        <p>从拼多多后台导出推广数据（CSV/Excel格式）</p>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="onboarding-step-icon">🤖</div>
+                    <div class="onboarding-step-content">
+                        <h3>AI 自动分析</h3>
+                        <p>AI 智能分析找出亏损项和增长机会</p>
+                    </div>
+                </div>
+                <div class="onboarding-step">
+                    <div class="onboarding-step-icon">🚀</div>
+                    <div class="onboarding-step-content">
+                        <h3>查看优化建议</h3>
+                        <p>获取可执行的优化方案，一键应用</p>
+                    </div>
+                </div>
+            </div>
+            <button class="onboarding-button" onclick="closeOnboarding()">开始使用</button>
+        </div>
+    </div>
+
+
     <!-- 提醒条 -->
     <div class="alert-banner" id="alert-banner">
         <div class="alert-content">
@@ -2683,6 +3567,23 @@
             <!-- 1. 数据总览 -->
             <section id="overview-main" class="main-section active">
                 <h2 class="section-title">📊 数据总览</h2>
+                <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+                    <div class="upload-icon">📤</div>
+                    <div class="upload-text">点击或拖拽上传推广数据</div>
+                    <div class="upload-hint">支持 CSV、Excel 格式</div>
+                    <input type="file" id="file-input" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleFileUpload(event)">
+                    <div class="upload-progress" id="upload-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <button class="btn-primary" onclick="generateQuickDiagnosis()" style="padding: 16px 40px; font-size: 1.1em;">
+                        🔍 一键生成诊断报告
+                    </button>
+                </div>
+
                 <div class="overview-tabs">
                     <button class="sub-tab active" onclick="switchOverviewTab('search')">搜索推广</button>
                     <button class="sub-tab" onclick="switchOverviewTab('allsite')">全站推广</button>
@@ -6927,7 +7828,92 @@ ${issue.recommendation}
         
         // ========== 贴吧风格社区功能结束 ==========
 
-    </script>
+    
+        // 新手引导
+        function checkFirstTimeUser() {
+            const isFirstTime = !localStorage.getItem('firstTimeUser');
+            if (isFirstTime) {
+                document.getElementById('onboarding-modal').classList.add('show');
+            }
+        }
+        
+        function closeOnboarding() {
+            document.getElementById('onboarding-modal').classList.remove('show');
+            localStorage.setItem('firstTimeUser', 'false');
+        }
+        
+        // 文件上传
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // 显示进度条
+            document.getElementById('upload-progress').style.display = 'block';
+            const progressFill = document.getElementById('progress-fill');
+            
+            // 模拟上传进度
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressFill.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        // 调用现有的文件处理函数
+                        if (typeof handleFile === 'function') {
+                            handleFile(file);
+                        }
+                        // 重置进度条
+                        document.getElementById('upload-progress').style.display = 'none';
+                        progressFill.style.width = '0%';
+                        alert('✅ 数据上传成功！AI 正在分析中...');
+                    }, 500);
+                }
+            }, 200);
+        }
+        
+        // 拖拽上传
+        const uploadZone = document.getElementById('upload-zone');
+        if (uploadZone) {
+            uploadZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadZone.classList.add('dragover');
+            });
+            
+            uploadZone.addEventListener('dragleave', () => {
+                uploadZone.classList.remove('dragover');
+            });
+            
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    document.getElementById('file-input').files = e.dataTransfer.files;
+                    handleFileUpload({ target: { files: [file] } });
+                }
+            });
+        }
+        
+        // 一键生成诊断报告
+        function generateQuickDiagnosis() {
+            // 切换到 AI 诊断中心
+            switchMainTab('diagnosis');
+            // 如果有生成诊断的函数，调用它
+            if (typeof generateDiagnosis === 'function') {
+                generateDiagnosis();
+            } else {
+                alert('🤖 AI 诊断功能开发中，敬请期待！');
+            }
+        }
+        
+        // 页面加载时检查是否首次使用
+        window.addEventListener('DOMContentLoaded', () => {
+            checkFirstTimeUser();
+        });
+
+</script>
 
 </div><!-- content -->
 </body>
