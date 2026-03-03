@@ -92,31 +92,6 @@ class AnalysisHistory(Base):
     result_data = Column(Text, nullable=True)  # JSON格式的结果数据
     created_at = Column(DateTime, default=datetime.utcnow, index=True)
 
-class UserPromotionData(Base):
-    """用户推广数据表"""
-    __tablename__ = "user_promotion_data"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, nullable=False, index=True)
-    data_type = Column(String, nullable=False)  # search, allsite, scene
-    
-    # 推广数据字段
-    keyword = Column(String, nullable=True)  # 关键词（搜索推广）
-    product_name = Column(String, nullable=True)  # 商品名称
-    spend = Column(Float, nullable=False, default=0)  # 花费
-    sales = Column(Float, nullable=False, default=0)  # 销售额
-    roi = Column(Float, nullable=False, default=0)  # ROI
-    clicks = Column(Integer, nullable=False, default=0)  # 点击数
-    impressions = Column(Integer, nullable=False, default=0)  # 曝光数
-    ctr = Column(Float, nullable=False, default=0)  # 点击率
-    conversion_rate = Column(Float, nullable=False, default=0)  # 转化率
-    cpc = Column(Float, nullable=False, default=0)  # 平均点击成本
-    
-    # 时间字段
-    data_date = Column(DateTime, nullable=True)  # 数据日期
-    created_at = Column(DateTime, default=datetime.utcnow, index=True)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-
 class Shop(Base):
     """店铺信息表"""
     __tablename__ = "shops"

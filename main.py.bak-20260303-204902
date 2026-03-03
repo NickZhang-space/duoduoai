@@ -5,7 +5,7 @@ import hmac
 import hashlib
 import re
 import time
-from fastapi import FastAPI, HTTPException, Depends, Header, Request, UploadFile, File, Form, Query
+from fastapi import FastAPI, HTTPException, Depends, Header, Request, UploadFile, File, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,7 +13,6 @@ from pydantic import BaseModel, EmailStr
 from typing import List, Optional, Dict
 import uvicorn
 from datetime import datetime, timedelta
-import pandas as pd
 import os
 import json
 
@@ -424,179 +423,6 @@ async def analyze_ads(
     except Exception as e:
         logger.error(f"投流分析失败: {str(e)}")
         raise HTTPException(status_code=500, detail="分析失败，请稍后重试")
-
-
-# ==================== CSV 数据上传 ====================
-
-@app.post("/api/upload-data")
-async def upload_promotion_data(
-    file: UploadFile = File(...),
-    data_type: str = Form(...),  # search, allsite, scene
-    current_user: dict = Depends(get_current_user)
-):
-    """上传推广数据 CSV"""
-    try:
-        # 读取 CSV 文件
-        contents = await file.read()
-        
-        # 尝试不同的编码
-        try:
-            csv_text = contents.decode("utf-8")
-        except:
-            try:
-                csv_text = contents.decode("gbk")
-            except:
-                csv_text = contents.decode("gb2312")
-        
-        # 解析 CSV
-        import io
-        import pandas as pd
-        
-        df = pd.read_csv(io.StringIO(csv_text))
-        
-        # 数据清洗和标准化
-        # 根据不同的数据类型处理不同的列
-        db = SessionLocal()
-        imported_count = 0
-        
-        try:
-            for _, row in df.iterrows():
-                # 提取通用字段
-                data = {
-                    "user_id": current_user["id"],
-                    "data_type": data_type,
-                }
-                
-                # 根据列名映射字段（支持多种列名格式）
-                column_mapping = {
-                    "关键词": "keyword",
-                    "keyword": "keyword",
-                    "商品名称": "product_name",
-                    "product_name": "product_name",
-                    "花费": "spend",
-                    "spend": "spend",
-                    "消耗": "spend",
-                    "销售额": "sales",
-                    "sales": "sales",
-                    "成交额": "sales",
-                    "ROI": "roi",
-                    "roi": "roi",
-                    "点击": "clicks",
-                    "clicks": "clicks",
-                    "点击数": "clicks",
-                    "曝光": "impressions",
-                    "impressions": "impressions",
-                    "曝光数": "impressions",
-                    "点击率": "ctr",
-                    "ctr": "ctr",
-                    "CTR": "ctr",
-                    "转化率": "conversion_rate",
-                    "conversion_rate": "conversion_rate",
-                    "平均点击成本": "cpc",
-                    "cpc": "cpc",
-                    "CPC": "cpc",
-                }
-                
-                # 映射列名
-                for csv_col, db_col in column_mapping.items():
-                    if csv_col in row.index and pd.notna(row[csv_col]):
-                        value = row[csv_col]
-                        # 清理数据（去除 ¥ 符号等）
-                        if isinstance(value, str):
-                            value = value.replace("¥", "").replace(",", "").replace("%", "")
-                        try:
-                            if db_col in ["spend", "sales", "roi", "ctr", "conversion_rate", "cpc"]:
-                                data[db_col] = float(value)
-                            elif db_col in ["clicks", "impressions"]:
-                                data[db_col] = int(float(value))
-                            else:
-                                data[db_col] = str(value)
-                        except:
-                            pass
-                
-                # 创建记录
-                from database import UserPromotionData
-                promotion_data = UserPromotionData(**data)
-                db.add(promotion_data)
-                imported_count += 1
-            
-            db.commit()
-            
-            return {
-                "success": True,
-                "message": f"成功导入 {imported_count} 条数据",
-                "count": imported_count
-            }
-            
-        except Exception as e:
-            db.rollback()
-            raise e
-        finally:
-            db.close()
-            
-    except Exception as e:
-        return {
-            "success": False,
-            "message": f"数据导入失败: {str(e)}"
-        }
-
-@app.get("/api/user-data")
-async def get_user_promotion_data(
-    data_type: str = Query(None),  # search, allsite, scene
-    limit: int = Query(100),
-    current_user: dict = Depends(get_current_user)
-):
-    """获取用户的推广数据"""
-    db = SessionLocal()
-    try:
-        from database import UserPromotionData
-        from sqlalchemy import desc
-        
-        query = db.query(UserPromotionData).filter(
-            UserPromotionData.user_id == current_user["id"]
-        )
-        
-        if data_type:
-            query = query.filter(UserPromotionData.data_type == data_type)
-        
-        data = query.order_by(desc(UserPromotionData.created_at)).limit(limit).all()
-        
-        # 计算汇总数据
-        total_spend = sum(d.spend for d in data)
-        total_sales = sum(d.sales for d in data)
-        avg_roi = total_sales / total_spend if total_spend > 0 else 0
-        profit = total_sales - total_spend
-        
-        return {
-            "success": True,
-            "data": [
-                {
-                    "id": d.id,
-                    "keyword": d.keyword,
-                    "product_name": d.product_name,
-                    "spend": d.spend,
-                    "sales": d.sales,
-                    "roi": d.roi,
-                    "clicks": d.clicks,
-                    "impressions": d.impressions,
-                    "ctr": d.ctr,
-                    "conversion_rate": d.conversion_rate,
-                    "cpc": d.cpc,
-                    "created_at": d.created_at.isoformat() if d.created_at else None
-                }
-                for d in data
-            ],
-            "summary": {
-                "total_spend": total_spend,
-                "total_sales": total_sales,
-                "roi": avg_roi,
-                "profit": profit,
-                "count": len(data)
-            }
-        }
-    finally:
-        db.close()
-
 
 @app.post("/api/deep-analyze")
 async def deep_analyze(

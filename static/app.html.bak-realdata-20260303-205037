@@ -10778,62 +10778,6 @@ ${issue.recommendation}
         function upgradePlan(planName) {
             alert("即将升级到 " + planName + " 套餐\n\n请联系客服完成升级");
         }
-\n
-        // 加载用户数据
-        async function loadUserData(dataType = "search") {
-            try {
-                const token = localStorage.getItem("token");
-                const response = await fetch("/api/user-data?data_type=" + dataType, {
-                    headers: {
-                        "Authorization": "Bearer " + token
-                    }
-                });
-                
-                const result = await response.json();
-                
-                if (result.success && result.data.length > 0) {
-                    // 更新汇总数据
-                    updateSummaryMetrics(result.summary);
-                    
-                    // 更新数据表格（如果有的话）
-                    displayUserData(result.data);
-                } else {
-                    // 显示空状态
-                    console.log("暂无数据");
-                }
-            } catch (error) {
-                console.error("Load data error:", error);
-            }
-        }
-        
-        // 更新汇总指标
-        function updateSummaryMetrics(summary) {
-            const metricCards = document.querySelectorAll(".metric-card");
-            if (metricCards.length >= 4) {
-                // 总花费
-                metricCards[0].querySelector(".metric-value").textContent = "¥" + summary.total_spend.toFixed(2);
-                // 总销售额
-                metricCards[1].querySelector(".metric-value").textContent = "¥" + summary.total_sales.toFixed(2);
-                // ROI
-                metricCards[2].querySelector(".metric-value").textContent = summary.roi.toFixed(2);
-                // 利润
-                metricCards[3].querySelector(".metric-value").textContent = "¥" + summary.profit.toFixed(2);
-            }
-        }
-        
-        // 显示用户数据
-        function displayUserData(data) {
-            console.log("用户数据:", data);
-            // 这里可以添加数据表格显示逻辑
-        }
-        
-        // 页面加载时自动加载数据
-        window.addEventListener("DOMContentLoaded", () => {
-            const token = localStorage.getItem("token");
-            if (token) {
-                loadUserData("search");
-            }
-        });
 \n</script>
 
 </div><!-- content -->
