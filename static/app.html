@@ -73,7 +73,7 @@
         }
 
         .navbar-content {
-            max-max-width: 1400px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -123,7 +123,7 @@
 
         /* 主容器 */
         .container {
-            max-max-width: 1400px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 30px;
         }
@@ -5726,43 +5726,6 @@ async function regenerateReport() {
         }
 
         // 升级套餐
-        function upgradePlan(planName) {
-            const token = localStorage.getItem('token');
-            window.location.href = '/static/payment.html?plan=' + encodeURIComponent(planName) + '&token=' + token;
-        }
-
-        // 文件上传处理
-        const uploadArea = document.getElementById('upload-area');
-        const fileInput = document.getElementById('file-input');
-        const adDataTextarea = document.getElementById('ad-data');
-
-        uploadArea.addEventListener('click', () => fileInput.click());
-
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            const file = e.dataTransfer.files[0];
-            if (file) {
-                handleFile(file);
-            }
-        });
-
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                handleFile(file);
-            }
-        });
-
         function handleFile(file) {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -8189,21 +8152,6 @@ ${suggestion.expected_effect}
         function saveShopSettings() {
             alert('店铺设置已保存！');
         }
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const fileName = file.name;
-                const fileSize = (file.size / 1024).toFixed(2) + ' KB';
-                document.getElementById('upload-status').style.display = 'block';
-                document.getElementById('upload-info').textContent = fileName + ' (' + fileSize + ')';
-                
-                // 这里可以添加实际的文件上传逻辑
-                // 暂时只显示文件信息
-                setTimeout(() => {
-                    alert('数据导入成功！\n文件：' + fileName + '\n大小：' + fileSize);
-                }, 500);
-            }
-        }
         function downloadTemplate(type) {
             const templates = {
                 'search': '搜索推广数据模板.xlsx',
@@ -8227,12 +8175,6 @@ ${suggestion.expected_effect}
             setTimeout(() => {
                 alert('模板下载已开始！\n文件名：' + filename);
             }, 100);
-        }
-        function saveNotificationSettings() {
-            alert('通知设置已保存！');
-        }
-        function upgradePlan(plan) {
-            alert('即将升级到' + plan + '套餐');
         }
         function openAutomationSettings() { window.location.href = '/static/automation.html'; }
     
@@ -8936,58 +8878,15 @@ ${issue.recommendation}
         }
         
         // 生成诊断（增强版）
-        function generateDiagnosis() {
-            // 显示加载状态
-            const diagnosisList = document.getElementById('diagnosis-list');
-            if (diagnosisList) {
-                diagnosisList.innerHTML = '<div style="text-align:center;padding:40px;color:#666;">🤖 AI 正在分析中...</div>';
-            }
-            
-            // 模拟 API 调用
-            setTimeout(() => {
-                if (diagnosisList) {
-                    diagnosisList.innerHTML = '<div style="text-align:center;padding:40px;color:#666;">✅ 诊断完成！请查看上方的亏损雷达。</div>';
-                }
-                alert('🤖 AI 诊断完成！
 
-发现 5 个需要优化的项目：
-1. 关键词女装连衣裙 ROI 下降
-2. 全站推广花费过高
-3. 场景推广转化率低
-4. 部分商品点击率差
-5. 出价策略需调整
 
-预计优化后可节省 ¥2,700/月');
-            }, 2000);
+        // A/B 测试相关函数
+        function showCreateExperimentModal() {
+            alert('A/B 测试功能开发中，敬请期待！');
         }
         
-        // 生成增长机会（增强版）
-        function generateGrowth() {
-            const growthList = document.getElementById('growth-list');
-            if (growthList) {
-                growthList.innerHTML = '<div style="text-align:center;padding:40px;color:#666;">🚀 AI 正在挖掘机会...</div>';
-            }
-            
-            setTimeout(() => {
-                if (growthList) {
-                    growthList.innerHTML = '<div style="text-align:center;padding:40px;color:#666;">✅ 机会挖掘完成！请查看上方的放量清单。</div>';
-                }
-                alert('🚀 发现 5 个增长机会！
-
-1. 关键词夏季新款 可扩量 2x
-2. 场景推广潜力大
-3. 新品推广效果好
-4. 部分商品可提价
-5. 长尾词机会
-
-预计扩量后可增加 ¥5,000/月销售额');
-            }, 2000);
-        }
-        
-        // 初始化图表（如果需要）
-        function initDiagnosisChart() {
-            // 这里可以用 Chart.js 画趋势图
-            console.log('Chart initialized');
+        function closeCreateExperimentModal() {
+            // 关闭模态框逻辑
         }
 
 </script>
