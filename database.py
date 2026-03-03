@@ -173,6 +173,62 @@ class CompetitorSnapshot(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+
+class Notification(Base):
+    """通知表"""
+    __tablename__ = "notifications"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False, index=True)
+    title = Column(String, nullable=False)
+    content = Column(Text, nullable=False)
+    type = Column(String, nullable=False)  # risk, opportunity, report, system
+    is_read = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)
+
+class NotificationSettings(Base):
+    """通知设置表"""
+    __tablename__ = "notification_settings"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False, unique=True, index=True)
+    notify_risks = Column(Boolean, default=True)  # 风险提醒
+    notify_opportunities = Column(Boolean, default=True)  # 机会提醒
+    notify_reports = Column(Boolean, default=True)  # 报告提醒
+    email_enabled = Column(Boolean, default=False)  # 邮件通知
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class ABTest(Base):
+    """A/B 测试实验表"""
+    __tablename__ = "ab_tests"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, nullable=False, index=True)
+    name = Column(String, nullable=False)
+    description = Column(Text, nullable=True)
+    status = Column(String, default="running")  # running, paused, completed
+    
+    # 实验配置
+    variant_a_name = Column(String, default="对照组")
+    variant_b_name = Column(String, default="实验组")
+    
+    # 实验数据
+    variant_a_spend = Column(Float, default=0)
+    variant_a_sales = Column(Float, default=0)
+    variant_a_roi = Column(Float, default=0)
+    
+    variant_b_spend = Column(Float, default=0)
+    variant_b_sales = Column(Float, default=0)
+    variant_b_roi = Column(Float, default=0)
+    
+    # 时间
+    start_date = Column(DateTime, nullable=True)
+    end_date = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
 # 创建所有表
 Base.metadata.create_all(bind=engine)
 

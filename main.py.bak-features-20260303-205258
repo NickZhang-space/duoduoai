@@ -57,11 +57,6 @@ from intelligence.dynamic_pricing import DynamicPricingEngine
 from intelligence_api import router as intelligence_router
 app = FastAPI(title="多多AI优化师", description="拼多多商家智能推广优化助手")
 
-# 添加 Gzip 压缩中间件（性能优化）
-from fastapi.middleware.gzip import GZipMiddleware
-app.add_middleware(GZipMiddleware, minimum_size=1000)
-
-
 # 添加 CORS 中间件
 app.add_middleware(
     CORSMiddleware,
@@ -2584,62 +2579,15 @@ async def get_real_competitor_snapshots(goods_id: str):
 from deepseek_analyzer import analyze_with_deepseek, get_sample_data
 
 @app.post("/api/ai/analyze")
-async def ai_analyze(request: Request, current_user: dict = Depends(get_current_user)):
-    """AI 分析接口 - 分析用户真实数据"""
+async def ai_analyze(request: Request):
+    """AI 分析接口"""
     try:
         body = await request.json()
         analysis_type = body.get("type", "suggestions")
-        data_type = body.get("data_type", "search")  # search, allsite, scene
-        
-        # 从数据库获取用户真实数据
-        db = SessionLocal()
-        try:
-            from database import UserPromotionData
-            from sqlalchemy import desc
-            
-            # 获取用户最近的推广数据
-            user_data = db.query(UserPromotionData).filter(
-                UserPromotionData.user_id == current_user["id"],
-                UserPromotionData.data_type == data_type
-            ).order_by(desc(UserPromotionData.created_at)).limit(100).all()
-            
-            if not user_data:
-                return {
-                    "success": False,
-                    "message": "暂无数据，请先上传推广数据"
-                }
-            
-            # 转换为分析格式
-            data = {
-                "total_spend": sum(d.spend for d in user_data),
-                "total_sales": sum(d.sales for d in user_data),
-                "avg_roi": sum(d.sales for d in user_data) / sum(d.spend for d in user_data) if sum(d.spend for d in user_data) > 0 else 0,
-                "items": [
-                    {
-                        "keyword": d.keyword or d.product_name,
-                        "spend": d.spend,
-                        "sales": d.sales,
-                        "roi": d.roi,
-                        "clicks": d.clicks,
-                        "impressions": d.impressions,
-                        "ctr": d.ctr,
-                        "conversion_rate": d.conversion_rate,
-                        "cpc": d.cpc
-                    }
-                    for d in user_data
-                ]
-            }
-            
-            # 调用 AI 分析
-            result = await analyze_with_deepseek(data, analysis_type)
-            return result
-            
-        finally:
-            db.close()
-            
+        data = body.get("data", get_sample_data())
+        result = await analyze_with_deepseek(data, analysis_type)
+        return result
     except Exception as e:
-        import traceback
-        traceback.print_exc()
         return {"success": False, "error": str(e), "message": "AI 分析失败"}
 
 @app.get("/api/ai/test")
@@ -3581,183 +3529,6 @@ async def save_system_settings(request: dict):
             "success": False,
             "error": str(e)
         }
-
-
-
-
-# ==================== 通知功能 ====================
-
-@app.get("/api/notifications")
-async def get_notifications(
-    limit: int = Query(20),
-    unread_only: bool = Query(False),
-    current_user: dict = Depends(get_current_user)
-):
-    db = SessionLocal()
-    try:
-        from database import Notification
-        from sqlalchemy import desc
-        
-        query = db.query(Notification).filter(
-            Notification.user_id == current_user["id"]
-        )
-        
-        if unread_only:
-            query = query.filter(Notification.is_read == False)
-        
-        notifications = query.order_by(desc(Notification.created_at)).limit(limit).all()
-        
-        return {
-            "success": True,
-            "data": [
-                {
-                    "id": n.id,
-                    "title": n.title,
-                    "content": n.content,
-                    "type": n.type,
-                    "is_read": n.is_read,
-                    "created_at": n.created_at.isoformat() if n.created_at else None
-                }
-                for n in notifications
-            ]
-        }
-    finally:
-        db.close()
-
-@app.post("/api/notification-settings")
-async def update_notification_settings(
-    request: dict,
-    current_user: dict = Depends(get_current_user)
-):
-    db = SessionLocal()
-    try:
-        from database import NotificationSettings
-        
-        settings = db.query(NotificationSettings).filter(
-            NotificationSettings.user_id == current_user["id"]
-        ).first()
-        
-        if not settings:
-            settings = NotificationSettings(user_id=current_user["id"])
-            db.add(settings)
-        
-        if "notify_risks" in request:
-            settings.notify_risks = request["notify_risks"]
-        if "notify_opportunities" in request:
-            settings.notify_opportunities = request["notify_opportunities"]
-        if "notify_reports" in request:
-            settings.notify_reports = request["notify_reports"]
-        
-        db.commit()
-        
-        return {"success": True, "message": "通知设置已保存"}
-    finally:
-        db.close()
-
-
-
-
-# ==================== A/B 测试功能 ====================
-
-@app.get("/api/ab-tests")
-async def get_ab_tests(current_user: dict = Depends(get_current_user)):
-    db = SessionLocal()
-    try:
-        from database import ABTest
-        from sqlalchemy import desc
-        
-        tests = db.query(ABTest).filter(
-            ABTest.user_id == current_user["id"]
-        ).order_by(desc(ABTest.created_at)).all()
-        
-        return {
-            "success": True,
-            "data": [
-                {
-                    "id": t.id,
-                    "name": t.name,
-                    "description": t.description,
-                    "status": t.status,
-                    "variant_a": {
-                        "name": t.variant_a_name,
-                        "spend": t.variant_a_spend,
-                        "sales": t.variant_a_sales,
-                        "roi": t.variant_a_roi
-                    },
-                    "variant_b": {
-                        "name": t.variant_b_name,
-                        "spend": t.variant_b_spend,
-                        "sales": t.variant_b_sales,
-                        "roi": t.variant_b_roi
-                    },
-                    "created_at": t.created_at.isoformat() if t.created_at else None
-                }
-                for t in tests
-            ]
-        }
-    finally:
-        db.close()
-
-@app.post("/api/ab-tests")
-async def create_ab_test(request: dict, current_user: dict = Depends(get_current_user)):
-    db = SessionLocal()
-    try:
-        from database import ABTest
-        
-        test = ABTest(
-            user_id=current_user["id"],
-            name=request.get("name", "新实验"),
-            description=request.get("description", ""),
-            variant_a_name=request.get("variant_a_name", "对照组"),
-            variant_b_name=request.get("variant_b_name", "实验组")
-        )
-        
-        db.add(test)
-        db.commit()
-        db.refresh(test)
-        
-        return {
-            "success": True,
-            "message": "A/B 测试创建成功",
-            "data": {"id": test.id}
-        }
-    finally:
-        db.close()
-
-@app.post("/api/ab-tests/{test_id}/update-data")
-async def update_ab_test_data(
-    test_id: int,
-    request: dict,
-    current_user: dict = Depends(get_current_user)
-):
-    db = SessionLocal()
-    try:
-        from database import ABTest
-        
-        test = db.query(ABTest).filter(
-            ABTest.id == test_id,
-            ABTest.user_id == current_user["id"]
-        ).first()
-        
-        if not test:
-            return {"success": False, "message": "实验不存在"}
-        
-        # 更新数据
-        if "variant_a" in request:
-            test.variant_a_spend = request["variant_a"].get("spend", 0)
-            test.variant_a_sales = request["variant_a"].get("sales", 0)
-            test.variant_a_roi = request["variant_a"].get("roi", 0)
-        
-        if "variant_b" in request:
-            test.variant_b_spend = request["variant_b"].get("spend", 0)
-            test.variant_b_sales = request["variant_b"].get("sales", 0)
-            test.variant_b_roi = request["variant_b"].get("roi", 0)
-        
-        db.commit()
-        
-        return {"success": True, "message": "数据更新成功"}
-    finally:
-        db.close()
 
 
 if __name__ == "__main__":
