@@ -102,13 +102,21 @@ def verify_payment_signature(order_id: int, signature: str) -> bool:
     return hmac.compare_digest(expected, signature)
 
 def validate_password_strength(password: str) -> bool:
+    """验证密码强度：至少8位，包含大小写字母、数字"""
     if len(password) < 8:
         return False
-    if not re.search(r'[a-zA-Z]', password):
+    if not re.search(r'[a-z]', password):  # 小写字母
         return False
-    if not re.search(r'[0-9]', password):
+    if not re.search(r'[A-Z]', password):  # 大写字母
+        return False
+    if not re.search(r'[0-9]', password):  # 数字
+        return False
+    # 检查常见弱密码
+    weak_passwords = ['password', 'password123', 'admin123', '12345678', 'qwerty123', 'Aa123456']
+    if password.lower() in [p.lower() for p in weak_passwords]:
         return False
     return True
+
 
 # 初始化模块
 product_selector = ProductSelector()
@@ -254,6 +262,10 @@ async def register(user_data: UserRegister, db: Session = Depends(get_db)):
 @app.post("/api/auth/login")
 async def login(user_data: UserLogin, db: Session = Depends(get_db)):
     try:
+        # Rate limit: max 5 login attempts per 5 minutes
+        if not rate_limiter.check_limit(f"login_{user_data.email}", max_requests=5, window_seconds=300):
+            raise HTTPException(status_code=429, detail="Too many login attempts, please try again in 5 minutes")
+        
         user = db.query(User).filter(User.email == user_data.email).first()
         if not user or not verify_password(user_data.password, user.hashed_password):
             raise HTTPException(status_code=401, detail="邮箱或密码错误")
@@ -712,7 +724,7 @@ async def calculate_pricing(request: PricingRequest):
         )
         return {"success": True, "result": result}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Error: {str(e)}"); raise HTTPException(status_code=500, detail="服务器内部错误，请稍后重试")
 
 @app.post("/api/pricing/compare")
 async def compare_pricing(request: CompetitorCompareRequest):
@@ -723,7 +735,7 @@ async def compare_pricing(request: CompetitorCompareRequest):
         )
         return {"success": True, "result": result}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Error: {str(e)}"); raise HTTPException(status_code=500, detail="服务器内部错误，请稍后重试")
 
 # ==================== 订单 & 支付 ====================
 
@@ -883,7 +895,7 @@ async def analyze_competitor(
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Error: {str(e)}"); raise HTTPException(status_code=500, detail="服务器内部错误，请稍后重试")
 
 @app.post("/api/export")
 async def export_data(
@@ -898,7 +910,7 @@ async def export_data(
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Error: {str(e)}"); raise HTTPException(status_code=500, detail="服务器内部错误，请稍后重试")
 
 # ==================== 分析历史 ====================
 
@@ -3290,13 +3302,6 @@ async def get_payment_orders():
 # ==================== 管理员后台 API ====================
 
 # 管理员认证装饰器（简化版，生产环境应使用 JWT）
-def admin_required(func):
-    """管理员权限验证"""
-    async def wrapper(*args, **kwargs):
-        # TODO: 实际应该验证管理员 token
-        return await func(*args, **kwargs)
-    return wrapper
-
 # 模拟用户数据（生产环境应使用数据库）
 admin_users = [
     {

@@ -5,3 +5,12 @@ __pycache__/
 *.log
 *.broken
 .env
+
+# 备份文件
+*.bak
+*.bak*
+*.backup
+*.backup_*
+*_backup.py
+*_backup_*.py
+*.old
